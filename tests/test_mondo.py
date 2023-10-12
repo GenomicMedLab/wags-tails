@@ -1,6 +1,6 @@
 """Test Mondo data source."""
-from io import TextIOWrapper
 import json
+from io import TextIOWrapper
 from pathlib import Path
 from typing import Dict
 

@@ -1,10 +1,8 @@
 """Define base data source class."""
-import os
 import abc
-from ftplib import FTP
 import os
 import tempfile
-import zipfile
+from ftplib import FTP
 from pathlib import Path
 from typing import Callable, Dict, Generator, Optional
 
@@ -38,11 +36,7 @@ class DataSource(abc.ABC):
             data_dir = self._get_data_base() / self._src_name
         data_dir.mkdir(exist_ok=True)
         self._data_dir = data_dir
-        self._tqdm_params ={
-            "unit": "B",
-            "ncols": 80,
-            "disable": silent
-        }
+        self._tqdm_params = {"unit": "B", "ncols": 80, "disable": silent}
 
     @abc.abstractmethod
     def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:
@@ -89,9 +83,7 @@ class DataSource(abc.ABC):
                             data_base_dir = dir_path
                             break
                     else:
-                        data_base_dir = (
-                            Path.home() / ".local" / "share" / "wagstails"
-                        )
+                        data_base_dir = Path.home() / ".local" / "share" / "wagstails"
                 else:
                     data_base_dir = Path.home() / ".local" / "share" / "wagstails"
 
@@ -126,7 +118,7 @@ class DataSource(abc.ABC):
                 with tqdm(
                     total=total_size,
                     desc=f"Downloading {os.path.basename(url)}",
-                    **self._tqdm_params
+                    **self._tqdm_params,
                 ) as progress_bar:
                     for chunk in r.iter_content(chunk_size=8192):
                         if chunk:
@@ -162,10 +154,14 @@ class DataSource(abc.ABC):
             ftp.cwd(path)
             file_size = ftp.size(filename)
             with open(dl_path, "wb") as f:
-                with tqdm(total=file_size, **self._tqdm_params, desc=f"Downloading {filename}") as pbar:
+                with tqdm(
+                    total=file_size, **self._tqdm_params, desc=f"Downloading {filename}"
+                ) as pbar:
+
                     def callback(data: bytes) -> None:
                         f.write(data)
                         pbar.update(len(data))
+
                     ftp.retrbinary("RETR " + filename, callback)
         if handler:
             handler(dl_path, outfile_path)

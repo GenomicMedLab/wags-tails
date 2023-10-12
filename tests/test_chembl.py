@@ -1,8 +1,6 @@
 """Test ChEMBL data source."""
 from io import TextIOWrapper
-import json
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -36,6 +34,7 @@ def chembl_file(fixture_dir):
     """Provide mock ChEMBL sqlite tarball."""
     with open(fixture_dir / "chembl_33_sqlite.tar.gz", "r") as f:
         return f
+
 
 def test_get_latest(
     chembl: ChemblData,
@@ -83,4 +82,3 @@ def test_get_latest(
         assert response == chembl_data_dir / "chembl_33.db"
         assert response.exists()
         assert m.call_count == 5
-

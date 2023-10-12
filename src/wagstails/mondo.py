@@ -98,5 +98,8 @@ class MondoData(GitHubDataSource):
         if (not force_refresh) and local_file.exists():
             return local_file
         else:
-            self._http_download(f"https://github.com/monarch-initiative/mondo/releases/download/{version}/mondo.owl", local_file)
+            self._http_download(
+                f"https://github.com/monarch-initiative/mondo/releases/download/{version}/mondo.owl",
+                local_file,
+            )
             return local_file

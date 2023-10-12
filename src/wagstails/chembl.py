@@ -1,8 +1,8 @@
 """Provide source fetching for ChEMBL."""
 import re
+from ftplib import error_temp
 from pathlib import Path
 from typing import Optional
-from ftplib import error_temp
 
 import requests
 
@@ -45,7 +45,7 @@ class ChemblData(DataSource):
                 return version
         else:
             raise FileNotFoundError(
-                f"Unable to parse latest ChEMBL version number from latest release README"
+                "Unable to parse latest ChEMBL version number from latest release README"
             )
 
     def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:
@@ -53,6 +53,10 @@ class ChemblData(DataSource):
 
         Attempt FTP download (it's much faster, but EMBL heavily limits login attempts)
         before HTTP download.
+
+        Todo:
+        ----
+        * add tarball handler
 
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
@@ -64,7 +68,7 @@ class ChemblData(DataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            return self._get_latest_local_file("chembl_*.owl")
+            return self._get_latest_local_file("chembl_*.db")
 
         latest_version = self._get_latest_version()
         latest_file = self._data_dir / f"chembl_{latest_version}.db"
