@@ -1,0 +1,100 @@
+[project]
+name = "wagstails"
+version = "0.1.0"
+authors = [
+    {name = "Kori Kuzma"},
+    {name = "James S Stevenson"},
+    {name = "Alex H Wagner"}
+]
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Pydantic",
+    "Framework :: Pydantic :: 2",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.8"
+description = "Data acquisition tools for Wagnerds"
+license = {file = "LICENSE"}
+dependencies = [
+    "requests",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=6.0", "pytest-cov", "requests-mock"]
+
+dev = ["pre-commit", "black", "ruff"]
+
+[project.urls]
+Homepage = "https://github.com/GenomicMedLab/WagsTails/"
+# Documentation = ""
+Changelog = "https://github.com/GenomicMedLab/WagsTails/releases"
+Source = "https://github.com/GenomicMedLab/WagsTails/"
+"Bug Tracker" = "https://github.com/GenomicMedLab/WagsTails/issues"
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=src --cov-report term-missing"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.black]
+line-length = 88
+extend-exclude = "^/docs/source/conf.py"
+
+[tool.ruff]
+src = ["src"]
+# pycodestyle (E, W)
+# Pyflakes (F)
+# flake8-annotations (ANN)
+# flake8-quotes (Q)
+# pydocstyle (D)
+# pep8-naming (N)
+# isort (I)
+select = ["E", "W", "F", "ANN", "Q", "D", "N", "I"]
+
+fixable = ["I", "F401"]
+
+# D203 - one-blank-line-before-class
+# D205 - blank-line-after-summary
+# D213 - multi-line-summary-second-line
+# D400 - ends-in-period
+# D415 - ends-in-punctuation
+# ANN101 - missing-type-self
+# ANN003 - missing-type-kwargs
+# E501 - line-too-long
+ignore = ["D203", "D205", "D213", "D400", "D415", "ANN101", "ANN003", "E501"]
+
+[tool.ruff.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.per-file-ignores]
+# ANN001 - missing-type-function-argument
+# ANN2 - missing-return-type
+# ANN201 - Missing type annotation
+# ANN102 - missing-type-cls
+# D103 - Missing docstring in public function
+# F821 - undefined-name
+# F401 - unused-import
+# I001 - Import block unsorted or unformatted
+# N805 - invalid-first-argument-name-for-method
+"tests/*" = ["ANN001", "ANN102", "ANN2"]
+"*__init__.py" = ["F401"]
+"docs/source/conf.py" = ["D100", "I001", "D103", "ANN201", "ANN001"]
