@@ -1,5 +1,7 @@
 """Define base data source class."""
+import os
 import abc
+from ftplib import FTP
 import os
 import tempfile
 import zipfile
@@ -21,9 +23,8 @@ class DataSource(abc.ABC):
 
     # required attributes
     _src_name: str
-    _data_dir: Path
 
-    def __init__(self, data_dir: Optional[Path] = None) -> None:
+    def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
         """Set common class parameters.
 
         :param data_dir: direct location to store data files in. If not provided, tries
@@ -31,11 +32,17 @@ class DataSource(abc.ABC):
             variable $WAGSTAILS_DIR, or within a "wagstails" subdirectory under
             environment variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
             ``~/.local/share/``
+        :param silent: if True, don't print any info/updates to console
         """
         if not data_dir:
             data_dir = self._get_data_base() / self._src_name
         data_dir.mkdir(exist_ok=True)
         self._data_dir = data_dir
+        self._tqdm_params ={
+            "unit": "B",
+            "ncols": 80,
+            "disable": silent
+        }
 
     @abc.abstractmethod
     def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:
@@ -91,32 +98,8 @@ class DataSource(abc.ABC):
         data_base_dir.mkdir(exist_ok=True, parents=True)
         return data_base_dir
 
-    @staticmethod
-    def _zip_handler(dl_path: Path, outfile_path: Path) -> None:
-        """Provide simple callback function to extract the largest file within a given
-        zipfile and save it within the appropriate data directory.
-
-        Todo:
-        ----
-        * tqdm!
-
-        :param Path dl_path: path to temp data file
-        :param Path outfile_path: path to save file within
-        """
-        with zipfile.ZipFile(dl_path, "r") as zip_ref:
-            if len(zip_ref.filelist) > 1:
-                files = sorted(
-                    zip_ref.filelist, key=lambda z: z.file_size, reverse=True
-                )
-                target = files[0]
-            else:
-                target = zip_ref.filelist[0]
-            target.filename = outfile_path.name
-            zip_ref.extract(target, path=outfile_path.parent)
-        os.remove(dl_path)
-
-    @staticmethod
     def _http_download(
+        self,
         url: str,
         outfile_path: Path,
         headers: Optional[Dict] = None,
@@ -142,15 +125,48 @@ class DataSource(abc.ABC):
             with open(dl_path, "wb") as h:
                 with tqdm(
                     total=total_size,
-                    unit="B",
-                    unit_scale=True,
-                    desc="Downloading",
-                    ncols=80,
+                    desc=f"Downloading {os.path.basename(url)}",
+                    **self._tqdm_params
                 ) as progress_bar:
                     for chunk in r.iter_content(chunk_size=8192):
                         if chunk:
                             h.write(chunk)
                             progress_bar.update(len(chunk))
+        if handler:
+            handler(dl_path, outfile_path)
+
+    def _ftp_download(
+        self,
+        server: str,
+        path: str,
+        filename: str,
+        outfile_path: Path,
+        handler: Optional[Callable[[Path, Path], None]] = None,
+    ) -> None:
+        """Perform FTP download of remote data file.
+
+        :param server: FTP server, eg ``"ftp.ebi.ac.uk"``
+        :param path: path to file directory on server, eg
+            ``"/pub/databases/chembl/ChEMBLdb/latest/"``
+        :param filename: name of file within ``path`` to download
+        :param outfile_path: location to save file to
+        :param handler: provide if downloaded file requires additional action, e.g.
+            it's a zip file.
+        """
+        if handler:
+            dl_path = Path(tempfile.gettempdir()) / "wagstails_tmp"
+        else:
+            dl_path = outfile_path
+        with FTP(server) as ftp:
+            ftp.login()
+            ftp.cwd(path)
+            file_size = ftp.size(filename)
+            with open(dl_path, "wb") as f:
+                with tqdm(total=file_size, **self._tqdm_params, desc=f"Downloading {filename}") as pbar:
+                    def callback(data: bytes) -> None:
+                        f.write(data)
+                        pbar.update(len(data))
+                    ftp.retrbinary("RETR " + filename, callback)
         if handler:
             handler(dl_path, outfile_path)
 

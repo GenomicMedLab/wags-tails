@@ -10,7 +10,7 @@ from .base_source import GitHubDataSource
 class MondoData(GitHubDataSource):
     """Provide access to Mondo disease ontology data."""
 
-    def __init__(self, data_dir: Optional[Path] = None) -> None:
+    def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
         """Set common class parameters.
 
         :param data_dir: direct location to store data files in. If not provided, tries
@@ -18,10 +18,11 @@ class MondoData(GitHubDataSource):
             $WAGSTAILS_DIR, or within a "wagstails" subdirectory under environment
             variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
             ``~/.local/share/``
+        :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "mondo"
         self._repo = "monarch-initiative/mondo"
-        super().__init__(data_dir)
+        super().__init__(data_dir, silent)
 
     @staticmethod
     def _get_latest_version() -> Tuple[str, str]:
