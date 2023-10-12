@@ -12,7 +12,7 @@ from .base_source import DataSource
 class ChemblData(DataSource):
     """Provide access to ChEMBL database."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
+    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
         :param data_dir: direct location to store data files in. If not provided, tries

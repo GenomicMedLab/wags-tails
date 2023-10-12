@@ -36,7 +36,6 @@ dev = ["pre-commit", "black", "ruff"]
 
 [project.urls]
 Homepage = "https://github.com/GenomicMedLab/WagsTails/"
-# Documentation = ""
 Changelog = "https://github.com/GenomicMedLab/WagsTails/releases"
 Source = "https://github.com/GenomicMedLab/WagsTails/"
 "Bug Tracker" = "https://github.com/GenomicMedLab/WagsTails/issues"

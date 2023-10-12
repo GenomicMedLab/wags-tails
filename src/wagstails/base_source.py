@@ -36,7 +36,13 @@ class DataSource(abc.ABC):
             data_dir = self._get_data_base() / self._src_name
         data_dir.mkdir(exist_ok=True)
         self._data_dir = data_dir
-        self._tqdm_params = {"unit": "B", "ncols": 80, "disable": silent}
+        self._tqdm_params = {
+            "unit": "B",
+            "ncols": 80,
+            "disable": silent,
+            "unit_divisor": 1024,
+            "unit_scale": True,
+        }
 
     @abc.abstractmethod
     def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:

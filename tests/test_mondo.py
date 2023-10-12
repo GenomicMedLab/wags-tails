@@ -21,7 +21,7 @@ def mondo_data_dir(base_data_dir: Path):
 @pytest.fixture(scope="function")
 def mondo(mondo_data_dir: Path):
     """Provide MondoData fixture"""
-    return MondoData(mondo_data_dir)
+    return MondoData(mondo_data_dir, silent=True)
 
 
 @pytest.fixture(scope="module")

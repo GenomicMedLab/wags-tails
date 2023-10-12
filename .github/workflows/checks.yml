@@ -25,7 +25,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: python3 -m pip instlall ".[test]"
+        run: python3 -m pip install ".[test]"
 
       - name: Run tests
         run: python3 -m pytest tests/

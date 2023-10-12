@@ -10,7 +10,7 @@ from .base_source import GitHubDataSource
 class MondoData(GitHubDataSource):
     """Provide access to Mondo disease ontology data."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
+    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
         :param data_dir: direct location to store data files in. If not provided, tries

@@ -19,7 +19,7 @@ def chembl_data_dir(base_data_dir: Path):
 @pytest.fixture(scope="function")
 def chembl(chembl_data_dir: Path):
     """Provide ChemblData fixture"""
-    return ChemblData(chembl_data_dir)
+    return ChemblData(chembl_data_dir, silent=True)
 
 
 @pytest.fixture(scope="module")
