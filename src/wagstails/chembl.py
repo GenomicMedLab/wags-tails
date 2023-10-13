@@ -1,6 +1,7 @@
 """Provide source fetching for ChEMBL."""
+import fnmatch
 import re
-from ftplib import error_temp
+import tarfile
 from pathlib import Path
 from typing import Optional
 
@@ -48,15 +49,23 @@ class ChemblData(DataSource):
                 "Unable to parse latest ChEMBL version number from latest release README"
             )
 
+    @staticmethod
+    def _open_tarball(dl_path: Path, outfile_path: Path) -> None:
+        """Get ChEMBL file from tarball. Callback to pass to download methods.
+
+        :param dl_path: path to temp data file
+        :param outfile_path: path to save file within
+        """
+        with tarfile.open(dl_path, "r:gz") as tar:
+            for file in tar.getmembers():
+                if fnmatch.fnmatch(file.name, "chembl_*.db"):
+                    tar.extract(file, path=outfile_path)
+
     def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:
         """Get path to latest version of data.
 
         Attempt FTP download (it's much faster, but EMBL heavily limits login attempts)
         before HTTP download.
-
-        Todo:
-        ----
-        * add tarball handler
 
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
@@ -75,16 +84,24 @@ class ChemblData(DataSource):
         if (not force_refresh) and latest_file.exists():
             return latest_file
         else:
-            try:
-                self._ftp_download(
-                    "ftp.ebi.ac.uk",
-                    "/pub/databases/chembl/ChEMBLdb/latest/",
-                    f"chembl_{latest_version}_sqlite.tar.gz",
-                    latest_file,
-                )
-            except error_temp:
-                self._http_download(
-                    f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
-                    latest_file,
-                )
+            # try:
+            #     self._ftp_download(
+            #         "ftp.ebi.ac.uk",
+            #         "/pub/databases/chembl/ChEMBLdb/latest/",
+            #         f"chembl_{latest_version}_sqlite.tar.gz",
+            #         latest_file,
+            #         self._open_tarball
+            #     )
+            # except error_temp:
+            #     self._http_download(
+            #         f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
+            #         latest_file,
+            #         handler=self._open_tarball
+            #     )
+            # return latest_file
+            self._http_download(
+                f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
+                latest_file,
+                handler=self._open_tarball,
+            )
             return latest_file

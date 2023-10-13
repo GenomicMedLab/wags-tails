@@ -62,7 +62,8 @@ class DataSource(abc.ABC):
     def _get_data_base() -> Path:
         """Get base data storage location.
 
-        By default, conform to `XDG Base Directory Specification <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_, unless a directory is specified otherwise:
+        By default, conform to `XDG Base Directory Specification <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_,
+        unless a directory is specified otherwise:
 
         1) check env var ``"WAGSTAILS_DIR"``
         2) check env var ``"XDG_DATA_HOME"``
@@ -82,7 +83,7 @@ class DataSource(abc.ABC):
             else:
                 xdg_data_dirs = os.environ.get("XDG_DATA_DIRS")
                 if xdg_data_dirs:
-                    dirs = ":".split(os.environ["XDG_DATA_DIRS"])
+                    dirs = os.environ["XDG_DATA_DIRS"].split(":")
                     for dir in dirs:
                         dir_path = Path(dir) / "wagstails"
                         if not dir_path.is_file():
@@ -161,7 +162,9 @@ class DataSource(abc.ABC):
             file_size = ftp.size(filename)
             with open(dl_path, "wb") as f:
                 with tqdm(
-                    total=file_size, **self._tqdm_params, desc=f"Downloading {filename}"
+                    total=file_size,
+                    **self._tqdm_params,
+                    desc=f"Downloading {filename} via FTP",
                 ) as pbar:
 
                     def callback(data: bytes) -> None:

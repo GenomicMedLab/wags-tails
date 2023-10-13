@@ -119,8 +119,6 @@ def test_iterate_versions(mondo: MondoData, versions_response: Dict):
 def test_get_specific_version(
     mondo: MondoData,
     mondo_data_dir: Path,
-    latest_release_response: Dict,
-    august_release_response: Dict,
     mondo_file: TextIOWrapper,
 ):
     """Test MondoData.get_specific()"""
