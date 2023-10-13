@@ -32,8 +32,8 @@ def chembl_latest_readme(fixture_dir: Path):
 @pytest.fixture(scope="module")
 def chembl_file(fixture_dir):
     """Provide mock ChEMBL sqlite tarball."""
-    with open(fixture_dir / "chembl_33_sqlite.tar.gz", "r") as f:
-        return f
+    with open(fixture_dir / "chembl_33_sqlite.tar.gz", "rb") as f:
+        return f.read()
 
 
 def test_get_latest(
@@ -56,7 +56,7 @@ def test_get_latest(
         )
         m.get(
             "https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_33_sqlite.tar.gz",
-            body=chembl_file,
+            content=chembl_file,
         )
         response = chembl.get_latest()
         assert response == chembl_data_dir / "chembl_33.db"
@@ -82,31 +82,3 @@ def test_get_latest(
         assert response == chembl_data_dir / "chembl_33.db"
         assert response.exists()
         assert m.call_count == 5
-
-
-# @pytest.fixture
-# def mock_ftp_connection():
-#     with patch("ftplib.FTP") as mock_ftp:
-#         yield mock_ftp.return_value
-#
-#
-# def test_get_latest(chembl, mock_ftp_connection):
-#     # Mock FTP login and file retrieval
-#     mock_ftp_connection.login.return_value = "Logged in"
-#     mock_ftp_connection.cwd.return_value = "Changed directory"
-#     mock_ftp_connection.retrbinary.side_effect = [
-#         b"File content chunk 1",
-#         b"File content chunk 2",
-#     ]
-#
-#     # Call the get_latest() method
-#     chembl.get_latest()
-#
-#     # Assertions
-#     mock_ftp_connection.assert_called_once_with("ftp.eb.aci.uk")
-#     mock_ftp_connection.login.assert_called_once()
-#     mock_ftp_connection.cwd.assert_called_once_with("/pub/databases/chembl/ChEMBLdb/latest/")
-#     mock_ftp_connection.retrbinary.assert_called_once_with(
-#         "RETR chembl_33_sqlite.tar.gz", mock_ftp_connection.retrbinary.side_effect[0]
-#     )
-#

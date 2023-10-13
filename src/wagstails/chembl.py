@@ -59,13 +59,11 @@ class ChemblData(DataSource):
         with tarfile.open(dl_path, "r:gz") as tar:
             for file in tar.getmembers():
                 if fnmatch.fnmatch(file.name, "chembl_*.db"):
-                    tar.extract(file, path=outfile_path)
+                    file.name = outfile_path.name
+                    tar.extract(file, path=outfile_path.parent)
 
     def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:
         """Get path to latest version of data.
-
-        Attempt FTP download (it's much faster, but EMBL heavily limits login attempts)
-        before HTTP download.
 
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
@@ -83,25 +81,9 @@ class ChemblData(DataSource):
         latest_file = self._data_dir / f"chembl_{latest_version}.db"
         if (not force_refresh) and latest_file.exists():
             return latest_file
-        else:
-            # try:
-            #     self._ftp_download(
-            #         "ftp.ebi.ac.uk",
-            #         "/pub/databases/chembl/ChEMBLdb/latest/",
-            #         f"chembl_{latest_version}_sqlite.tar.gz",
-            #         latest_file,
-            #         self._open_tarball
-            #     )
-            # except error_temp:
-            #     self._http_download(
-            #         f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
-            #         latest_file,
-            #         handler=self._open_tarball
-            #     )
-            # return latest_file
-            self._http_download(
-                f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
-                latest_file,
-                handler=self._open_tarball,
-            )
-            return latest_file
+        self._http_download(
+            f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
+            latest_file,
+            handler=self._open_tarball,
+        )
+        return latest_file

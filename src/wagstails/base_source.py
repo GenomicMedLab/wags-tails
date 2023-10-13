@@ -2,7 +2,6 @@
 import abc
 import os
 import tempfile
-from ftplib import FTP
 from pathlib import Path
 from typing import Callable, Dict, Generator, Optional
 
@@ -122,56 +121,16 @@ class DataSource(abc.ABC):
             r.raise_for_status()
             total_size = int(r.headers.get("content-length", 0))
             with open(dl_path, "wb") as h:
+                if not self._tqdm_params["disable"]:
+                    print(f"Downloading {os.path.basename(url)}")
                 with tqdm(
                     total=total_size,
-                    desc=f"Downloading {os.path.basename(url)}",
                     **self._tqdm_params,
                 ) as progress_bar:
                     for chunk in r.iter_content(chunk_size=8192):
                         if chunk:
                             h.write(chunk)
                             progress_bar.update(len(chunk))
-        if handler:
-            handler(dl_path, outfile_path)
-
-    def _ftp_download(
-        self,
-        server: str,
-        path: str,
-        filename: str,
-        outfile_path: Path,
-        handler: Optional[Callable[[Path, Path], None]] = None,
-    ) -> None:
-        """Perform FTP download of remote data file.
-
-        :param server: FTP server, eg ``"ftp.ebi.ac.uk"``
-        :param path: path to file directory on server, eg
-            ``"/pub/databases/chembl/ChEMBLdb/latest/"``
-        :param filename: name of file within ``path`` to download
-        :param outfile_path: location to save file to
-        :param handler: provide if downloaded file requires additional action, e.g.
-            it's a zip file.
-        """
-        if handler:
-            dl_path = Path(tempfile.gettempdir()) / "wagstails_tmp"
-        else:
-            dl_path = outfile_path
-        with FTP(server) as ftp:
-            ftp.login()
-            ftp.cwd(path)
-            file_size = ftp.size(filename)
-            with open(dl_path, "wb") as f:
-                with tqdm(
-                    total=file_size,
-                    **self._tqdm_params,
-                    desc=f"Downloading {filename} via FTP",
-                ) as pbar:
-
-                    def callback(data: bytes) -> None:
-                        f.write(data)
-                        pbar.update(len(data))
-
-                    ftp.retrbinary("RETR " + filename, callback)
         if handler:
             handler(dl_path, outfile_path)
 
