@@ -17,7 +17,7 @@ def config_teardown():
             del os.environ[varname]
 
 
-def test_config_directory(base_data_dir: Path):
+def test_config_directory(base_data_dir: Path, config_teardown):
     """Basic tests of directory configuration that shouldn't affect non-temporary files."""
     m = MondoData(base_data_dir)
     assert m._data_dir == base_data_dir
