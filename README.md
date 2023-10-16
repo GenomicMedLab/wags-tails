@@ -19,7 +19,7 @@ Data source classes provide a `get_latest()` method that acquires the most recen
 >>> m = MondoData()
 >>> m.get_latest(force_refresh=True)
 Downloading mondo.owl: 100%|█████████████████| 171M/171M [00:28<00:00, 6.23MB/s]
-PosixPath('/Users/genomicmedlab/.local/share/wagstails/mondo/mondo_v2023-09-12.owl')
+PosixPath('/Users/genomicmedlab/.local/share/wagstails/mondo/mondo_v2023-09-12.owl'), 'v2023-09-12'
 ```
 
 Initialize the source class with the `silent` parameter set to True to suppress console output:
@@ -27,7 +27,7 @@ Initialize the source class with the `silent` parameter set to True to suppress 
 ```pycon
 >>> from wagstails.mondo import MondoData
 >>> m = MondoData(silent=True)
->>> latest_file = m.get_latest(force_refresh=True)
+>>> latest_file, version = m.get_latest(force_refresh=True)
 ```
 
 ## Configuration

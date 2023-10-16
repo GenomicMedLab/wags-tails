@@ -74,29 +74,34 @@ def test_get_latest(
             "https://github.com/monarch-initiative/mondo/releases/download/v2023-09-12/mondo.owl",
             body=mondo_file,
         )
-        response = mondo.get_latest()
-        assert response == mondo_data_dir / "mondo_v2023-09-12.owl"
-        assert response.exists()
+        path, version = mondo.get_latest()
+        assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
+        assert path.exists()
+        assert version == "v2023-09-12"
 
-        response = mondo.get_latest()
-        assert response == mondo_data_dir / "mondo_v2023-09-12.owl"
-        assert response.exists()
+        path, version = mondo.get_latest()
+        assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
+        assert path.exists()
+        assert version == "v2023-09-12"
         assert m.call_count == 3
 
-        response = mondo.get_latest(from_local=True)
-        assert response == mondo_data_dir / "mondo_v2023-09-12.owl"
-        assert response.exists()
+        path, version = mondo.get_latest(from_local=True)
+        assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
+        assert path.exists()
+        assert version == "v2023-09-12"
         assert m.call_count == 3
 
         (mondo_data_dir / "mondo_v2023-08-02.owl").touch()
-        response = mondo.get_latest(from_local=True)
-        assert response == mondo_data_dir / "mondo_v2023-09-12.owl"
-        assert response.exists()
+        path, version = mondo.get_latest(from_local=True)
+        assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
+        assert path.exists()
+        assert version == "v2023-09-12"
         assert m.call_count == 3
 
-        response = mondo.get_latest(force_refresh=True)
-        assert response == mondo_data_dir / "mondo_v2023-09-12.owl"
-        assert response.exists()
+        path, version = mondo.get_latest(force_refresh=True)
+        assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
+        assert path.exists()
+        assert version == "v2023-09-12"
         assert m.call_count == 5
 
 

@@ -5,7 +5,7 @@ from typing import Optional, Tuple
 
 import requests
 
-from .base_source import GitHubDataSource
+from .base_source import GitHubDataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,6 +33,7 @@ class MondoData(GitHubDataSource):
 
         :param asset_name: name of file asset, if needed
         :return: latest release value, and optionally, corresponding asset file URL
+        :raise RemoteDataError: if unable to find file matching expected pattern
         """
         latest_url = (
             "https://api.github.com/repos/monarch-initiative/mondo/releases/latest"
@@ -49,35 +50,38 @@ class MondoData(GitHubDataSource):
                 url = asset["browser_download_url"]
                 return (version, url)
         else:
-            raise FileNotFoundError(
+            raise RemoteDataError(
                 f"Unable to retrieve mondo.owl under release {version}"
             )
 
-    def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:
+    def get_latest(
+        self, from_local: bool = False, force_refresh: bool = False
+    ) -> Tuple[Path, str]:
         """Get path to latest version of data.
 
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
             whether a local copy is present
-        :return: Path to location of data
+        :return: Path to location of data, and version value of it
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
         if force_refresh and from_local:
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            return self._get_latest_local_file("mondo_*.owl")
+            local_file = self._get_latest_local_file("mondo_*.owl")
+            return local_file, self._parse_file_version(local_file)
 
-        self.latest_version, data_url = self._get_latest_version()
-        latest_file = self._data_dir / f"mondo_{self.latest_version}.owl"
+        latest_version, data_url = self._get_latest_version()
+        latest_file = self._data_dir / f"mondo_{latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {self.latest_version}."
+                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
             )
-            return latest_file
+            return latest_file, latest_version
         else:
             self._http_download(data_url, latest_file)  # type: ignore
-            return latest_file
+            return latest_file, latest_version
 
     def get_specific(
         self, version: str, from_local: bool = False, force_refresh: bool = False

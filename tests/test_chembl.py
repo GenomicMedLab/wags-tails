@@ -58,27 +58,31 @@ def test_get_latest(
             "https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_33_sqlite.tar.gz",
             content=chembl_file,
         )
-        response = chembl.get_latest()
-        assert response == chembl_data_dir / "chembl_33.db"
-        assert response.exists()
+        path, version = chembl.get_latest()
+        assert path == chembl_data_dir / "chembl_33.db"
+        assert path.exists()
+        assert version == "33"
 
-        response = chembl.get_latest()
-        assert response == chembl_data_dir / "chembl_33.db"
-        assert response.exists()
+        path, version = chembl.get_latest()
+        assert path == chembl_data_dir / "chembl_33.db"
+        assert path.exists()
+        assert version == "33"
         assert m.call_count == 3
 
-        response = chembl.get_latest(from_local=True)
-        assert response == chembl_data_dir / "chembl_33.db"
-        assert response.exists()
+        path, version = chembl.get_latest(from_local=True)
+        assert path == chembl_data_dir / "chembl_33.db"
+        assert path.exists()
         assert m.call_count == 3
 
         (chembl_data_dir / "chembl_32.db").touch()
-        response = chembl.get_latest(from_local=True)
-        assert response == chembl_data_dir / "chembl_33.db"
-        assert response.exists()
+        path, version = chembl.get_latest(from_local=True)
+        assert path == chembl_data_dir / "chembl_33.db"
+        assert path.exists()
+        assert version == "33"
         assert m.call_count == 3
 
-        response = chembl.get_latest(force_refresh=True)
-        assert response == chembl_data_dir / "chembl_33.db"
-        assert response.exists()
+        path, version = chembl.get_latest(force_refresh=True)
+        assert path == chembl_data_dir / "chembl_33.db"
+        assert path.exists()
+        assert version == "33"
         assert m.call_count == 5

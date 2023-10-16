@@ -2,9 +2,10 @@
 import abc
 import logging
 import os
+import re
 import tempfile
 from pathlib import Path
-from typing import Callable, Dict, Generator, Optional
+from typing import Callable, Dict, Generator, Optional, Tuple
 
 import requests
 from tqdm import tqdm
@@ -23,9 +24,6 @@ class DataSource(abc.ABC):
 
     # required attributes
     _src_name: str
-
-    # default attributes
-    latest_version: Optional[str] = None
 
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
         """Set common class parameters.
@@ -50,18 +48,33 @@ class DataSource(abc.ABC):
         }
 
     @abc.abstractmethod
-    def get_latest(self, from_local: bool = False, force_refresh: bool = False) -> Path:
+    def get_latest(
+        self, from_local: bool = False, force_refresh: bool = False
+    ) -> Tuple[Path, str]:
         """Get path to latest version of data.
 
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
             whether a local copy is present
-        :return: Path to location of data
+        :return: Path to location of data, and version value of it
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
         raise NotImplementedError
 
     ### shared utilities
+
+    def _parse_file_version(self, file_path: Path) -> str:
+        """Extract data version from file.
+
+        :return: version value
+        :raise ValueError: if unable to parse version from file
+        """
+        pattern = re.compile(f"{self._src_name}_(.*)\\..*")
+        match = re.match(pattern, file_path.name)
+        if match and match.groups():
+            return match.groups()[0]
+        else:
+            raise ValueError(f"Unable to parse version from {file_path.absolute()}")
 
     @staticmethod
     def _get_data_base() -> Path:
