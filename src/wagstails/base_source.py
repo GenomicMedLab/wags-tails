@@ -24,6 +24,9 @@ class DataSource(abc.ABC):
     # required attributes
     _src_name: str
 
+    # default attributes
+    latest_version: Optional[str] = None
+
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
         """Set common class parameters.
 

@@ -68,11 +68,11 @@ class MondoData(GitHubDataSource):
         if from_local:
             return self._get_latest_local_file("mondo_*.owl")
 
-        latest_version, data_url = self._get_latest_version()
-        latest_file = self._data_dir / f"mondo_{latest_version}.owl"
+        self.latest_version, data_url = self._get_latest_version()
+        latest_file = self._data_dir / f"mondo_{self.latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
+                f"Found existing file, {latest_file.name}, matching latest version {self.latest_version}."
             )
             return latest_file
         else:

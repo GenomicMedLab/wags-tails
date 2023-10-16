@@ -80,15 +80,15 @@ class ChemblData(DataSource):
         if from_local:
             return self._get_latest_local_file("chembl_*.db")
 
-        latest_version = self._get_latest_version()
-        latest_file = self._data_dir / f"chembl_{latest_version}.db"
+        self.latest_version = self._get_latest_version()
+        latest_file = self._data_dir / f"chembl_{self.latest_version}.db"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
+                f"Found existing file, {latest_file.name}, matching latest version {self.latest_version}."
             )
             return latest_file
         self._http_download(
-            f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
+            f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{self.latest_version}_sqlite.tar.gz",
             latest_file,
             handler=self._open_tarball,
         )
