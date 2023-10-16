@@ -24,4 +24,4 @@ PosixPath('/Users/genomicmedlab/.local/share/wagstails/mondo/mondo_v2023-09-12.o
 
 ## Configuration
 
-All data is stored within source-specific subdirectories of a designated WagsTails data directory. By default, this location is `~/.local/share/wagstails/`, but it can be configured by passing a Path directly to a data class on initialization, via the `$WAGSTAILS` environment variable, or via [XDG data environment variables](https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html).
+All data is stored within source-specific subdirectories of a designated WagsTails data directory. By default, this location is `~/.local/share/wagstails/`, but it can be configured by passing a Path directly to a data class on initialization, via the `$WAGSTAILS_DIR` environment variable, or via [XDG data environment variables](https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html).

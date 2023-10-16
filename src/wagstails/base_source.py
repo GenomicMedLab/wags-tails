@@ -1,5 +1,6 @@
 """Define base data source class."""
 import abc
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -7,6 +8,8 @@ from typing import Callable, Dict, Generator, Optional
 
 import requests
 from tqdm import tqdm
+
+_logger = logging.getLogger(__name__)
 
 
 class RemoteDataError(Exception):
@@ -112,6 +115,7 @@ class DataSource(abc.ABC):
         :param handler: provide if downloaded file requires additional action, e.g.
             it's a zip file.
         """
+        _logger.info(f"Downloading {outfile_path.name} from {url}...")
         if handler:
             dl_path = Path(tempfile.gettempdir()) / "wagstails_tmp"
         else:
@@ -133,6 +137,7 @@ class DataSource(abc.ABC):
                             progress_bar.update(len(chunk))
         if handler:
             handler(dl_path, outfile_path)
+        _logger.info(f"Successfully downloaded {outfile_path.name}.")
 
     def _get_latest_local_file(self, glob: str) -> Path:
         """Get most recent locally-available file.
@@ -141,10 +146,13 @@ class DataSource(abc.ABC):
         :return: Path to most recent file
         :raise FileNotFoundError: if no local data is available
         """
+        _logger.debug(f"Getting local match against pattern {glob}...")
         files = list(sorted(self._data_dir.glob(glob)))
         if len(files) < 1:
             raise FileNotFoundError(f"No source data found for {self._src_name}")
-        return files[-1]
+        latest = files[-1]
+        _logger.debug(f"Returning {latest} as most recent locally-available file.")
+        return latest
 
 
 class SpecificVersionDataSource(DataSource):
@@ -154,16 +162,15 @@ class SpecificVersionDataSource(DataSource):
     Useful for sources where the most recent data source sometimes gives us trouble.
     Enables a workflow where we could try the newest version of data, and if it parses
     incorrectly, try the next-most-recent until something works.
+
+    These methods probably aren't necessary for every source, though, so I put them
+    in a child class rather than the main ``DataSource`` class.
     """
 
     @abc.abstractmethod
     def iterate_versions(self) -> Generator:
         """Lazily get versions (i.e. not the files themselves, just their version
         strings), starting with the most recent value and moving backwards.
-
-        I don't know if every source can feasibly implement this, so I haven't marked
-        it as an abstractmethod, but I think it could be useful (e.g. retry with a
-        prior version if something fails in the latest version.)
 
         :return: Generator yielding version strings
         """
@@ -174,9 +181,6 @@ class SpecificVersionDataSource(DataSource):
         self, version: str, from_local: bool = False, force_refresh: bool = False
     ) -> Path:
         """Get specified version of data.
-
-        Like ``iterate_version()``, probably not necessary to implement for every class.
-
 
         :param from_local: if True, use matching local file, don't try to fetch from remote
         :param force_refresh: if True, fetch and return data from remote regardless of

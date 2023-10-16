@@ -1,5 +1,6 @@
 """Provide source fetching for ChEMBL."""
 import fnmatch
+import logging
 import re
 import tarfile
 from pathlib import Path
@@ -8,6 +9,8 @@ from typing import Optional
 import requests
 
 from .base_source import DataSource
+
+_logger = logging.getLogger(__name__)
 
 
 class ChemblData(DataSource):
@@ -80,6 +83,9 @@ class ChemblData(DataSource):
         latest_version = self._get_latest_version()
         latest_file = self._data_dir / f"chembl_{latest_version}.db"
         if (not force_refresh) and latest_file.exists():
+            _logger.debug(
+                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
+            )
             return latest_file
         self._http_download(
             f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",

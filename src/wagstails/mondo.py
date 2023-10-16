@@ -1,10 +1,13 @@
 """Provide source fetching for Mondo Disease Ontology."""
+import logging
 from pathlib import Path
 from typing import Optional, Tuple
 
 import requests
 
 from .base_source import GitHubDataSource
+
+_logger = logging.getLogger(__name__)
 
 
 class MondoData(GitHubDataSource):
@@ -68,6 +71,9 @@ class MondoData(GitHubDataSource):
         latest_version, data_url = self._get_latest_version()
         latest_file = self._data_dir / f"mondo_{latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
+            _logger.debug(
+                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
+            )
             return latest_file
         else:
             self._http_download(data_url, latest_file)  # type: ignore
