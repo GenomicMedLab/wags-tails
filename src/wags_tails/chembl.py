@@ -21,7 +21,7 @@ class ChemblData(DataSource):
 
         :param data_dir: direct location to store data files in. If not provided, tries
             to find a "chembl" subdirectory within the path at environment variable
-            $WAGSTAILS_DIR, or within a "wagstails" subdirectory under environment
+            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
             variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
             ``~/.local/share/``
         :param silent: if True, don't print any info/updates to console

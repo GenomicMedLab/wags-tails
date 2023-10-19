@@ -30,7 +30,7 @@ class DataSource(abc.ABC):
 
         :param data_dir: direct location to store data files in. If not provided, tries
             to find a source-specific subdirectory within the path at environment
-            variable $WAGSTAILS_DIR, or within a "wagstails" subdirectory under
+            variable $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under
             environment variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
             ``~/.local/share/``
         :param silent: if True, don't print any info/updates to console
@@ -83,7 +83,7 @@ class DataSource(abc.ABC):
         By default, conform to `XDG Base Directory Specification <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_,
         unless a directory is specified otherwise:
 
-        1) check env var ``"WAGSTAILS_DIR"``
+        1) check env var ``"WAGS_TAILS_DIR"``
         2) check env var ``"XDG_DATA_HOME"``
         3) check env var ``"XDG_DATA_DIRS"`` for a colon-separated list, skipping any
             that can't be used (i.e. they're already a file)
@@ -91,26 +91,26 @@ class DataSource(abc.ABC):
 
         :return: path to base data directory
         """
-        spec_wagstails_dir = os.environ.get("WAGSTAILS_DIR")
+        spec_wagstails_dir = os.environ.get("WAGS_TAILS_DIR")
         if spec_wagstails_dir:
             data_base_dir = Path(spec_wagstails_dir)
         else:
             xdg_data_home = os.environ.get("XDG_DATA_HOME")
             if xdg_data_home:
-                data_base_dir = Path(xdg_data_home) / "wagstails"
+                data_base_dir = Path(xdg_data_home) / "wags_tails"
             else:
                 xdg_data_dirs = os.environ.get("XDG_DATA_DIRS")
                 if xdg_data_dirs:
                     dirs = os.environ["XDG_DATA_DIRS"].split(":")
                     for dir in dirs:
-                        dir_path = Path(dir) / "wagstails"
+                        dir_path = Path(dir) / "wags_tails"
                         if not dir_path.is_file():
                             data_base_dir = dir_path
                             break
                     else:
-                        data_base_dir = Path.home() / ".local" / "share" / "wagstails"
+                        data_base_dir = Path.home() / ".local" / "share" / "wags_tails"
                 else:
-                    data_base_dir = Path.home() / ".local" / "share" / "wagstails"
+                    data_base_dir = Path.home() / ".local" / "share" / "wags_tails"
 
         data_base_dir.mkdir(exist_ok=True, parents=True)
         return data_base_dir
@@ -133,7 +133,7 @@ class DataSource(abc.ABC):
         """
         _logger.info(f"Downloading {outfile_path.name} from {url}...")
         if handler:
-            dl_path = Path(tempfile.gettempdir()) / "wagstails_tmp"
+            dl_path = Path(tempfile.gettempdir()) / "wags_tails_tmp"
         else:
             dl_path = outfile_path
         # use stream to avoid saving download completely to memory

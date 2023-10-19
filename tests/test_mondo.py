@@ -7,7 +7,7 @@ from typing import Dict
 import pytest
 import requests_mock
 
-from wagstails.mondo import MondoData
+from wags_tails.mondo import MondoData
 
 
 @pytest.fixture(scope="function")

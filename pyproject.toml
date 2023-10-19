@@ -1,5 +1,5 @@
 [project]
-name = "wagstails"
+name = "wags_tails"
 version = "0.1.0"
 authors = [
     {name = "Kori Kuzma"},
@@ -35,10 +35,10 @@ test = ["pytest>=6.0", "pytest-cov", "requests-mock"]
 dev = ["pre-commit", "black", "ruff"]
 
 [project.urls]
-Homepage = "https://github.com/GenomicMedLab/WagsTails/"
-Changelog = "https://github.com/GenomicMedLab/WagsTails/releases"
-Source = "https://github.com/GenomicMedLab/WagsTails/"
-"Bug Tracker" = "https://github.com/GenomicMedLab/WagsTails/issues"
+Homepage = "https://github.com/GenomicMedLab/wags-tails/"
+Changelog = "https://github.com/GenomicMedLab/wags-tails/releases"
+Source = "https://github.com/GenomicMedLab/wags-tails/"
+"Bug Tracker" = "https://github.com/GenomicMedLab/wags-tails/issues"
 
 [build-system]
 requires = ["setuptools", "setuptools-scm"]

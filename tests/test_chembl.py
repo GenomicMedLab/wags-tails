@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 import requests_mock
 
-from wagstails.chembl import ChemblData
+from wags_tails.chembl import ChemblData
 
 
 @pytest.fixture(scope="function")
