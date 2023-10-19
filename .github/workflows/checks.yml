@@ -1,0 +1,33 @@
+name: Checks
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: black
+        uses: psf/black@stable
+
+      - name: ruff
+        uses: chartboost/ruff-action@v1
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: python3 -m pip install ".[test]"
+
+      - name: Run tests
+        env:
+          WAGSTAILS_TEST_ENV: true
+        run: python3 -m pytest tests/
