@@ -4,6 +4,7 @@ import logging
 import os
 import re
 import tempfile
+import zipfile
 from pathlib import Path
 from typing import Callable, Dict, Generator, Optional, Tuple
 
@@ -114,6 +115,24 @@ class DataSource(abc.ABC):
 
         data_base_dir.mkdir(exist_ok=True, parents=True)
         return data_base_dir
+
+    def _zip_handler(self, dl_path: Path, outfile_path: Path) -> None:
+        """Provide simple callback function to extract the largest file within a given
+        zipfile and save it within the appropriate data directory.
+        :param Path dl_path: path to temp data file
+        :param Path outfile_path: path to save file within
+        """
+        with zipfile.ZipFile(dl_path, "r") as zip_ref:
+            if len(zip_ref.filelist) > 1:
+                files = sorted(
+                    zip_ref.filelist, key=lambda z: z.file_size, reverse=True
+                )
+                target = files[0]
+            else:
+                target = zip_ref.filelist[0]
+            target.filename = outfile_path.name
+            zip_ref.extract(target, path=outfile_path.parent)
+        os.remove(dl_path)
 
     def _http_download(
         self,
