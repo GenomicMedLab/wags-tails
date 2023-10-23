@@ -61,11 +61,11 @@ class ChemIDplusData(DataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            file_path = self._get_latest_local_file("chemidplus_*.db")
+            file_path = self._get_latest_local_file("chemidplus_*.xml")
             return file_path, self._parse_file_version(file_path)
 
         latest_version = self._get_latest_version()
-        latest_file = self._data_dir / f"chemidplus_{latest_version}.db"
+        latest_file = self._data_dir / f"chemidplus_{latest_version}.xml"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."

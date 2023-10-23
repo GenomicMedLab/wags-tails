@@ -6,7 +6,7 @@ import re
 import tempfile
 import zipfile
 from pathlib import Path
-from typing import Callable, Dict, Generator, Optional, Tuple
+from typing import Callable, Dict, Generator, Optional, Pattern, Tuple
 
 import requests
 from tqdm import tqdm
@@ -64,13 +64,18 @@ class DataSource(abc.ABC):
 
     ### shared utilities
 
-    def _parse_file_version(self, file_path: Path) -> str:
+    def _parse_file_version(
+        self, file_path: Path, pattern: Optional[Pattern] = None
+    ) -> str:
         """Extract data version from file.
 
+        :param file_path: location of file to get version from
+        :param pattern: optionally, provide custom parsing pattern
         :return: version value
         :raise ValueError: if unable to parse version from file
         """
-        pattern = re.compile(f"{self._src_name}_(.*)\\..*")
+        if not pattern:
+            pattern = re.compile(f"{self._src_name}_(.*)\\..*")
         match = re.match(pattern, file_path.name)
         if match and match.groups():
             return match.groups()[0]
@@ -119,6 +124,7 @@ class DataSource(abc.ABC):
     def _zip_handler(self, dl_path: Path, outfile_path: Path) -> None:
         """Provide simple callback function to extract the largest file within a given
         zipfile and save it within the appropriate data directory.
+
         :param Path dl_path: path to temp data file
         :param Path outfile_path: path to save file within
         """
