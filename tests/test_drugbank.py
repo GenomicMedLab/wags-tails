@@ -1,6 +1,5 @@
 """Test DrugBank data source."""
 import json
-from io import TextIOWrapper
 from pathlib import Path
 from typing import Dict
 
@@ -42,7 +41,7 @@ def test_get_latest(
     drugbank: DrugBankData,
     drugbank_data_dir,
     versions_response: Dict,
-    drugbank_file: TextIOWrapper,
+    drugbank_file: str,
 ):
     """Test chemblData.get_latest()"""
     with pytest.raises(ValueError):
