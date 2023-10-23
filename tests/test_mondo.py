@@ -78,6 +78,7 @@ def test_get_latest(
         assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
         assert path.exists()
         assert version == "v2023-09-12"
+        assert m.call_count == 2
 
         path, version = mondo.get_latest()
         assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
