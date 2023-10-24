@@ -29,20 +29,6 @@ def latest_release_response(fixture_dir: Path):
         return f.read()
 
 
-@pytest.fixture(scope="module")
-def gtop_ligand_file(fixture_dir: Path):
-    """Provide mock gtop ligand TSV file download."""
-    with open(fixture_dir / "gtop_ligand.tsv", "r") as f:
-        return f
-
-
-@pytest.fixture(scope="module")
-def gtop_ligand_id_mapping_file(fixture_dir: Path):
-    """Provide mock gtop ligand ID mapping TSV file download."""
-    with open(fixture_dir / "gtop_ligand_id_mapping.tsv", "r") as f:
-        return f
-
-
 @pytest.fixture(scope="function")
 def gtop_ligand_file_paths(gtop_data_dir: Path):
     """Provide expected Path descriptors for Guide to Pharmacology ligand data objects."""
@@ -54,10 +40,8 @@ def gtop_ligand_file_paths(gtop_data_dir: Path):
 
 def test_get_latest(
     gtop_ligand: GToPLigandData,
-    gtop_data_dir,
+    gtop_data_dir: Path,
     latest_release_response: Dict,
-    gtop_ligand_file: str,
-    gtop_ligand_id_mapping_file: str,
     gtop_ligand_file_paths: GtoPLigandPaths,
 ):
     """Test GToPLigandData.get_latest()"""
@@ -74,11 +58,11 @@ def test_get_latest(
         )
         m.get(
             "https://www.guidetopharmacology.org/DATA/ligands.tsv",
-            body=gtop_ligand_file,
+            body="",
         )
         m.get(
             "https://www.guidetopharmacology.org/DATA/ligand_id_mapping.tsv",
-            body=gtop_ligand_id_mapping_file,
+            body="",
         )
         paths, version = gtop_ligand.get_latest()
         assert (
