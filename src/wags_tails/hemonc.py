@@ -86,7 +86,7 @@ class HemOncData(DataSource):
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
             whether a local copy is present
-        :return: Path to location of data, and version value of it
+        :return: Paths to data, and version value of it
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
         if force_refresh and from_local:
@@ -140,8 +140,4 @@ class HemOncData(DataSource):
                 dl_path, file_paths
             ),
         )
-        if not all([p.exists() and p.is_file() for p in file_paths._asdict().values()]):
-            raise RemoteDataError(
-                f"Download appears to have failed. Double-check download directory: {file_paths.concepts.parent}"
-            )
         return file_paths, latest_version

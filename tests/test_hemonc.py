@@ -93,7 +93,7 @@ def test_get_latest(
         assert version == "2023-09-05"
         assert m.call_count == 3
 
-        (hemonc_data_dir / "mondo_v2023-08-02.owl").touch()
+        (hemonc_data_dir / "hemonc_rels_2023-08-03.csv").touch()
         paths, version = hemonc.get_latest(from_local=True)
         assert paths.concepts == hemonc_file_paths.concepts and paths.concepts.exists()
         assert paths.rels == hemonc_file_paths.rels and paths.rels.exists()
