@@ -1,6 +1,5 @@
 """Test Mondo data source."""
 import json
-from io import TextIOWrapper
 from pathlib import Path
 from typing import Dict
 
@@ -45,18 +44,10 @@ def versions_response(fixture_dir):
         return json.load(f)
 
 
-@pytest.fixture(scope="module")
-def mondo_file(fixture_dir):
-    """Provide mock mondo.owl file."""
-    with open(fixture_dir / "mondo.owl", "r") as f:
-        return f
-
-
 def test_get_latest(
     mondo: MondoData,
     mondo_data_dir,
     latest_release_response: Dict,
-    mondo_file: TextIOWrapper,
 ):
     """Test MondoData.get_latest()"""
     with pytest.raises(ValueError):
@@ -72,7 +63,7 @@ def test_get_latest(
         )
         m.get(
             "https://github.com/monarch-initiative/mondo/releases/download/v2023-09-12/mondo.owl",
-            body=mondo_file,
+            body="",
         )
         path, version = mondo.get_latest()
         assert path == mondo_data_dir / "mondo_v2023-09-12.owl"
@@ -125,7 +116,7 @@ def test_iterate_versions(mondo: MondoData, versions_response: Dict):
 def test_get_specific_version(
     mondo: MondoData,
     mondo_data_dir: Path,
-    mondo_file: TextIOWrapper,
+    # mondo_file: TextIOWrapper,
 ):
     """Test MondoData.get_specific()"""
     with pytest.raises(ValueError):
@@ -137,7 +128,7 @@ def test_get_specific_version(
     with requests_mock.Mocker() as m:
         m.get(
             "https://github.com/monarch-initiative/mondo/releases/download/v2023-08-02/mondo.owl",
-            body=mondo_file,
+            body="",
         )
         response = mondo.get_specific("v2023-08-02")
         assert response == mondo_data_dir / "mondo_v2023-08-02.owl"
@@ -164,7 +155,7 @@ def test_get_specific_version(
 
         m.get(
             "https://github.com/monarch-initiative/mondo/releases/download/v2023-09-12/mondo.owl",
-            body=mondo_file,
+            body="",
         )
         response = mondo.get_specific("v2023-09-12")
         assert response == mondo_data_dir / "mondo_v2023-09-12.owl"
