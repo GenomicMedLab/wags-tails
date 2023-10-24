@@ -1,12 +1,15 @@
 """Provide source fetching for RxNorm."""
 import datetime
 import logging
+import os
+import zipfile
 from pathlib import Path
 from typing import Optional, Tuple
 
 import requests
 
-from .base_source import DataSource, RemoteDataError
+from wags_tails.base_source import DataSource, RemoteDataError
+from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
 
 _logger = logging.getLogger(__name__)
 
@@ -39,30 +42,51 @@ class RxNormData(DataSource):
         r.raise_for_status()
         try:
             raw_version = r.json()["version"]
-            fmt_version = datetime.datetime.strptime(raw_version, "%d-%b-%Y")
-            return fmt_version.strftime("%Y-%m-%d")
+            return datetime.datetime.strptime(raw_version, "%d-%b-%Y").strftime(
+                DATE_VERSION_PATTERN
+            )
         except (ValueError, KeyError):
             raise RemoteDataError(
                 f"Unable to parse latest RxNorm version from API endpoint: {url}."
             )
 
-    # TODO something is wrong here
-    # def _zip_handler(self, dl_path: Path, outfile_path: Path, version: str) -> None:
-    #     """Extract required files from RxNorm zip. This method should be passed to
-    #     the base class's _http_download method.
-    #
-    #     :param dl_path: path to RxNorm zip file in tmp directory
-    #     :param outfile_path: path to RxNorm data directory
-    #     :param version: version value
-    #     """
-    #     rrf_path = outfile_path / "rxnorm_version.RRF"
-    #     with zipfile.ZipFile(dl_path, "r") as zf:
-    #         rrf = zf.open("rrf/RXNCONSO.RRF")
-    #         target = open(rrf_path, "wb")
-    #         with rrf, target:
-    #             shutil.copyfileobj(rrf, target)
-    #     os.remove(dl_path)
-    #     return rrf_path
+    def _zip_handler(self, dl_path: Path, outfile_path: Path) -> None:
+        """Provide simple callback function to extract the largest file within a given
+        zipfile and save it within the appropriate data directory.
+
+        :param Path dl_path: path to temp data file
+        :param Path outfile_path: path to save file within
+        :raise RemoteDataError: if unable to locate RRF file
+        """
+        with zipfile.ZipFile(dl_path, "r") as zip_ref:
+            for file in zip_ref.filelist:
+                if file.filename == "rrf/RXNCONSO.RRF":
+                    file.filename = outfile_path.name
+                    target = file
+                    break
+            else:
+                raise RemoteDataError("Unable to find RxNorm RRF in downloaded file")
+            zip_ref.extract(target, path=outfile_path.parent)
+        os.remove(dl_path)
+
+    def _download_file(self, file_path: Path, version: str) -> None:
+        """Download latest RxNorm data file.
+
+        :param version: version of RxNorm to download
+        :raises DownloadException: if API Key is not defined in the environment.
+        """
+        api_key = os.environ.get("UMLS_API_KEY")
+        if api_key is None:
+            _logger.error("Could not find `UMLS_API_KEY` in environment variables.")
+            raise RemoteDataError("`UMLS_API_KEY` not found.")
+
+        fmt_version = datetime.datetime.strptime(
+            version, DATE_VERSION_PATTERN
+        ).strftime("%m%d%Y")
+        dl_url = f"https://download.nlm.nih.gov/umls/kss/rxnorm/RxNorm_full_{fmt_version}.zip"
+        url = f"https://uts-ws.nlm.nih.gov/download?url={dl_url}&apiKey={api_key}"
+
+        self._http_download(url, file_path, handler=self._zip_handler)
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
@@ -79,16 +103,15 @@ class RxNormData(DataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            file_path = self._get_latest_local_file("drugsatfda_*.db")
-            return file_path, self._parse_file_version(file_path)
+            file_path = self._get_latest_local_file("rxnorm_*.RRF")
+            return file_path, parse_file_version(file_path, r"rxnorm_(\d+).RRF")
 
         latest_version = self._get_latest_version()
-        latest_file = self._data_dir / f"drugsatfda_{latest_version}.db"
+        latest_file = self._data_dir / f"rxnorm_{latest_version}.RRF"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
             )
             return latest_file, latest_version
-        url = self._get_url(latest_version)
-        self._http_download(url, latest_file, handler=self._zip_handler)
+        self._download_file(latest_file, latest_version)
         return latest_file, latest_version

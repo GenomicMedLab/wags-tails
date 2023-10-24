@@ -6,6 +6,8 @@ from typing import NamedTuple, Optional, Tuple
 
 import requests
 
+from wags_tails.version_utils import parse_file_version
+
 from .base_source import DataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
@@ -77,8 +79,8 @@ class GToPLigandData(DataSource):
             file_paths = GtoPLigandPaths(
                 ligands=ligands_path, ligand_id_mapping=ligand_id_mapping_path
             )
-            return file_paths, self._parse_file_version(
-                ligands_path, re.compile(r"gtop_ligands_(\d{4}\.\d+).tsv")
+            return file_paths, parse_file_version(
+                ligands_path, r"gtop_ligands_(\d{4}\.\d+).tsv"
             )
 
         latest_version = self._get_latest_version()

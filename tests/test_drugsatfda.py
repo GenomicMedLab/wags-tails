@@ -60,32 +60,32 @@ def test_get_latest(
             content=drugsatfda_file,
         )
         path, version = drugsatfda.get_latest()
-        assert path == drugsatfda_data_dir / "drugsatfda_2023-10-23.json"
+        assert path == drugsatfda_data_dir / "drugsatfda_20231023.json"
         assert path.exists()
-        assert version == "2023-10-23"
+        assert version == "20231023"
         assert m.call_count == 2
 
         path, version = drugsatfda.get_latest()
-        assert path == drugsatfda_data_dir / "drugsatfda_2023-10-23.json"
+        assert path == drugsatfda_data_dir / "drugsatfda_20231023.json"
         assert path.exists()
-        assert version == "2023-10-23"
+        assert version == "20231023"
         assert m.call_count == 3
 
         path, version = drugsatfda.get_latest(from_local=True)
-        assert path == drugsatfda_data_dir / "drugsatfda_2023-10-23.json"
+        assert path == drugsatfda_data_dir / "drugsatfda_20231023.json"
         assert path.exists()
-        assert version == "2023-10-23"
+        assert version == "20231023"
         assert m.call_count == 3
 
-        (drugsatfda_data_dir / "drugsatfda_2023-09-23.json").touch()
+        (drugsatfda_data_dir / "drugsatfda_20230923.json").touch()
         path, version = drugsatfda.get_latest(from_local=True)
-        assert path == drugsatfda_data_dir / "drugsatfda_2023-10-23.json"
+        assert path == drugsatfda_data_dir / "drugsatfda_20231023.json"
         assert path.exists()
-        assert version == "2023-10-23"
+        assert version == "20231023"
         assert m.call_count == 3
 
         path, version = drugsatfda.get_latest(force_refresh=True)
-        assert path == drugsatfda_data_dir / "drugsatfda_2023-10-23.json"
+        assert path == drugsatfda_data_dir / "drugsatfda_20231023.json"
         assert path.exists()
-        assert version == "2023-10-23"
+        assert version == "20231023"
         assert m.call_count == 5

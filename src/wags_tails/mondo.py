@@ -5,6 +5,8 @@ from typing import Optional, Tuple
 
 import requests
 
+from wags_tails.version_utils import parse_file_version
+
 from .base_source import GitHubDataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
@@ -70,7 +72,7 @@ class MondoData(GitHubDataSource):
 
         if from_local:
             local_file = self._get_latest_local_file("mondo_*.owl")
-            return local_file, self._parse_file_version(local_file)
+            return local_file, parse_file_version(local_file, r"mondo_(.*).owl")
 
         latest_version, data_url = self._get_latest_version()
         latest_file = self._data_dir / f"mondo_{latest_version}.owl"

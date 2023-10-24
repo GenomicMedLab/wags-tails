@@ -1,9 +1,12 @@
 """Provide source fetching for Drugs@FDA."""
+import datetime
 import logging
 from pathlib import Path
 from typing import Optional, Tuple
 
 import requests
+
+from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
 
 from .base_source import DataSource, RemoteDataError
 
@@ -37,11 +40,14 @@ class DrugsAtFdaData(DataSource):
         r.raise_for_status()
         r_json = r.json()
         try:
-            return r_json["results"]["drug"]["drugsfda"]["export_date"]
+            date = r_json["results"]["drug"]["drugsfda"]["export_date"]
         except KeyError:
             raise RemoteDataError(
                 "Unable to parse latest DrugBank version number from releases API endpoint"
             )
+        return datetime.datetime.strptime(date, "%Y-%m-%d").strftime(
+            DATE_VERSION_PATTERN
+        )
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
@@ -59,7 +65,7 @@ class DrugsAtFdaData(DataSource):
 
         if from_local:
             file_path = self._get_latest_local_file("drugsatfda_*.json")
-            return file_path, self._parse_file_version(file_path)
+            return file_path, parse_file_version(file_path, r"drugsatfda_(\d+).json")
 
         latest_version = self._get_latest_version()
         latest_url = "https://download.open.fda.gov/drug/drugsfda/drug-drugsfda-0001-of-0001.json.zip"

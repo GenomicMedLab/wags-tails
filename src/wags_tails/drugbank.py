@@ -5,6 +5,8 @@ from typing import Optional, Tuple
 
 import requests
 
+from wags_tails.version_utils import parse_file_version
+
 from .base_source import DataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
@@ -44,26 +46,26 @@ class DrugBankData(DataSource):
                 "Unable to parse latest DrugBank version number from releases API endpoint"
             )
 
-    def _get_latest_local_file(self, glob: str) -> Path:
+    def _get_latest_local_file(self, glob: str) -> Tuple[Path, str]:
         """Get most recent locally-available file. DrugBank uses versioning that isn't
         easily sortable by default so we have to use some extra magic.
 
         :param glob: file pattern to match against
-        :return: Path to most recent file
+        :return: Path to most recent file, and its version
         :raise FileNotFoundError: if no local data is available
         """
         _logger.debug(f"Getting local match against pattern {glob}...")
         file_version_pairs = []
         for file in self._data_dir.glob(glob):
-            version = self._parse_file_version(file)
+            version = parse_file_version(file, r"drugbank_([\d\.]+).csv")
             formatted_version = [int(digits) for digits in version.split(".")]
-            file_version_pairs.append((file, formatted_version))
-        files = list(sorted(file_version_pairs, key=lambda p: p[1]))
+            file_version_pairs.append((file, version, formatted_version))
+        files = list(sorted(file_version_pairs, key=lambda p: p[2]))
         if len(files) < 1:
-            raise FileNotFoundError(f"No source data found for {self._src_name}")
-        latest = files[-1][0]
-        _logger.debug(f"Returning {latest} as most recent locally-available file.")
-        return latest
+            raise FileNotFoundError("No source data found for DrugBank")
+        latest = files[-1]
+        _logger.debug(f"Returning {latest[0]} as most recent locally-available file.")
+        return latest[0], latest[1]
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
@@ -80,8 +82,8 @@ class DrugBankData(DataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            file_path = self._get_latest_local_file("drugbank_*.csv")
-            return file_path, self._parse_file_version(file_path)
+            file_path, version = self._get_latest_local_file("drugbank_*.csv")
+            return file_path, version
 
         latest_version, latest_url_base = self._get_latest_version()
         latest_url = f"{latest_url_base}/downloads/all-drugbank-vocabulary"

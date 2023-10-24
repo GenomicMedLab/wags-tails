@@ -6,7 +6,7 @@ import re
 import tempfile
 import zipfile
 from pathlib import Path
-from typing import Callable, Dict, Generator, Optional, Pattern, Tuple
+from typing import Callable, Dict, Generator, Optional, Tuple
 
 import requests
 from tqdm import tqdm
@@ -64,24 +64,6 @@ class DataSource(abc.ABC):
 
     ### shared utilities
 
-    def _parse_file_version(
-        self, file_path: Path, pattern: Optional[Pattern] = None
-    ) -> str:
-        """Extract data version from file.
-
-        :param file_path: location of file to get version from
-        :param pattern: optionally, provide custom parsing pattern
-        :return: version value
-        :raise ValueError: if unable to parse version from file
-        """
-        if not pattern:
-            pattern = re.compile(f"{self._src_name}_(.*)\\..*")
-        match = re.match(pattern, file_path.name)
-        if match and match.groups():
-            return match.groups()[0]
-        else:
-            raise ValueError(f"Unable to parse version from {file_path.absolute()}")
-
     @staticmethod
     def _get_data_base() -> Path:
         """Get base data storage location.
@@ -121,7 +103,8 @@ class DataSource(abc.ABC):
         data_base_dir.mkdir(exist_ok=True, parents=True)
         return data_base_dir
 
-    def _zip_handler(self, dl_path: Path, outfile_path: Path) -> None:
+    @staticmethod
+    def _zip_handler(dl_path: Path, outfile_path: Path) -> None:
         """Provide simple callback function to extract the largest file within a given
         zipfile and save it within the appropriate data directory.
 
@@ -167,7 +150,12 @@ class DataSource(abc.ABC):
             total_size = int(r.headers.get("content-length", 0))
             with open(dl_path, "wb") as h:
                 if not self._tqdm_params["disable"]:
-                    print(f"Downloading {os.path.basename(url)}")
+                    if "apiKey" in url:
+                        pattern = r"&apiKey=.{8}-.{4}-.{4}-.{4}-.{12}"
+                        print_url = re.sub(pattern, "", os.path.basename(url))
+                        print(f"Downloading {print_url}")
+                    else:
+                        print(f"Downloading {os.path.basename(url)}")
                 with tqdm(
                     total=total_size,
                     **self._tqdm_params,

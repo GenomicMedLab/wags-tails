@@ -8,6 +8,8 @@ from typing import Optional, Tuple
 
 import requests
 
+from wags_tails.version_utils import parse_file_version
+
 from .base_source import DataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
@@ -82,7 +84,7 @@ class ChemblData(DataSource):
 
         if from_local:
             file_path = self._get_latest_local_file("chembl_*.db")
-            return file_path, self._parse_file_version(file_path)
+            return file_path, parse_file_version(file_path, r"chembl_(\d+).db")
 
         latest_version = self._get_latest_version()
         latest_file = self._data_dir / f"chembl_{latest_version}.db"

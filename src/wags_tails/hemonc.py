@@ -1,12 +1,13 @@
 """Provide source fetching for HemOnc."""
 import logging
 import os
-import re
 import zipfile
 from pathlib import Path
 from typing import NamedTuple, Optional, Tuple
 
 import requests
+
+from wags_tails.version_utils import parse_file_version
 
 from .base_source import DataSource, RemoteDataError
 
@@ -99,8 +100,8 @@ class HemOncData(DataSource):
             file_paths = HemOncPaths(
                 concepts=concepts_path, rels=rels_path, synonyms=synonyms_path
             )
-            return file_paths, self._parse_file_version(
-                concepts_path, re.compile(f"{self._src_name}_\\w+_(.*).csv")
+            return file_paths, parse_file_version(
+                concepts_path, f"{self._src_name}_\\w+_(.*).csv"
             )
 
         latest_version = self._get_latest_version()
