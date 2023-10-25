@@ -140,5 +140,6 @@ class HemOncData(DataSource):
             handler=lambda dl_path, save_path: self._download_handler(
                 dl_path, file_paths
             ),
+            tqdm_params=self._tqdm_params,
         )
         return file_paths, latest_version

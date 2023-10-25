@@ -82,7 +82,7 @@ class MondoData(GitHubDataSource):
             )
             return latest_file, latest_version
         else:
-            self._http_download(data_url, latest_file)  # type: ignore
+            self._http_download(data_url, latest_file, tqdm_params=self._tqdm_params)
             return latest_file, latest_version
 
     def get_specific(
@@ -113,5 +113,6 @@ class MondoData(GitHubDataSource):
             self._http_download(
                 f"https://github.com/monarch-initiative/mondo/releases/download/{version}/mondo.owl",
                 local_file,
+                tqdm_params=self._tqdm_params,
             )
             return local_file

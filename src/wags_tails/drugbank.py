@@ -93,5 +93,10 @@ class DrugBankData(DataSource):
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
             )
             return latest_file, latest_version
-        self._http_download(latest_url, latest_file, handler=self._zip_handler)
+        self._http_download(
+            latest_url,
+            latest_file,
+            handler=self._zip_handler,
+            tqdm_params=self._tqdm_params,
+        )
         return latest_file, latest_version

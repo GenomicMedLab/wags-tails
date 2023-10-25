@@ -112,8 +112,10 @@ class GToPLigandData(DataSource):
         self._http_download(
             "https://www.guidetopharmacology.org/DATA/ligands.tsv",
             file_paths.ligands,
+            tqdm_params=self._tqdm_params,
         )
         self._http_download(
             "https://www.guidetopharmacology.org/DATA/ligand_id_mapping.tsv",
             file_paths.ligand_id_mapping,
+            tqdm_params=self._tqdm_params,
         )

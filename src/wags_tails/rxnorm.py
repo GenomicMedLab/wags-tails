@@ -86,7 +86,9 @@ class RxNormData(DataSource):
         dl_url = f"https://download.nlm.nih.gov/umls/kss/rxnorm/RxNorm_full_{fmt_version}.zip"
         url = f"https://uts-ws.nlm.nih.gov/download?url={dl_url}&apiKey={api_key}"
 
-        self._http_download(url, file_path, handler=self._zip_handler)
+        self._http_download(
+            url, file_path, handler=self._zip_handler, tqdm_params=self._tqdm_params
+        )
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False

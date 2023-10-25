@@ -1,12 +1,13 @@
 """Provide source fetching for ChemIDplus."""
 import logging
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple
 
 import requests
 
-from wags_tails.version_utils import parse_file_version
+from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
 
 from .base_source import DataSource, RemoteDataError
 
@@ -42,7 +43,10 @@ class ChemIDplusData(DataSource):
         r.raise_for_status()
         result = re.search(r" date=\"([0-9]{4}-[0-9]{2}-[0-9]{2})\">", r.text)
         if result:
-            return result.groups()[0]
+            raw_date = result.groups()[0]
+            return datetime.strptime(raw_date, "%Y-%m-%d").strftime(
+                DATE_VERSION_PATTERN
+            )
         else:
             raise RemoteDataError(
                 "Unable to parse latest ChemIDplus version number from partial access to latest file"
@@ -76,5 +80,6 @@ class ChemIDplusData(DataSource):
         self._http_download(
             "https://ftp.nlm.nih.gov/projects/chemidlease/CurrentChemID.xml",
             latest_file,
+            tqdm_params=self._tqdm_params,
         )
         return latest_file, latest_version

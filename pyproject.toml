@@ -87,6 +87,7 @@ docstring-quotes = "double"
 [tool.ruff.per-file-ignores]
 # ANN001 - missing-type-function-argument
 # ANN2 - missing-return-type
+# ANN102 - missing-type-annotation
 # ANN201 - Missing type annotation
 # ANN102 - missing-type-cls
 # D103 - Missing docstring in public function
@@ -97,3 +98,4 @@ docstring-quotes = "double"
 "tests/*" = ["ANN001", "ANN102", "ANN2"]
 "*__init__.py" = ["F401"]
 "docs/source/conf.py" = ["D100", "I001", "D103", "ANN201", "ANN001"]
+"src/wags_tails/base_source.py" = ["ANN102"]

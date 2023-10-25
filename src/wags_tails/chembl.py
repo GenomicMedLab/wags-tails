@@ -8,9 +8,8 @@ from typing import Optional, Tuple
 
 import requests
 
+from wags_tails.base_source import DataSource, RemoteDataError
 from wags_tails.version_utils import parse_file_version
-
-from .base_source import DataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
 
@@ -97,5 +96,6 @@ class ChemblData(DataSource):
             f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
             latest_file,
             handler=self._open_tarball,
+            tqdm_params=self._tqdm_params,
         )
         return latest_file, latest_version

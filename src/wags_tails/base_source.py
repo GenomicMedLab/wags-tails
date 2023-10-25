@@ -64,8 +64,8 @@ class DataSource(abc.ABC):
 
     ### shared utilities
 
-    @staticmethod
-    def _get_data_base() -> Path:
+    @classmethod
+    def _get_data_base(cls) -> Path:
         """Get base data storage location.
 
         By default, conform to `XDG Base Directory Specification <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_,
@@ -103,8 +103,8 @@ class DataSource(abc.ABC):
         data_base_dir.mkdir(exist_ok=True, parents=True)
         return data_base_dir
 
-    @staticmethod
-    def _zip_handler(dl_path: Path, outfile_path: Path) -> None:
+    @classmethod
+    def _zip_handler(cls, dl_path: Path, outfile_path: Path) -> None:
         """Provide simple callback function to extract the largest file within a given
         zipfile and save it within the appropriate data directory.
 
@@ -123,12 +123,14 @@ class DataSource(abc.ABC):
             zip_ref.extract(target, path=outfile_path.parent)
         os.remove(dl_path)
 
+    @classmethod
     def _http_download(
-        self,
+        cls,
         url: str,
         outfile_path: Path,
         headers: Optional[Dict] = None,
         handler: Optional[Callable[[Path, Path], None]] = None,
+        tqdm_params: Optional[Dict] = None,
     ) -> None:
         """Perform HTTP download of remote data file.
 
@@ -139,6 +141,8 @@ class DataSource(abc.ABC):
         :param handler: provide if downloaded file requires additional action, e.g.
             it's a zip file.
         """
+        if not tqdm_params:
+            tqdm_params = {}
         _logger.info(f"Downloading {outfile_path.name} from {url}...")
         if handler:
             dl_path = Path(tempfile.gettempdir()) / "wags_tails_tmp"
@@ -149,7 +153,7 @@ class DataSource(abc.ABC):
             r.raise_for_status()
             total_size = int(r.headers.get("content-length", 0))
             with open(dl_path, "wb") as h:
-                if not self._tqdm_params["disable"]:
+                if not tqdm_params["disable"]:
                     if "apiKey" in url:
                         pattern = r"&apiKey=.{8}-.{4}-.{4}-.{4}-.{12}"
                         print_url = re.sub(pattern, "", os.path.basename(url))
@@ -158,7 +162,7 @@ class DataSource(abc.ABC):
                         print(f"Downloading {os.path.basename(url)}")
                 with tqdm(
                     total=total_size,
-                    **self._tqdm_params,
+                    **tqdm_params,
                 ) as progress_bar:
                     for chunk in r.iter_content(chunk_size=8192):
                         if chunk:
