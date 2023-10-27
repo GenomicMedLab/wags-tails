@@ -24,6 +24,7 @@ class CustomData(DataSource):
         latest_version_cb: Callable[[], str],
         download_cb: Callable[[Path, str], None],
         data_dir: Optional[Path] = None,
+        file_name: Optional[str] = None,
         silent: bool = False,
     ) -> None:
         """Set common class parameters.
@@ -41,12 +42,17 @@ class CustomData(DataSource):
             $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
             variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
             ``~/.local/share/``
+        :param file_name: name to use for base of filename if given
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = src_name
         self._file_suffix = file_suffix
         self._get_latest_version = latest_version_cb
         self._download_data = download_cb
+        if file_name:
+            self._file_name = file_name
+        else:
+            self._file_name = src_name
         super().__init__(data_dir, silent)
 
     def get_latest(
@@ -65,15 +71,15 @@ class CustomData(DataSource):
 
         if from_local:
             file_path = self._get_latest_local_file(
-                f"{self._src_name}_*.{self._file_suffix}"
+                f"{self._file_name}_*.{self._file_suffix}"
             )
             return file_path, parse_file_version(
-                file_path, f"{self._src_name}_(\\d+).{self._file_suffix}"
+                file_path, f"{self._file_name}_(\\d+).{self._file_suffix}"
             )
 
         latest_version = self._get_latest_version()
         latest_file = (
-            self._data_dir / f"{self._src_name}_{latest_version}.{self._file_suffix}"
+            self._data_dir / f"{self._file_name}_{latest_version}.{self._file_suffix}"
         )
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
