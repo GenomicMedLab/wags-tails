@@ -79,7 +79,7 @@ class CustomData(DataSource):
 
         latest_version = self._get_latest_version()
         latest_file = (
-            self._data_dir / f"{self._file_name}_{latest_version}.{self._file_suffix}"
+            self.data_dir / f"{self._file_name}_{latest_version}.{self._file_suffix}"
         )
         if (not force_refresh) and latest_file.exists():
             _logger.debug(

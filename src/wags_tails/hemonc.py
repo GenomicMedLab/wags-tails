@@ -105,9 +105,9 @@ class HemOncData(DataSource):
             )
 
         latest_version = self._get_latest_version()
-        concepts_file = self._data_dir / f"hemonc_concepts_{latest_version}.csv"
-        rels_file = self._data_dir / f"hemonc_rels_{latest_version}.csv"
-        synonyms_file = self._data_dir / f"hemonc_synonyms_{latest_version}.csv"
+        concepts_file = self.data_dir / f"hemonc_concepts_{latest_version}.csv"
+        rels_file = self.data_dir / f"hemonc_rels_{latest_version}.csv"
+        synonyms_file = self.data_dir / f"hemonc_synonyms_{latest_version}.csv"
         file_paths = HemOncPaths(
             concepts=concepts_file, rels=rels_file, synonyms=synonyms_file
         )
@@ -134,7 +134,7 @@ class HemOncData(DataSource):
             )
         self._http_download(
             "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
-            self._data_dir,
+            self.data_dir,
             headers={"X-Dataverse-key": api_key},
             # provide save_path arg for API consistency, but don't use it
             handler=lambda dl_path, save_path: self._download_handler(

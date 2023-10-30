@@ -71,7 +71,7 @@ class ChemIDplusData(DataSource):
             return file_path, parse_file_version(file_path, "chemidplus_(.+).xml")
 
         latest_version = self._get_latest_version()
-        latest_file = self._data_dir / f"chemidplus_{latest_version}.xml"
+        latest_file = self.data_dir / f"chemidplus_{latest_version}.xml"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."

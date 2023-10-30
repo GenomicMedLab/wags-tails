@@ -101,7 +101,7 @@ class NcitData(DataSource):
             return file_path, parse_file_version(file_path, "ncit_(.*).owl")
 
         latest_version = self._get_latest_version()
-        latest_file = self._data_dir / f"ncit_{latest_version}.owl"
+        latest_file = self.data_dir / f"ncit_{latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."

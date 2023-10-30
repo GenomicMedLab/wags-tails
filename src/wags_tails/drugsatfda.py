@@ -69,7 +69,7 @@ class DrugsAtFdaData(DataSource):
 
         latest_version = self._get_latest_version()
         latest_url = "https://download.open.fda.gov/drug/drugsfda/drug-drugsfda-0001-of-0001.json.zip"
-        latest_file = self._data_dir / f"drugsatfda_{latest_version}.json"
+        latest_file = self.data_dir / f"drugsatfda_{latest_version}.json"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."

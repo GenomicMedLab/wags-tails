@@ -86,7 +86,7 @@ class ChemblData(DataSource):
             return file_path, parse_file_version(file_path, r"chembl_(\d+).db")
 
         latest_version = self._get_latest_version()
-        latest_file = self._data_dir / f"chembl_{latest_version}.db"
+        latest_file = self.data_dir / f"chembl_{latest_version}.db"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."

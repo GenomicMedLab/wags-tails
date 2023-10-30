@@ -42,7 +42,7 @@ class DataSource(abc.ABC):
         if not data_dir:
             data_dir = self._get_data_base() / self._src_name
         data_dir.mkdir(exist_ok=True)
-        self._data_dir = data_dir
+        self.data_dir = data_dir
         self._tqdm_params = {
             "unit": "B",
             "ncols": 80,
@@ -183,7 +183,7 @@ class DataSource(abc.ABC):
         :raise FileNotFoundError: if no local data is available
         """
         _logger.debug(f"Getting local match against pattern {glob}...")
-        files = list(sorted(self._data_dir.glob(glob)))
+        files = list(sorted(self.data_dir.glob(glob)))
         if len(files) < 1:
             raise FileNotFoundError(f"No source data found for {self._src_name}")
         latest = files[-1]

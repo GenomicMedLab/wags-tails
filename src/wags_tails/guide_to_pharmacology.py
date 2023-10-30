@@ -84,9 +84,9 @@ class GToPLigandData(DataSource):
             )
 
         latest_version = self._get_latest_version()
-        ligands_path = self._data_dir / f"gtop_ligands_{latest_version}.tsv"
+        ligands_path = self.data_dir / f"gtop_ligands_{latest_version}.tsv"
         ligand_id_mapping_path = (
-            self._data_dir / f"gtop_ligand_id_mapping_{latest_version}.tsv"
+            self.data_dir / f"gtop_ligand_id_mapping_{latest_version}.tsv"
         )
         file_paths = GtoPLigandPaths(
             ligands=ligands_path, ligand_id_mapping=ligand_id_mapping_path

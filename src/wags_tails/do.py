@@ -84,7 +84,7 @@ class DoData(GitHubDataSource):
             return local_file, parse_file_version(local_file, r"do_(.*).owl")
 
         latest_version = next(self.iterate_versions())
-        latest_file = self._data_dir / f"do_{latest_version}.owl"
+        latest_file = self.data_dir / f"do_{latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
@@ -109,7 +109,7 @@ class DoData(GitHubDataSource):
         if force_refresh and from_local:
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
-        local_file = self._data_dir / f"do_{version}.owl"
+        local_file = self.data_dir / f"do_{version}.owl"
         if from_local:
             if local_file.exists():
                 return local_file

@@ -56,7 +56,7 @@ class DrugBankData(DataSource):
         """
         _logger.debug(f"Getting local match against pattern {glob}...")
         file_version_pairs = []
-        for file in self._data_dir.glob(glob):
+        for file in self.data_dir.glob(glob):
             version = parse_file_version(file, r"drugbank_([\d\.]+).csv")
             formatted_version = [int(digits) for digits in version.split(".")]
             file_version_pairs.append((file, version, formatted_version))
@@ -87,7 +87,7 @@ class DrugBankData(DataSource):
 
         latest_version, latest_url_base = self._get_latest_version()
         latest_url = f"{latest_url_base}/downloads/all-drugbank-vocabulary"
-        latest_file = self._data_dir / f"drugbank_{latest_version}.csv"
+        latest_file = self.data_dir / f"drugbank_{latest_version}.csv"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."

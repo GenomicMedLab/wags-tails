@@ -78,7 +78,7 @@ class MondoData(GitHubDataSource):
             return local_file, parse_file_version(local_file, r"mondo_(.*).owl")
 
         latest_version, data_url = self._get_latest_version()
-        latest_file = self._data_dir / f"mondo_{latest_version}.owl"
+        latest_file = self.data_dir / f"mondo_{latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
@@ -103,7 +103,7 @@ class MondoData(GitHubDataSource):
         if force_refresh and from_local:
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
-        local_file = self._data_dir / f"mondo_{version}.owl"
+        local_file = self.data_dir / f"mondo_{version}.owl"
         if from_local:
             if local_file.exists():
                 return local_file
