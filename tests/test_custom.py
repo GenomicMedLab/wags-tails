@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from wags_tails import CustomData
+from wags_tails.custom import CustomData
 
 
 @pytest.fixture(scope="function")

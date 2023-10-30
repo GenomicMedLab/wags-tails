@@ -5,11 +5,14 @@ import os
 import re
 import tempfile
 import zipfile
+from datetime import datetime
 from pathlib import Path
 from typing import Callable, Dict, Generator, Optional, Tuple
 
 import requests
 from tqdm import tqdm
+
+from wags_tails.version_utils import DATE_VERSION_PATTERN
 
 _logger = logging.getLogger(__name__)
 
@@ -246,4 +249,6 @@ class GitHubDataSource(SpecificVersionDataSource):
         response.raise_for_status()
         data = response.json()
         for release in data:
-            yield release["tag_name"]
+            yield datetime.strptime(release["tag_name"], "v%Y-%m-%d").strftime(
+                DATE_VERSION_PATTERN
+            )

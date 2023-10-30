@@ -1,63 +1,69 @@
-"""Provide source fetching for Mondo Disease Ontology."""
+"""Provide source fetching for Human Disease Ontology."""
 import logging
+import os
+import tarfile
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple
 
 import requests
 
-from wags_tails.base_source import GitHubDataSource, RemoteDataError
+from wags_tails.base_source import GitHubDataSource
 from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
 
 _logger = logging.getLogger(__name__)
 
 
-class MondoData(GitHubDataSource):
-    """Provide access to Mondo disease ontology data."""
+class DoData(GitHubDataSource):
+    """Provide access to human disease ontology data."""
 
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
         :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "mondo" subdirectory within the path at environment variable
+            to find a "do" subdirectory within the path at environment variable
             $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
             variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
             ``~/.local/share/``
         :param silent: if True, don't print any info/updates to console
         """
-        self._src_name = "mondo"
-        self._repo = "monarch-initiative/mondo"
+        self._src_name = "do"
+        self._repo = "DiseaseOntology/HumanDiseaseOntology"
         super().__init__(data_dir, silent)
 
     @staticmethod
-    def _get_latest_version() -> Tuple[str, str]:
-        """Retrieve latest version value, and download URL, from GitHub release data.
+    def _asset_handler(dl_path: Path, outfile_path: Path) -> None:
+        """Simpler handler for pulling the DO OWL file out of a GitHub release tarball.
 
-        :param asset_name: name of file asset, if needed
-        :return: latest release value, and optionally, corresponding asset file URL
-        :raise RemoteDataError: if unable to find file matching expected pattern
+        :param dl_path: path to tarball
+        :param outfile_path: path to extract file to
         """
-        latest_url = (
-            "https://api.github.com/repos/monarch-initiative/mondo/releases/latest"
-        )
-        response = requests.get(latest_url)
-        response.raise_for_status()
-        data = response.json()
-        raw_version = data["tag_name"]
-        version = datetime.strptime(raw_version, "v%Y-%m-%d").strftime(
-            DATE_VERSION_PATTERN
-        )
+        with tarfile.open(dl_path, "r:gz") as tar:
+            for member in tar.getmembers():
+                if member.name.endswith("src/ontology/doid.owl"):
+                    tar.extract(member, path=outfile_path)
+        os.remove(dl_path)
 
-        assets = data["assets"]
-        url = None
-        for asset in assets:
-            if asset["name"] == "mondo.owl":
-                url = asset["browser_download_url"]
-                return (version, url)
-        else:
-            raise RemoteDataError(
-                f"Unable to retrieve mondo.owl under release {version}"
-            )
+    def _get_file_from_github_bundle(self, version: str, file_path: Path) -> None:
+        """Get data file from a GitHub release bundle (ie, a checkpoint for a GitHub
+        repo bundled with a release)
+
+        :param version: release version to get
+        :param file_path: file location to save to
+        """
+        formatted_version = datetime.strptime(version, DATE_VERSION_PATTERN).strftime(
+            "v%Y-%m-%d"
+        )
+        tag_info_url = f"https://api.github.com/repos/{self._repo}/releases/tags/{formatted_version}"
+        response = requests.get(tag_info_url)
+        response.raise_for_status()
+        tarball_url = response.json()["tarball_url"]
+        self._http_download(
+            tarball_url,
+            file_path,
+            handler=self._asset_handler,
+            tqdm_params=self._tqdm_params,
+        )
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
@@ -74,18 +80,18 @@ class MondoData(GitHubDataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            local_file = self._get_latest_local_file("mondo_*.owl")
-            return local_file, parse_file_version(local_file, r"mondo_(.*).owl")
+            local_file = self._get_latest_local_file("do_*.owl")
+            return local_file, parse_file_version(local_file, r"do_(.*).owl")
 
-        latest_version, data_url = self._get_latest_version()
-        latest_file = self._data_dir / f"mondo_{latest_version}.owl"
+        latest_version = next(self.iterate_versions())
+        latest_file = self._data_dir / f"do_{latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
             )
             return latest_file, latest_version
         else:
-            self._http_download(data_url, latest_file, tqdm_params=self._tqdm_params)
+            self._get_file_from_github_bundle(latest_version, latest_file)
             return latest_file, latest_version
 
     def get_specific(
@@ -103,22 +109,15 @@ class MondoData(GitHubDataSource):
         if force_refresh and from_local:
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
-        local_file = self._data_dir / f"mondo_{version}.owl"
+        local_file = self._data_dir / f"do_{version}.owl"
         if from_local:
             if local_file.exists():
                 return local_file
             else:
-                raise FileNotFoundError(f"No local file matching mondo_{version}.owl.")
+                raise FileNotFoundError(f"No local file matching do_{version}.owl.")
 
         if (not force_refresh) and local_file.exists():
             return local_file
         else:
-            formatted_version = datetime.strptime(
-                version, DATE_VERSION_PATTERN
-            ).strftime("v%Y-%m-%d")
-            self._http_download(
-                f"https://github.com/monarch-initiative/mondo/releases/download/{formatted_version}/mondo.owl",
-                local_file,
-                tqdm_params=self._tqdm_params,
-            )
+            self._get_file_from_github_bundle(version, local_file)
             return local_file

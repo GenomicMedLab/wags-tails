@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 import requests_mock
 
-from wags_tails import ChemIDplusData
+from wags_tails.chemidplus import ChemIDplusData
 
 
 @pytest.fixture(scope="function")

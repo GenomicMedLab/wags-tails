@@ -8,7 +8,7 @@ from typing import Dict
 import pytest
 import requests_mock
 
-from wags_tails import RxNormData
+from wags_tails.rxnorm import RxNormData
 
 
 @pytest.fixture(scope="function")

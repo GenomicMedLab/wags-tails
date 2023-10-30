@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from wags_tails import MondoData
+from wags_tails.mondo import MondoData
 
 
 @pytest.fixture(scope="function")

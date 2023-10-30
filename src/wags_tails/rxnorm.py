@@ -72,6 +72,7 @@ class RxNormData(DataSource):
     def _download_file(self, file_path: Path, version: str) -> None:
         """Download latest RxNorm data file.
 
+        :param file_path: path to save file to
         :param version: version of RxNorm to download
         :raises DownloadException: if API Key is not defined in the environment.
         """
