@@ -42,12 +42,11 @@ class DoData(GitHubDataSource):
                     tar.extract(member, path=outfile_path.parent)
         os.remove(dl_path)
 
-    def _get_file_from_github_bundle(self, version: str, file_path: Path) -> None:
-        """Get data file from a GitHub release bundle (ie, a checkpoint for a GitHub
-        repo bundled with a release)
+    def _download_data(self, version: str, outfile: Path) -> None:
+        """Download data file to specified location.
 
-        :param version: release version to get
-        :param file_path: file location to save to
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
         """
         formatted_version = datetime.strptime(version, DATE_VERSION_PATTERN).strftime(
             "v%Y-%m-%d"
@@ -58,15 +57,7 @@ class DoData(GitHubDataSource):
         tarball_url = response.json()["tarball_url"]
         download_http(
             tarball_url,
-            file_path,
+            outfile,
             handler=self._asset_handler,
             tqdm_params=self._tqdm_params,
         )
-
-    def _download_data(self, version: str, outfile: Path) -> None:
-        """Download data file to specified location.
-
-        :param version: version to acquire
-        :param outfile: location and filename for final data file
-        """
-        self._get_file_from_github_bundle(version, outfile)
