@@ -101,10 +101,6 @@ class DataSource(abc.ABC):
 class GitHubDataSource(DataSource):
     """Class for data sources provided via GitHub releases, where versioning is defined
     by release tag names.
-
-    Defined as a child class of SpecificDataSource because it's fairly straightforward
-    to fulfill the required stuff for version iteration and fetching in the context
-    of the GitHub release API.
     """
 
     _repo: str
