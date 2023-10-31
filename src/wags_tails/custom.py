@@ -7,7 +7,7 @@ compatibility.
 from pathlib import Path
 from typing import Callable, Optional
 
-from wags_tails.base_source import DataSource
+from .base_source import DataSource
 
 
 class CustomData(DataSource):

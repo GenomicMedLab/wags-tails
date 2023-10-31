@@ -6,10 +6,10 @@ from typing import Optional, Tuple
 
 import requests
 
-from wags_tails.base_source import GitHubDataSource, RemoteDataError
-from wags_tails.download_utils import download_http
-from wags_tails.storage_utils import get_latest_local_file
-from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
+from .base_source import GitHubDataSource, RemoteDataError
+from .core_utils.downloads import download_http
+from .core_utils.storage import get_latest_local_file
+from .core_utils.versioning import DATE_VERSION_PATTERN, parse_file_version
 
 _logger = logging.getLogger(__name__)
 

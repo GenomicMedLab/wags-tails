@@ -7,9 +7,9 @@ from typing import Optional
 
 import requests
 
-from wags_tails.base_source import GitHubDataSource
-from wags_tails.download_utils import download_http
-from wags_tails.version_utils import DATE_VERSION_PATTERN
+from .base_source import GitHubDataSource
+from .core_utils.downloads import download_http
+from .core_utils.versioning import DATE_VERSION_PATTERN
 
 
 class DoData(GitHubDataSource):

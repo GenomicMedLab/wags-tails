@@ -7,8 +7,8 @@ from typing import Generator, Optional, Tuple
 
 import requests
 
-from wags_tails.storage_utils import get_data_dir, get_latest_local_file
-from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
+from .core_utils.storage import get_data_dir, get_latest_local_file
+from .core_utils.versioning import DATE_VERSION_PATTERN, parse_file_version
 
 _logger = logging.getLogger(__name__)
 

@@ -5,9 +5,9 @@ from typing import Optional, Tuple
 
 import requests
 
-from wags_tails.base_source import DataSource, RemoteDataError
-from wags_tails.download_utils import download_http, handle_zip
-from wags_tails.version_utils import parse_file_version
+from .base_source import DataSource, RemoteDataError
+from .core_utils.downloads import download_http, handle_zip
+from .core_utils.versioning import parse_file_version
 
 _logger = logging.getLogger(__name__)
 
