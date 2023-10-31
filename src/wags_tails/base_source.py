@@ -98,43 +98,7 @@ class DataSource(abc.ABC):
         return latest_file, latest_version
 
 
-class SpecificVersionDataSource(DataSource):
-    """Class for data source which supports retrieval of specific versions, not just
-    latest version.
-
-    Useful for sources where the most recent data source sometimes gives us trouble.
-    Enables a workflow where we could try the newest version of data, and if it parses
-    incorrectly, try the next-most-recent until something works.
-
-    These methods probably aren't necessary for every source, though, so I put them
-    in a child class rather than the main ``DataSource`` class.
-    """
-
-    @abc.abstractmethod
-    def iterate_versions(self) -> Generator:
-        """Lazily get versions (i.e. not the files themselves, just their version
-        strings), starting with the most recent value and moving backwards.
-
-        :return: Generator yielding version strings
-        """
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def get_specific(
-        self, version: str, from_local: bool = False, force_refresh: bool = False
-    ) -> Path:
-        """Get specified version of data.
-
-        :param from_local: if True, use matching local file, don't try to fetch from remote
-        :param force_refresh: if True, fetch and return data from remote regardless of
-            whether a local copy is present
-        :return: Path to location of data
-        :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
-        """
-        raise NotImplementedError
-
-
-class GitHubDataSource(SpecificVersionDataSource):
+class GitHubDataSource(DataSource):
     """Class for data sources provided via GitHub releases, where versioning is defined
     by release tag names.
 
