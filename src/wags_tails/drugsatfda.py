@@ -1,16 +1,13 @@
 """Provide source fetching for Drugs@FDA."""
 import datetime
-import logging
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
 import requests
 
-from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
-
-from .base_source import DataSource, RemoteDataError
-
-_logger = logging.getLogger(__name__)
+from wags_tails.base_source import DataSource, RemoteDataError
+from wags_tails.download_utils import download_http, handle_zip
+from wags_tails.version_utils import DATE_VERSION_PATTERN
 
 
 class DrugsAtFdaData(DataSource):
@@ -19,14 +16,13 @@ class DrugsAtFdaData(DataSource):
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "drugsatfda" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "drugsatfda"
+        self._filetype = "json"
         super().__init__(data_dir, silent)
 
     @staticmethod
@@ -49,36 +45,15 @@ class DrugsAtFdaData(DataSource):
             DATE_VERSION_PATTERN
         )
 
-    def get_latest(
-        self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[Path, str]:
-        """Get path to latest version of data, and its version value
+    def _download_data(self, version: str, outfile: Path) -> None:
+        """Download data file to specified location.
 
-        :param from_local: if True, use latest available local file
-        :param force_refresh: if True, fetch and return data from remote regardless of
-            whether a local copy is present
-        :return: Path to location of data, and version value of it
-        :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
         """
-        if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
-
-        if from_local:
-            file_path = self._get_latest_local_file("drugsatfda_*.json")
-            return file_path, parse_file_version(file_path, r"drugsatfda_(\d+).json")
-
-        latest_version = self._get_latest_version()
-        latest_url = "https://download.open.fda.gov/drug/drugsfda/drug-drugsfda-0001-of-0001.json.zip"
-        latest_file = self.data_dir / f"drugsatfda_{latest_version}.json"
-        if (not force_refresh) and latest_file.exists():
-            _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
-            )
-            return latest_file, latest_version
-        self._http_download(
-            latest_url,
-            latest_file,
-            handler=self._zip_handler,
+        download_http(
+            "https://download.open.fda.gov/drug/drugsfda/drug-drugsfda-0001-of-0001.json.zip",
+            outfile,
+            handler=handle_zip,
             tqdm_params=self._tqdm_params,
         )
-        return latest_file, latest_version

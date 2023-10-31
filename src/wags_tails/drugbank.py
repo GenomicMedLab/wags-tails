@@ -5,9 +5,9 @@ from typing import Optional, Tuple
 
 import requests
 
+from wags_tails.base_source import DataSource, RemoteDataError
+from wags_tails.download_utils import download_http, handle_zip
 from wags_tails.version_utils import parse_file_version
-
-from .base_source import DataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
 
@@ -18,14 +18,13 @@ class DrugBankData(DataSource):
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "drugbank" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "drugbank"
+        self._filetype = "csv"
         super().__init__(data_dir, silent)
 
     @staticmethod
@@ -67,6 +66,19 @@ class DrugBankData(DataSource):
         _logger.debug(f"Returning {latest[0]} as most recent locally-available file.")
         return latest[0], latest[1]
 
+    def _download_data(self, url: str, outfile: Path) -> None:
+        """Download data file to specified location.
+
+        :param url: location of data to fetch
+        :param outfile: location and filename for final data file
+        """
+        download_http(
+            url,
+            outfile,
+            handler=handle_zip,
+            tqdm_params=self._tqdm_params,
+        )
+
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
     ) -> Tuple[Path, str]:
@@ -93,10 +105,5 @@ class DrugBankData(DataSource):
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
             )
             return latest_file, latest_version
-        self._http_download(
-            latest_url,
-            latest_file,
-            handler=self._zip_handler,
-            tqdm_params=self._tqdm_params,
-        )
+        self._download_data(latest_url, latest_file)
         return latest_file, latest_version

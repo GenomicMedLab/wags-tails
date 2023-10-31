@@ -1,17 +1,14 @@
 """Provide source fetching for ChemIDplus."""
-import logging
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
 import requests
 
-from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
-
-from .base_source import DataSource, RemoteDataError
-
-_logger = logging.getLogger(__name__)
+from wags_tails.base_source import DataSource, RemoteDataError
+from wags_tails.download_utils import download_http
+from wags_tails.version_utils import DATE_VERSION_PATTERN
 
 
 class ChemIDplusData(DataSource):
@@ -20,14 +17,13 @@ class ChemIDplusData(DataSource):
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "chemidplus" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "chemidplus"
+        self._filetype = "xml"
         super().__init__(data_dir, silent)
 
     @staticmethod
@@ -52,34 +48,15 @@ class ChemIDplusData(DataSource):
                 "Unable to parse latest ChemIDplus version number from partial access to latest file"
             )
 
-    def get_latest(
-        self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[Path, str]:
-        """Get path to latest version of data, and its version value
+    def _download_data(self, version: str, outfile: Path) -> None:
+        """Download data file to specified location. ChemIDplus data is no longer
+        updated, so versioning is irrelevant.
 
-        :param from_local: if True, use latest available local file
-        :param force_refresh: if True, fetch and return data from remote regardless of
-            whether a local copy is present
-        :return: Path to location of data, and version value of it
-        :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
         """
-        if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
-
-        if from_local:
-            file_path = self._get_latest_local_file("chemidplus_*.xml")
-            return file_path, parse_file_version(file_path, "chemidplus_(.+).xml")
-
-        latest_version = self._get_latest_version()
-        latest_file = self.data_dir / f"chemidplus_{latest_version}.xml"
-        if (not force_refresh) and latest_file.exists():
-            _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
-            )
-            return latest_file, latest_version
-        self._http_download(
+        download_http(
             "https://ftp.nlm.nih.gov/projects/chemidlease/CurrentChemID.xml",
-            latest_file,
+            outfile,
             tqdm_params=self._tqdm_params,
         )
-        return latest_file, latest_version

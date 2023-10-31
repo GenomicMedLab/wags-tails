@@ -7,9 +7,10 @@ from typing import NamedTuple, Optional, Tuple
 
 import requests
 
+from wags_tails.base_source import DataSource, RemoteDataError
+from wags_tails.download_utils import download_http
+from wags_tails.storage_utils import get_latest_local_file
 from wags_tails.version_utils import parse_file_version
-
-from .base_source import DataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
 
@@ -32,14 +33,13 @@ class HemOncData(DataSource):
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "hemonc" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "hemonc"
+        self._filetype = "csv"
         super().__init__(data_dir, silent)
 
     @staticmethod
@@ -79,6 +79,45 @@ class HemOncData(DataSource):
                         zip_ref.extract(file, path.parent)
         os.remove(dl_path)
 
+    def _download_data(self, version: str, outfile_paths: HemOncPaths) -> None:
+        """Download data file to specified location.
+
+        :param version: version to acquire
+        :param outfile_paths: locations and filenames for final data files
+        """
+        api_key = os.environ.get("HARVARD_DATAVERSE_API_KEY")
+        if api_key is None:
+            raise RemoteDataError(
+                "Must provide Harvard Dataverse API key in environment variable HARVARD_DATAVERSE_API_KEY. "
+                "See: https://guides.dataverse.org/en/latest/user/account.html"
+            )
+        download_http(
+            "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
+            self.data_dir,
+            headers={"X-Dataverse-key": api_key},
+            # provide save_path arg for API consistency, but don't use it
+            handler=lambda dl_path, save_path: self._download_handler(
+                dl_path, outfile_paths
+            ),
+            tqdm_params=self._tqdm_params,
+        )
+
+    def _get_local_files(self) -> Tuple[HemOncPaths, str]:
+        """Acquire locally-available data files.
+
+        :return: HemOnc file paths and their version
+        """
+        concepts_path = get_latest_local_file(self.data_dir, "hemonc_concepts_*.csv")
+        version = parse_file_version(concepts_path, f"{self._src_name}_\\w+_(.*).csv")
+        rels_path = get_latest_local_file(self.data_dir, f"hemonc_rels_{version}.csv")
+        synonyms_path = get_latest_local_file(
+            self.data_dir, f"hemonc_synonyms_{version}.csv"
+        )
+        file_paths = HemOncPaths(
+            concepts=concepts_path, rels=rels_path, synonyms=synonyms_path
+        )
+        return file_paths, version
+
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
     ) -> Tuple[HemOncPaths, str]:
@@ -94,15 +133,7 @@ class HemOncData(DataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            concepts_path = self._get_latest_local_file("hemonc_concepts_*.csv")
-            rels_path = self._get_latest_local_file("hemonc_rels_*.csv")
-            synonyms_path = self._get_latest_local_file("hemonc_synonyms_*.csv")
-            file_paths = HemOncPaths(
-                concepts=concepts_path, rels=rels_path, synonyms=synonyms_path
-            )
-            return file_paths, parse_file_version(
-                concepts_path, f"{self._src_name}_\\w+_(.*).csv"
-            )
+            return self._get_local_files()
 
         latest_version = self._get_latest_version()
         concepts_file = self.data_dir / f"hemonc_concepts_{latest_version}.csv"
@@ -126,20 +157,5 @@ class HemOncData(DataSource):
                 _logger.warning(
                     f"Existing files, {file_paths}, not all available -- attempting full download."
                 )
-        api_key = os.environ.get("HARVARD_DATAVERSE_API_KEY")
-        if api_key is None:
-            raise RemoteDataError(
-                "Must provide Harvard Dataverse API key in environment variable HARVARD_DATAVERSE_API_KEY. "
-                "See: https://guides.dataverse.org/en/latest/user/account.html"
-            )
-        self._http_download(
-            "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
-            self.data_dir,
-            headers={"X-Dataverse-key": api_key},
-            # provide save_path arg for API consistency, but don't use it
-            handler=lambda dl_path, save_path: self._download_handler(
-                dl_path, file_paths
-            ),
-            tqdm_params=self._tqdm_params,
-        )
+        self._download_data(latest_version, file_paths)
         return file_paths, latest_version

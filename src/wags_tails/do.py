@@ -1,17 +1,15 @@
 """Provide source fetching for Human Disease Ontology."""
-import logging
 import os
 import tarfile
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
 import requests
 
 from wags_tails.base_source import GitHubDataSource
-from wags_tails.version_utils import DATE_VERSION_PATTERN, parse_file_version
-
-_logger = logging.getLogger(__name__)
+from wags_tails.download_utils import download_http
+from wags_tails.version_utils import DATE_VERSION_PATTERN
 
 
 class DoData(GitHubDataSource):
@@ -20,14 +18,13 @@ class DoData(GitHubDataSource):
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "do" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "do"
+        self._filetype = "owl"
         self._repo = "DiseaseOntology/HumanDiseaseOntology"
         super().__init__(data_dir, silent)
 
@@ -41,7 +38,8 @@ class DoData(GitHubDataSource):
         with tarfile.open(dl_path, "r:gz") as tar:
             for member in tar.getmembers():
                 if member.name.endswith("src/ontology/doid.owl"):
-                    tar.extract(member, path=outfile_path)
+                    member.name = outfile_path.name
+                    tar.extract(member, path=outfile_path.parent)
         os.remove(dl_path)
 
     def _get_file_from_github_bundle(self, version: str, file_path: Path) -> None:
@@ -58,41 +56,20 @@ class DoData(GitHubDataSource):
         response = requests.get(tag_info_url)
         response.raise_for_status()
         tarball_url = response.json()["tarball_url"]
-        self._http_download(
+        download_http(
             tarball_url,
             file_path,
             handler=self._asset_handler,
             tqdm_params=self._tqdm_params,
         )
 
-    def get_latest(
-        self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[Path, str]:
-        """Get path to latest version of data.
+    def _download_data(self, version: str, outfile: Path) -> None:
+        """Download data file to specified location.
 
-        :param from_local: if True, use latest available local file
-        :param force_refresh: if True, fetch and return data from remote regardless of
-            whether a local copy is present
-        :return: Path to location of data, and version value of it
-        :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
         """
-        if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
-
-        if from_local:
-            local_file = self._get_latest_local_file("do_*.owl")
-            return local_file, parse_file_version(local_file, r"do_(.*).owl")
-
-        latest_version = next(self.iterate_versions())
-        latest_file = self.data_dir / f"do_{latest_version}.owl"
-        if (not force_refresh) and latest_file.exists():
-            _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
-            )
-            return latest_file, latest_version
-        else:
-            self._get_file_from_github_bundle(latest_version, latest_file)
-            return latest_file, latest_version
+        self._get_file_from_github_bundle(version, outfile)
 
     def get_specific(
         self, version: str, from_local: bool = False, force_refresh: bool = False

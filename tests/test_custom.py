@@ -19,9 +19,9 @@ def custom(custom_data_dir: Path):
     """Provide CustomData fixture"""
     return CustomData(
         src_name="custom",
-        file_suffix="db",
+        filetype="db",
         latest_version_cb=lambda: "999",
-        download_cb=lambda path, version: path.touch(),
+        download_cb=lambda version, path: path.touch(),
         data_dir=custom_data_dir,
         silent=True,
     )

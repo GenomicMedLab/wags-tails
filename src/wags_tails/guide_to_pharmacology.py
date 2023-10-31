@@ -6,9 +6,10 @@ from typing import NamedTuple, Optional, Tuple
 
 import requests
 
+from wags_tails.base_source import DataSource, RemoteDataError
+from wags_tails.download_utils import download_http
+from wags_tails.storage_utils import get_latest_local_file
 from wags_tails.version_utils import parse_file_version
-
-from .base_source import DataSource, RemoteDataError
 
 _logger = logging.getLogger(__name__)
 
@@ -26,14 +27,13 @@ class GToPLigandData(DataSource):
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "hemonc" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "guidetopharmacology"
+        self._filetype = "tsv"
         super().__init__(data_dir, silent)
 
     @staticmethod
@@ -57,6 +57,22 @@ class GToPLigandData(DataSource):
                 "Unable to parse latest Guide to Pharmacology version number homepage HTML."
             )
 
+    def _download_data(self, file_paths: GtoPLigandPaths) -> None:
+        """Perform file downloads.
+
+        :param file_paths: locations to save files at
+        """
+        download_http(
+            "https://www.guidetopharmacology.org/DATA/ligands.tsv",
+            file_paths.ligands,
+            tqdm_params=self._tqdm_params,
+        )
+        download_http(
+            "https://www.guidetopharmacology.org/DATA/ligand_id_mapping.tsv",
+            file_paths.ligand_id_mapping,
+            tqdm_params=self._tqdm_params,
+        )
+
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
     ) -> Tuple[GtoPLigandPaths, str]:
@@ -72,9 +88,9 @@ class GToPLigandData(DataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            ligands_path = self._get_latest_local_file("gtop_ligands_*.tsv")
-            ligand_id_mapping_path = self._get_latest_local_file(
-                "gtop_ligand_id_mapping_*.tsv"
+            ligands_path = get_latest_local_file(self.data_dir, "gtop_ligands_*.tsv")
+            ligand_id_mapping_path = get_latest_local_file(
+                self.data_dir, "gtop_ligand_id_mapping_*.tsv"
             )
             file_paths = GtoPLigandPaths(
                 ligands=ligands_path, ligand_id_mapping=ligand_id_mapping_path
@@ -101,21 +117,5 @@ class GToPLigandData(DataSource):
                 _logger.warning(
                     f"Existing files, {file_paths}, not all available -- attempting full download."
                 )
-        self._download_files(file_paths)
+        self._download_data(file_paths)
         return file_paths, latest_version
-
-    def _download_files(self, file_paths: GtoPLigandPaths) -> None:
-        """Perform file downloads.
-
-        :param file_paths: locations to save files at
-        """
-        self._http_download(
-            "https://www.guidetopharmacology.org/DATA/ligands.tsv",
-            file_paths.ligands,
-            tqdm_params=self._tqdm_params,
-        )
-        self._http_download(
-            "https://www.guidetopharmacology.org/DATA/ligand_id_mapping.tsv",
-            file_paths.ligand_id_mapping,
-            tqdm_params=self._tqdm_params,
-        )
