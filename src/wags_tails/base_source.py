@@ -1,14 +1,14 @@
 """Define base data source class."""
 import abc
 import logging
-import os
-import re
-import tempfile
+from datetime import datetime
 from pathlib import Path
-from typing import Callable, Dict, Generator, Optional, Tuple
+from typing import Generator, Optional, Tuple
 
 import requests
-from tqdm import tqdm
+
+from .utils.storage import get_data_dir, get_latest_local_file
+from .utils.versioning import DATE_VERSION_PATTERN, parse_file_version
 
 _logger = logging.getLogger(__name__)
 
@@ -24,30 +24,44 @@ class DataSource(abc.ABC):
 
     # required attributes
     _src_name: str
+    _filetype: str
 
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a source-specific subdirectory within the path at environment
-            variable $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under
-            environment variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         if not data_dir:
-            data_dir = self._get_data_base() / self._src_name
+            data_dir = get_data_dir() / self._src_name
         data_dir.mkdir(exist_ok=True)
-        self._data_dir = data_dir
+        self.data_dir = data_dir
+
         self._tqdm_params = {
+            "disable": silent,
             "unit": "B",
             "ncols": 80,
-            "disable": silent,
             "unit_divisor": 1024,
             "unit_scale": True,
         }
 
     @abc.abstractmethod
+    def _get_latest_version(self) -> str:
+        """Acquire value of latest data version.
+
+        :return: latest version value
+        """
+
+    @abc.abstractmethod
+    def _download_data(self, version: str, outfile: Path) -> None:
+        """Download data file to specified location.
+
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
+        """
+
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
     ) -> Tuple[Path, str]:
@@ -59,116 +73,29 @@ class DataSource(abc.ABC):
         :return: Path to location of data, and version value of it
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
-        raise NotImplementedError
+        if force_refresh and from_local:
+            raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
-    ### shared utilities
+        if from_local:
+            file_path = get_latest_local_file(
+                self.data_dir, f"{self._src_name}_*.{self._filetype}"
+            )
+            version = parse_file_version(
+                file_path, f"{self._src_name}_(.+).{self._filetype}"
+            )
+            return file_path, version
 
-    def _parse_file_version(self, file_path: Path) -> str:
-        """Extract data version from file.
-
-        :return: version value
-        :raise ValueError: if unable to parse version from file
-        """
-        pattern = re.compile(f"{self._src_name}_(.*)\\..*")
-        match = re.match(pattern, file_path.name)
-        if match and match.groups():
-            return match.groups()[0]
-        else:
-            raise ValueError(f"Unable to parse version from {file_path.absolute()}")
-
-    @staticmethod
-    def _get_data_base() -> Path:
-        """Get base data storage location.
-
-        By default, conform to `XDG Base Directory Specification <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_,
-        unless a directory is specified otherwise:
-
-        1) check env var ``"WAGS_TAILS_DIR"``
-        2) check env var ``"XDG_DATA_HOME"``
-        3) check env var ``"XDG_DATA_DIRS"`` for a colon-separated list, skipping any
-            that can't be used (i.e. they're already a file)
-        4) otherwise, use ``~/.local/share/``
-
-        :return: path to base data directory
-        """
-        spec_wagstails_dir = os.environ.get("WAGS_TAILS_DIR")
-        if spec_wagstails_dir:
-            data_base_dir = Path(spec_wagstails_dir)
-        else:
-            xdg_data_home = os.environ.get("XDG_DATA_HOME")
-            if xdg_data_home:
-                data_base_dir = Path(xdg_data_home) / "wags_tails"
-            else:
-                xdg_data_dirs = os.environ.get("XDG_DATA_DIRS")
-                if xdg_data_dirs:
-                    dirs = os.environ["XDG_DATA_DIRS"].split(":")
-                    for dir in dirs:
-                        dir_path = Path(dir) / "wags_tails"
-                        if not dir_path.is_file():
-                            data_base_dir = dir_path
-                            break
-                    else:
-                        data_base_dir = Path.home() / ".local" / "share" / "wags_tails"
-                else:
-                    data_base_dir = Path.home() / ".local" / "share" / "wags_tails"
-
-        data_base_dir.mkdir(exist_ok=True, parents=True)
-        return data_base_dir
-
-    def _http_download(
-        self,
-        url: str,
-        outfile_path: Path,
-        headers: Optional[Dict] = None,
-        handler: Optional[Callable[[Path, Path], None]] = None,
-    ) -> None:
-        """Perform HTTP download of remote data file.
-
-        :param url: URL to retrieve file from
-        :param outfile_path: path to where file should be saved. Must be an actual
-            Path instance rather than merely a pathlike string.
-        :param headers: Any needed HTTP headers to include in request
-        :param handler: provide if downloaded file requires additional action, e.g.
-            it's a zip file.
-        """
-        _logger.info(f"Downloading {outfile_path.name} from {url}...")
-        if handler:
-            dl_path = Path(tempfile.gettempdir()) / "wags_tails_tmp"
-        else:
-            dl_path = outfile_path
-        # use stream to avoid saving download completely to memory
-        with requests.get(url, stream=True, headers=headers) as r:
-            r.raise_for_status()
-            total_size = int(r.headers.get("content-length", 0))
-            with open(dl_path, "wb") as h:
-                if not self._tqdm_params["disable"]:
-                    print(f"Downloading {os.path.basename(url)}")
-                with tqdm(
-                    total=total_size,
-                    **self._tqdm_params,
-                ) as progress_bar:
-                    for chunk in r.iter_content(chunk_size=8192):
-                        if chunk:
-                            h.write(chunk)
-                            progress_bar.update(len(chunk))
-        if handler:
-            handler(dl_path, outfile_path)
-        _logger.info(f"Successfully downloaded {outfile_path.name}.")
-
-    def _get_latest_local_file(self, glob: str) -> Path:
-        """Get most recent locally-available file.
-
-        :param glob: file pattern to match against
-        :return: Path to most recent file
-        :raise FileNotFoundError: if no local data is available
-        """
-        _logger.debug(f"Getting local match against pattern {glob}...")
-        files = list(sorted(self._data_dir.glob(glob)))
-        if len(files) < 1:
-            raise FileNotFoundError(f"No source data found for {self._src_name}")
-        latest = files[-1]
-        _logger.debug(f"Returning {latest} as most recent locally-available file.")
-        return latest
+        latest_version = self._get_latest_version()
+        latest_file = (
+            self.data_dir / f"{self._src_name}_{latest_version}.{self._filetype}"
+        )
+        if (not force_refresh) and latest_file.exists():
+            _logger.debug(
+                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
+            )
+            return latest_file, latest_version
+        self._download_data(latest_version, latest_file)
+        return latest_file, latest_version
 
 
 class SpecificVersionDataSource(DataSource):
@@ -229,4 +156,14 @@ class GitHubDataSource(SpecificVersionDataSource):
         response.raise_for_status()
         data = response.json()
         for release in data:
-            yield release["tag_name"]
+            yield datetime.strptime(release["tag_name"], "v%Y-%m-%d").strftime(
+                DATE_VERSION_PATTERN
+            )
+
+    def _get_latest_version(self) -> str:
+        """Acquire value of latest data version.
+
+        :return: latest version value
+        """
+        v = self.iterate_versions()
+        return next(v)

@@ -1,11 +1,15 @@
 """Provide source fetching for Mondo Disease Ontology."""
 import logging
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple
 
 import requests
 
 from .base_source import GitHubDataSource, RemoteDataError
+from .utils.downloads import download_http
+from .utils.storage import get_latest_local_file
+from .utils.versioning import DATE_VERSION_PATTERN, parse_file_version
 
 _logger = logging.getLogger(__name__)
 
@@ -16,11 +20,9 @@ class MondoData(GitHubDataSource):
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
         """Set common class parameters.
 
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "mondo" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
+        :param data_dir: direct location to store data files in, if specified. See
+            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
+            details.
         :param silent: if True, don't print any info/updates to console
         """
         self._src_name = "mondo"
@@ -41,7 +43,10 @@ class MondoData(GitHubDataSource):
         response = requests.get(latest_url)
         response.raise_for_status()
         data = response.json()
-        version = data["tag_name"]
+        raw_version = data["tag_name"]
+        version = datetime.strptime(raw_version, "v%Y-%m-%d").strftime(
+            DATE_VERSION_PATTERN
+        )
 
         assets = data["assets"]
         url = None
@@ -54,10 +59,26 @@ class MondoData(GitHubDataSource):
                 f"Unable to retrieve mondo.owl under release {version}"
             )
 
+    def _download_data(self, version: str, outfile: Path) -> None:
+        """Download data file to specified location.
+
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
+        """
+        formatted_version = datetime.strptime(version, DATE_VERSION_PATTERN).strftime(
+            "v%Y-%m-%d"
+        )
+        download_http(
+            f"https://github.com/monarch-initiative/mondo/releases/download/{formatted_version}/mondo.owl",
+            outfile,
+            tqdm_params=self._tqdm_params,
+        )
+
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
     ) -> Tuple[Path, str]:
-        """Get path to latest version of data.
+        """Get path to latest version of data. Overwrite inherited method because
+        final downloads depend on information gleaned from the version API call.
 
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
@@ -69,18 +90,18 @@ class MondoData(GitHubDataSource):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            local_file = self._get_latest_local_file("mondo_*.owl")
-            return local_file, self._parse_file_version(local_file)
+            local_file = get_latest_local_file(self.data_dir, "mondo_*.owl")
+            return local_file, parse_file_version(local_file, r"mondo_(.*).owl")
 
         latest_version, data_url = self._get_latest_version()
-        latest_file = self._data_dir / f"mondo_{latest_version}.owl"
+        latest_file = self.data_dir / f"mondo_{latest_version}.owl"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
                 f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
             )
             return latest_file, latest_version
         else:
-            self._http_download(data_url, latest_file)  # type: ignore
+            download_http(data_url, latest_file, tqdm_params=self._tqdm_params)
             return latest_file, latest_version
 
     def get_specific(
@@ -98,7 +119,7 @@ class MondoData(GitHubDataSource):
         if force_refresh and from_local:
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
-        local_file = self._data_dir / f"mondo_{version}.owl"
+        local_file = self.data_dir / f"mondo_{version}.owl"
         if from_local:
             if local_file.exists():
                 return local_file
@@ -108,8 +129,5 @@ class MondoData(GitHubDataSource):
         if (not force_refresh) and local_file.exists():
             return local_file
         else:
-            self._http_download(
-                f"https://github.com/monarch-initiative/mondo/releases/download/{version}/mondo.owl",
-                local_file,
-            )
+            self._download_data(version, local_file)
             return local_file

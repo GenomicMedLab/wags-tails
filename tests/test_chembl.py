@@ -62,6 +62,7 @@ def test_get_latest(
         assert path == chembl_data_dir / "chembl_33.db"
         assert path.exists()
         assert version == "33"
+        assert m.call_count == 2
 
         path, version = chembl.get_latest()
         assert path == chembl_data_dir / "chembl_33.db"
