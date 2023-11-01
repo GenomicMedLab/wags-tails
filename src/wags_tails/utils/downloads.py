@@ -17,8 +17,8 @@ def handle_zip(dl_path: Path, outfile_path: Path) -> None:
     """Provide simple callback function to extract the largest file within a given
     zipfile and save it within the appropriate data directory.
 
-    :param Path dl_path: path to temp data file
-    :param Path outfile_path: path to save file within
+    :param dl_path: path to temp data file
+    :param outfile_path: path to save file within
     """
     with zipfile.ZipFile(dl_path, "r") as zip_ref:
         if len(zip_ref.filelist) > 1:
@@ -46,6 +46,7 @@ def download_http(
     :param headers: Any needed HTTP headers to include in request
     :param handler: provide if downloaded file requires additional action, e.g.
         it's a zip file.
+    :param tqdm_params: Optional TQDM configuration.
     """
     if not tqdm_params:
         tqdm_params = {}
@@ -60,12 +61,12 @@ def download_http(
         total_size = int(r.headers.get("content-length", 0))
         with open(dl_path, "wb") as h:
             if not tqdm_params["disable"]:
-                if "apiKey" in url:
+                if "apiKey" in url:  # don't print RxNorm API key
                     pattern = r"&apiKey=.{8}-.{4}-.{4}-.{4}-.{12}"
                     print_url = re.sub(pattern, "", os.path.basename(url))
-                    print(f"Downloading {print_url}")
+                    print(f"Downloading {print_url}...")
                 else:
-                    print(f"Downloading {os.path.basename(url)}")
+                    print(f"Downloading {os.path.basename(url)}...")
             with tqdm(
                 total=total_size,
                 **tqdm_params,

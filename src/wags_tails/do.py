@@ -3,7 +3,6 @@ import os
 import tarfile
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 import requests
 
@@ -15,18 +14,9 @@ from .utils.versioning import DATE_VERSION_PATTERN
 class DoData(GitHubDataSource):
     """Provide access to human disease ontology data."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in, if specified. See
-            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
-            details.
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "do"
-        self._filetype = "owl"
-        self._repo = "DiseaseOntology/HumanDiseaseOntology"
-        super().__init__(data_dir, silent)
+    _src_name = "do"
+    _filetype = "owl"
+    _repo = "DiseaseOntology/HumanDiseaseOntology"
 
     @staticmethod
     def _asset_handler(dl_path: Path, outfile_path: Path) -> None:
