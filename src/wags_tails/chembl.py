@@ -1,33 +1,20 @@
 """Provide source fetching for ChEMBL."""
 import fnmatch
-import logging
 import re
 import tarfile
 from pathlib import Path
-from typing import Optional, Tuple
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-
-_logger = logging.getLogger(__name__)
+from .utils.downloads import download_http
 
 
 class ChemblData(DataSource):
     """Provide access to ChEMBL database."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "chembl" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "chembl"
-        super().__init__(data_dir, silent)
+    _src_name = "chembl"
+    _filetype = "db"
 
     @staticmethod
     def _get_latest_version() -> str:
@@ -54,7 +41,7 @@ class ChemblData(DataSource):
             )
 
     @staticmethod
-    def _open_tarball(dl_path: Path, outfile_path: Path) -> None:
+    def _tarball_handler(dl_path: Path, outfile_path: Path) -> None:
         """Get ChEMBL file from tarball. Callback to pass to download methods.
 
         :param dl_path: path to temp data file
@@ -66,34 +53,15 @@ class ChemblData(DataSource):
                     file.name = outfile_path.name
                     tar.extract(file, path=outfile_path.parent)
 
-    def get_latest(
-        self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[Path, str]:
-        """Get path to latest version of data.
+    def _download_data(self, version: str, outfile: Path) -> None:
+        """Download data file to specified location.
 
-        :param from_local: if True, use latest available local file
-        :param force_refresh: if True, fetch and return data from remote regardless of
-            whether a local copy is present
-        :return: Path to location of data, and version value of it
-        :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
         """
-        if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
-
-        if from_local:
-            file_path = self._get_latest_local_file("chembl_*.db")
-            return file_path, self._parse_file_version(file_path)
-
-        latest_version = self._get_latest_version()
-        latest_file = self._data_dir / f"chembl_{latest_version}.db"
-        if (not force_refresh) and latest_file.exists():
-            _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
-            )
-            return latest_file, latest_version
-        self._http_download(
-            f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{latest_version}_sqlite.tar.gz",
-            latest_file,
-            handler=self._open_tarball,
+        download_http(
+            f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{version}_sqlite.tar.gz",
+            outfile,
+            handler=self._tarball_handler,
+            tqdm_params=self._tqdm_params,
         )
-        return latest_file, latest_version

@@ -1,0 +1,41 @@
+{
+  "url": "https://api.github.com/repos/DiseaseOntology/HumanDiseaseOntology/releases/126122443",
+  "assets_url": "https://api.github.com/repos/DiseaseOntology/HumanDiseaseOntology/releases/126122443/assets",
+  "upload_url": "https://uploads.github.com/repos/DiseaseOntology/HumanDiseaseOntology/releases/126122443/assets{?name,label}",
+  "html_url": "https://github.com/DiseaseOntology/HumanDiseaseOntology/releases/tag/v2023-10-21",
+  "id": 126122443,
+  "author": {
+    "login": "lschriml",
+    "id": 4333069,
+    "node_id": "MDQ6VXNlcjQzMzMwNjk=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/4333069?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/lschriml",
+    "html_url": "https://github.com/lschriml",
+    "followers_url": "https://api.github.com/users/lschriml/followers",
+    "following_url": "https://api.github.com/users/lschriml/following{/other_user}",
+    "gists_url": "https://api.github.com/users/lschriml/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/lschriml/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/lschriml/subscriptions",
+    "organizations_url": "https://api.github.com/users/lschriml/orgs",
+    "repos_url": "https://api.github.com/users/lschriml/repos",
+    "events_url": "https://api.github.com/users/lschriml/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/lschriml/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "node_id": "RE_kwDOApA9Xc4HhHnL",
+  "tag_name": "v2023-10-21",
+  "target_commitish": "main",
+  "name": "DO's mid October 2023 release",
+  "draft": false,
+  "prerelease": false,
+  "created_at": "2023-10-21T17:30:29Z",
+  "published_at": "2023-10-21T17:40:13Z",
+  "assets": [
+
+  ],
+  "tarball_url": "https://api.github.com/repos/DiseaseOntology/HumanDiseaseOntology/tarball/v2023-10-21",
+  "zipball_url": "https://api.github.com/repos/DiseaseOntology/HumanDiseaseOntology/zipball/v2023-10-21",
+  "body": "This DO release includes 11,386 diseases, 8,276 SubClassOf and 726 EQ axioms. This release includes the addition of 13 disease terms, 19  definitions, 25 SubClassOf axioms and 1 EQ axiom. New and revised content includes: added synonyms for autosomal recessive spinocerebellar ataxia; the addition of autosomal recessive spinocerebellar ataxia, amyotrophic lateral sclerosis subtypes; revised classifications for schwannomatosis and neurofibromatosis, rhabdomyosarcoma,;the addition of new disease terms: Legius syndrome and Watson syndrome, diphthamide deficiency syndrome and subtypes, renal medullary carcinoma; augmentation of the DO_cancer_slim, updated nomenclature for thyroid cancer and a revised NCIthesaurus slim, produced programmatically based on NCI xrefs or skis mappings. "
+}
