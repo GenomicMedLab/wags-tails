@@ -1,13 +1,13 @@
 """Provide source fetching for DrugBank."""
 import logging
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Tuple
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .core_utils.downloads import download_http, handle_zip
-from .core_utils.versioning import parse_file_version
+from .utils.downloads import download_http, handle_zip
+from .utils.versioning import parse_file_version
 
 _logger = logging.getLogger(__name__)
 
@@ -15,17 +15,8 @@ _logger = logging.getLogger(__name__)
 class DrugBankData(DataSource):
     """Provide access to DrugBank database."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in, if specified. See
-            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
-            details.
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "drugbank"
-        self._filetype = "csv"
-        super().__init__(data_dir, silent)
+    _src_name = "drugbank"
+    _filetype = "csv"
 
     @staticmethod
     def _get_latest_version() -> Tuple[str, str]:

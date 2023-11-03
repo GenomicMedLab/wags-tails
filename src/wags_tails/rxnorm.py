@@ -4,13 +4,12 @@ import logging
 import os
 import zipfile
 from pathlib import Path
-from typing import Optional
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .core_utils.downloads import download_http
-from .core_utils.versioning import DATE_VERSION_PATTERN
+from .utils.downloads import download_http
+from .utils.versioning import DATE_VERSION_PATTERN
 
 _logger = logging.getLogger(__name__)
 
@@ -18,17 +17,8 @@ _logger = logging.getLogger(__name__)
 class RxNormData(DataSource):
     """Provide access to RxNorm database."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in, if specified. See
-            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
-            details.
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "rxnorm"
-        self._filetype = "RRF"
-        super().__init__(data_dir, silent)
+    _src_name = "rxnorm"
+    _filetype = "RRF"
 
     @staticmethod
     def _get_latest_version() -> str:

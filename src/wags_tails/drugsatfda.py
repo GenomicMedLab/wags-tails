@@ -1,29 +1,19 @@
 """Provide source fetching for Drugs@FDA."""
 import datetime
 from pathlib import Path
-from typing import Optional
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .core_utils.downloads import download_http, handle_zip
-from .core_utils.versioning import DATE_VERSION_PATTERN
+from .utils.downloads import download_http, handle_zip
+from .utils.versioning import DATE_VERSION_PATTERN
 
 
 class DrugsAtFdaData(DataSource):
     """Provide access to Drugs@FDA database."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in, if specified. See
-            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
-            details.
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "drugsatfda"
-        self._filetype = "json"
-        super().__init__(data_dir, silent)
+    _src_name = "drugsatfda"
+    _filetype = "json"
 
     @staticmethod
     def _get_latest_version() -> str:
@@ -46,7 +36,7 @@ class DrugsAtFdaData(DataSource):
         )
 
     def _download_data(self, version: str, outfile: Path) -> None:
-        """Download data file to specified location.
+        """Download latest data file to specified location.
 
         :param version: version to acquire
         :param outfile: location and filename for final data file

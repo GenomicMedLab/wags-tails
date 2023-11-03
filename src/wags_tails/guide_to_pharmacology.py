@@ -2,14 +2,14 @@
 import logging
 import re
 from pathlib import Path
-from typing import NamedTuple, Optional, Tuple
+from typing import NamedTuple, Tuple
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .core_utils.downloads import download_http
-from .core_utils.storage import get_latest_local_file
-from .core_utils.versioning import parse_file_version
+from .utils.downloads import download_http
+from .utils.storage import get_latest_local_file
+from .utils.versioning import parse_file_version
 
 _logger = logging.getLogger(__name__)
 
@@ -24,17 +24,8 @@ class GtoPLigandPaths(NamedTuple):
 class GToPLigandData(DataSource):
     """Provide access to Guide to Pharmacology data."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in, if specified. See
-            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
-            details.
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "guidetopharmacology"
-        self._filetype = "tsv"
-        super().__init__(data_dir, silent)
+    _src_name = "guidetopharmacology"
+    _filetype = "tsv"
 
     @staticmethod
     def _get_latest_version() -> str:
