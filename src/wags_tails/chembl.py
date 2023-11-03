@@ -3,28 +3,18 @@ import fnmatch
 import re
 import tarfile
 from pathlib import Path
-from typing import Optional
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .core_utils.downloads import download_http
+from .utils.downloads import download_http
 
 
 class ChemblData(DataSource):
     """Provide access to ChEMBL database."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in, if specified. See
-            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
-            details.
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "chembl"
-        self._filetype = "db"
-        super().__init__(data_dir, silent)
+    _src_name = "chembl"
+    _filetype = "db"
 
     @staticmethod
     def _get_latest_version() -> str:

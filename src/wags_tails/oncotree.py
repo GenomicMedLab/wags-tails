@@ -1,34 +1,19 @@
 """Provide access to Oncotree data."""
-import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .core_utils.downloads import download_http
-from .core_utils.versioning import DATE_VERSION_PATTERN
-
-_logger = logging.getLogger(__name__)
+from .utils.downloads import download_http
+from .utils.versioning import DATE_VERSION_PATTERN
 
 
 class OncoTreeData(DataSource):
     """Provide access to OncoTree data."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in. If not provided, tries
-            to find a "oncotree" subdirectory within the path at environment variable
-            $WAGS_TAILS_DIR, or within a "wags_tails" subdirectory under environment
-            variables $XDG_DATA_HOME or $XDG_DATA_DIRS, or finally, at
-            ``~/.local/share/``
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "oncotree"
-        self._filetype = "json"
-        super().__init__(data_dir, silent)
+    _src_name = "oncotree"
+    _filetype = "json"
 
     def _get_latest_version(self) -> str:
         """Retrieve latest version value

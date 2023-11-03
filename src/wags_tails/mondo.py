@@ -2,14 +2,14 @@
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Tuple
 
 import requests
 
 from .base_source import GitHubDataSource, RemoteDataError
-from .core_utils.downloads import download_http
-from .core_utils.storage import get_latest_local_file
-from .core_utils.versioning import DATE_VERSION_PATTERN, parse_file_version
+from .utils.downloads import download_http
+from .utils.storage import get_latest_local_file
+from .utils.versioning import DATE_VERSION_PATTERN, parse_file_version
 
 _logger = logging.getLogger(__name__)
 
@@ -17,17 +17,9 @@ _logger = logging.getLogger(__name__)
 class MondoData(GitHubDataSource):
     """Provide access to Mondo disease ontology data."""
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = False) -> None:
-        """Set common class parameters.
-
-        :param data_dir: direct location to store data files in, if specified. See
-            ``get_data_dir()`` in the ``storage_utils`` module for further configuration
-            details.
-        :param silent: if True, don't print any info/updates to console
-        """
-        self._src_name = "mondo"
-        self._repo = "monarch-initiative/mondo"
-        super().__init__(data_dir, silent)
+    _src_name = "mondo"
+    _filetype = "owl"
+    _repo = "monarch-initiative/mondo"
 
     @staticmethod
     def _get_latest_version() -> Tuple[str, str]:
