@@ -38,7 +38,7 @@ def chembl_file(fixture_dir):
 
 def test_get_latest(
     chembl: ChemblData,
-    chembl_data_dir,
+    chembl_data_dir: Path,
     chembl_latest_readme: str,
     chembl_file: TextIOWrapper,
 ):

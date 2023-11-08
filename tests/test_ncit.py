@@ -38,7 +38,7 @@ def versions_response(fixture_dir):
 
 def test_get_latest(
     ncit: NcitData,
-    ncit_data_dir,
+    ncit_data_dir: Path,
     versions_response: str,
     ncit_file: TextIOWrapper,
 ):

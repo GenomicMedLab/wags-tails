@@ -39,7 +39,7 @@ def versions_response(fixture_dir):
 
 def test_get_latest(
     drugbank: DrugBankData,
-    drugbank_data_dir,
+    drugbank_data_dir: Path,
     versions_response: Dict,
     drugbank_file: str,
 ):

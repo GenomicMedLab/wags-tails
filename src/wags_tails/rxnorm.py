@@ -15,7 +15,11 @@ _logger = logging.getLogger(__name__)
 
 
 class RxNormData(DataSource):
-    """Provide access to RxNorm database."""
+    """Provide access to RxNorm database.
+
+    Requires environment variable ``UMLS_API_KEY`` to be available. Will raise
+    RemoteDataError otherwise.
+    """
 
     _src_name = "rxnorm"
     _filetype = "RRF"
@@ -64,7 +68,7 @@ class RxNormData(DataSource):
 
         :param version: version of RxNorm to download
         :param file_path: path to save file to
-        :raises DownloadException: if API Key is not defined in the environment.
+        :raises RemoteDataError: if API Key is not defined in the environment.
         """
         api_key = os.environ.get("UMLS_API_KEY")
         if api_key is None:

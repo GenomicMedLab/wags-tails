@@ -39,7 +39,7 @@ def drugsatfda_file(fixture_dir):
 
 def test_get_latest(
     drugsatfda: DrugsAtFdaData,
-    drugsatfda_data_dir,
+    drugsatfda_data_dir: Path,
     latest_release_response: Dict,
     drugsatfda_file: str,
 ):
