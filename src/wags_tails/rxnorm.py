@@ -48,8 +48,8 @@ class RxNormData(DataSource):
         """Provide simple callback function to extract the largest file within a given
         zipfile and save it within the appropriate data directory.
 
-        :param Path dl_path: path to temp data file
-        :param Path outfile_path: path to save file within
+        :param dl_path: path to temp data file
+        :param outfile_path: path to save file within
         :raise RemoteDataError: if unable to locate RRF file
         """
         with zipfile.ZipFile(dl_path, "r") as zip_ref:
