@@ -4,7 +4,6 @@ import os
 import re
 import tempfile
 import zipfile
-from ftplib import FTP
 from pathlib import Path
 from typing import Callable, Dict, Optional
 
@@ -30,22 +29,6 @@ def handle_zip(dl_path: Path, outfile_path: Path) -> None:
         target.filename = outfile_path.name
         zip_ref.extract(target, path=outfile_path.parent)
     os.remove(dl_path)
-
-
-def download_ftp(host: str, file_dir: str, file_name: str, outfile: Path) -> None:
-    """Perform FTP download of remote data file.
-
-    :param host: FTP server hostname
-    :param file_dir: directory path to file
-    :param file_name: name of file on server
-    :param outfile: location to save file to
-    """
-    with FTP(host) as ftp:
-        ftp.login()
-        ftp.cwd(file_dir)
-        with open(outfile, "wb") as fp:
-            # TODO tqdm this
-            ftp.retrbinary(f"RETR {file_name}", fp.write)
 
 
 def download_http(
