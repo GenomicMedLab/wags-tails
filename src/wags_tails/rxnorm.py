@@ -71,10 +71,11 @@ class RxNormData(DataSource):
         :raises RemoteDataError: if API Key is not defined in the environment.
         """
         api_key = os.environ.get("UMLS_API_KEY")
-        if api_key is None:
-            _logger.error("Could not find `UMLS_API_KEY` in environment variables.")
-            raise RemoteDataError("`UMLS_API_KEY` not found.")
-
+        if not api_key:
+            raise RemoteDataError(
+                "Must provide UMLS API key in environment variable UMLS_API_KEY. "
+                "See: https://documentation.uts.nlm.nih.gov/rest/authentication.html"
+            )
         fmt_version = datetime.datetime.strptime(
             version, DATE_VERSION_PATTERN
         ).strftime("%m%d%Y")

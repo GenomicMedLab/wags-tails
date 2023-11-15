@@ -55,7 +55,7 @@ def get_latest_local_file(dir: Path, glob: str) -> Path:
     """
     _logger.debug(f"Getting local match against pattern {glob}...")
     files = list(sorted(dir.glob(glob)))
-    if len(files) < 1:
+    if not files:
         raise FileNotFoundError(
             f"Unable to find file in {dir.absolute()} matching pattern {glob}"
         )

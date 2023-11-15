@@ -51,7 +51,7 @@ class DrugBankData(DataSource):
             formatted_version = [int(digits) for digits in version.split(".")]
             file_version_pairs.append((file, version, formatted_version))
         files = list(sorted(file_version_pairs, key=lambda p: p[2]))
-        if len(files) < 1:
+        if not files:
             raise FileNotFoundError("No source data found for DrugBank")
         latest = files[-1]
         _logger.debug(f"Returning {latest[0]} as most recent locally-available file.")

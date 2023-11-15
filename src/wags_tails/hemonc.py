@@ -77,7 +77,7 @@ class HemOncData(DataSource):
         :param outfile_paths: locations and filenames for final data files
         """
         api_key = os.environ.get("HARVARD_DATAVERSE_API_KEY")
-        if api_key is None:
+        if not api_key:
             raise RemoteDataError(
                 "Must provide Harvard Dataverse API key in environment variable HARVARD_DATAVERSE_API_KEY. "
                 "See: https://guides.dataverse.org/en/latest/user/account.html"
