@@ -1,6 +1,5 @@
 """Provide source fetching for RxNorm."""
 import datetime
-import logging
 import os
 import zipfile
 from pathlib import Path
@@ -10,8 +9,6 @@ import requests
 from .base_source import DataSource, RemoteDataError
 from .utils.downloads import download_http
 from .utils.versioning import DATE_VERSION_PATTERN
-
-_logger = logging.getLogger(__name__)
 
 
 class RxNormData(DataSource):
