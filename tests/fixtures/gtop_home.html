@@ -1,0 +1,874 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="https://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+
+         <script src="js/jquery.min.js"></script>
+ <script src="js/jquery-ui.min.js"></script>
+ <script src="js/jquery.cookie.js" type="text/javascript"></script>
+ <script src="js/jquery.cookiecuttr.js" type="text/javascript"></script>
+ <script src="js/cookie_tracking.js" type="text/javascript">
+<script>
+// Define dataLayer and the gtag function.
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+
+// Default ad_storage to 'denied' as a placeholder
+// Determine actual values based on your own requirements
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'analytics_storage': 'denied'
+});
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2BNY8HSKW5"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2BNY8HSKW5');
+  // gtag('event', eventName, eventParameters);
+</script>
+
+<script>
+
+   if (jQuery.cookie('cc_cookie_decline') == "cc_cookie_decline") {
+   // do nothing
+   }
+   else {
+   gtag('consent', 'update', {
+      'analytics_storage': 'granted'
+    });
+    }
+</script>
+
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2MLL4P');</script>
+<!-- End Google Tag Manager -->
+
+
+
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Home | IUPHAR/BPS Guide to PHARMACOLOGY</title>
+        <meta name="description" content="The IUPHAR/BPS Guide to PHARMACOLOGY. An expert-driven guide to pharmacological targets with quantitative information on the prescription medicines and experimental dugs that act on them. Developed as a joint initiative of the International Union of Basic and Clinical Pharmacology (IUPHAR) and the British Pharmacological Society (BPS) and is now the new home of the IUPHAR Database (IUPHAR-DB)."/>
+
+        <link rel="stylesheet" type="text/css" href="css/iuphar.css" />
+        <link rel="stylesheet" type="text/css" href="css/grac.css" />
+        <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" media="screen" href="superfish/css/superfish.css" />
+        <link rel="stylesheet" href="css/cookiecuttr.css"/>
+        <link rel="stylesheet" href="css/text.css" />
+        <link rel="stylesheet" href="css/960.css" />
+        <link rel="stylesheet" href="css/graceq.css" />
+        <link rel="stylesheet" href="css/jquery-ui.min.css"/>
+
+        <link rel="shortcut icon" type="image/png" href="images/gtopdb_square_white.png"/>
+        <script type="text/javascript" src="js/common.js"></script>
+
+        <script src="js/autocomplete.categories.js"></script>
+        <script src="superfish/js/hoverIntent.js"></script>
+        <script src="superfish/js/superfish.js"></script>
+        <script src="superfish/js/supersubs.js"></script>
+        <style>
+            /* this overwrites the spacing of the news feed items*/
+            #fw-feed-items .fw-feed-item{
+                padding:10px 0px !important;
+            }
+        </style>
+
+        <script>
+            $(document).ready(function(){
+                $("ul.sf-menu").supersubs({
+                    minWidth:    12,   // minimum width of sub-menus in em units
+                    maxWidth:    27,   // maximum width of sub-menus in em units
+                    extraWidth:  1     // extra width can ensure lines don't sometimes turn over
+                                       // due to slight rounding differences and font-family
+                }).superfish();  // call supersubs first, then superfish, so that subs are
+                                 // not display:none when measuring. Call before initialising
+                                 // containing tabs for same reason.
+            });
+        </script>
+        <script language="javascript" type="text/javascript" src="js/jquery.equalheights.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+                $(".row1").equalHeights(177);
+        });
+        $(document).ready(function() {
+                $(".row2").equalHeights(277);
+        });
+        $(document).ready(function() {
+                $(".row3").equalHeights(177);
+        });
+        $(document).ready(function() {
+                $(".row4").equalHeights(331);
+        });
+        $(document).ready(function() {
+                $(".rowA").equalHeights(150);
+        });
+        $(document).ready(function() {
+                $(".rowB").equalHeights(350);
+        });
+        </script>
+
+        <!--<script src="js/GA_tracking.js" type="text/javascript"></script>-->
+
+
+        <link rel="stylesheet" href="js/bootstrap-tour-0.12.0/build/css/bootstrap-tour-standalone.css">
+        <link rel="stylesheet" href="js/bootstrap-tour-0.12.0/build/css/bootstrap-tour-standalone.min.css">
+
+         <script src="js/bootstrap-tour-0.12.0/build/js/bootstrap-tour-standalone.js"></script>
+         <script src="js/bootstrap-tour-0.12.0/build/js/bootstrap-tour-standalone.min.js"></script>
+         <script>
+            var tour = new Tour({
+                storage: false,
+                backdrop: true
+            });
+
+
+            tour.addSteps([{
+
+                        element: ".menu_guide",
+                        title: "Navigation",
+                        content: "Explore the drop-down menus to browse protein target, ligand and disease Data. Find help, tutorials and downloads are under the resources tab."
+                    },
+                    {
+                        element: ".search_guide",
+                        title: "Search GtoPdb",
+                        content: "Search the Guide to Pharmacology database here. Predicitive text can suggest targets, target families and ligands."
+                    },
+                    {
+                        element: ".advsearch_guide",
+                        title: "Advanced Search",
+                        content: "Use our advanced search tools to search via text, identifiers, literature and sequence. Search ligands by chemical structure, including via ChemAxonMarvinJS sketch tool."
+                    },
+                    {
+                        element: ".quicklinks_guide",
+                        title: "Quick Links",
+                        content: "Quick navigating links to target classes and ligand categories, and to key website resources."
+                    },
+                    {
+                        element: ".menu_guide2",
+                        title: "Downloads",
+                        content: "Access GtoPdb data downloads and reports."
+                    },
+
+
+                    {
+                        element: ".covid_guide",
+                        title: "Pharmacology of Covid-19",
+                        content: "View our key information on many of the pharmacological strategies being considered to treat COVID-19."
+                    },
+                    {
+                        element: ".ligact_guide",
+                        title: "Ligand Activity Charts",
+                        content: "A guide to using the GtoPdb Ligand Activity Charts that are designed to quickly summarise pharmacological information, across species, where these data exist for ligands in GtoPdb and ChEMBL."
+                    },
+                    {
+                        element: ".wcp2023",
+                        title: "WCP 2023",
+                        content: "The 19th World Congress of Basic and Clinical Pharmacology (WCP 2023) is being held from 2 – 7 July 2023, welcoming the world’s pharmacology and therapeutics community to Glasgow, Scotland"
+                    },
+
+                    {
+                        element: ".gtip_guide",
+                        title: "Guide to Immunopharmacology",
+                        content: "Explore the Guide to Immunopharmacolgoy portal - a unique immunological access-point to the Guide to Pharmacology"
+                    },
+                    {
+                        element: ".gtmp_guide",
+                        title: "Guide to Malaria Pharmacology",
+                        content: "Explore the Guide to Malaria Pharmacolgoy portal - optimised access for the malaria research community"
+                    },
+                    {
+                        element: ".news_guide",
+                        title: "Latest News and Hot Topics",
+                        content: "News feed from our blog (blog.guidetopharmacology.org) and links to hot topics in pharmacology."
+                    },
+                    {
+                        element: ".cgtp_guide",
+                        title: "Concise Guide to Pharmacology",
+                        content: "Link to the latest edition of the Concise Guide to Pharmacology. Watch a video of Prof. Steve Alexander expplaining the Concise Guide to Pharmacology."
+                    },
+                    {
+                        element: ".pub_guide",
+                        title: "Recent Publications",
+                        content: "Highlighting recent IUPHAR Reviews published in the British JOurnal of Pharmacology and Pharmacological Reviews."
+                    }]);
+
+
+            function startTour(){
+                tour.init();
+                tour.restart();
+            tour.start(true);
+        }
+        </script>
+    </head><body>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2MLL4P"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+        <!-- ========== Twitter script - DO NOT REMOVE FROM HERE =====================
+        <script>
+            function do_twitter_widget(d, s, id) {
+               var js, fjs = d.getElementsByTagName(s)[1],p=/^http:/.test(d.location)?'http':'https';
+               if(!d.getElementById(id)){
+                   js=d.createElement(s);
+                   js.id=id;
+                   js.src=p+"://platform.twitter.com/widgets.js";
+                   fjs.parentNode.insertBefore(js,fjs);
+               }
+           };
+        </script>-->
+
+        <div class="container_16">
+<!--             <div id="dropbar">
+            <div style="text-align:right; border: 2px;">
+ <form method="get" action="/GRAC/DatabaseSearchForward">
+                <fieldset class="search_box_drop">
+                    <input type="text" id="quick_search" size="14" maxlength="200" name="searchString"/>
+                    <input type="hidden" name="searchCategories" value="all"/>
+                    <input type="hidden" name="species" value="none"/>
+                    <input type="hidden" name="type" value="all"/>
+                    <input type="hidden" name="comments" value="includeComments"/>
+                    <input type="hidden" name="order" value="rank"/>
+                    <input type="submit" name="submit" value="Search Database" />
+              </fieldset>
+ </form>
+</div>
+                 <script>
+    $("#quick_search").catcomplete({delay: 300, minLength: 2, source: "/GRAC/autocompleteAll.jsp",
+       focus: function( event, ui ) {
+            // $( "#ligand_text" ).val( ui.item.label );
+            // do nothing on mouse over
+            return false;
+       },
+       select: function( event, ui ) {
+            //window.open(ui.item.value);
+            self.location.href = ui.item.value;
+            return false;
+       }
+   });
+</script>
+</div>-->
+             <!-- ========== HEAD SECTION START - DO NOT ADD ANY CONTENT HERE ===================== -->
+            <div id="header">
+
+<div class="brandandsearchtest">
+<!-- <div class="brandandsearch"> -->
+<div class="newsearchright">
+
+ <form class="newmainsearch" method="get" action="/GRAC/DatabaseSearchForward">
+
+                    <input type="text" id="quick_search" size="14" maxlength="200" name="searchString"/>
+                    <input type="hidden" name="searchCategories" value="all"/>
+                    <input type="hidden" name="species" value="none"/>
+                    <input type="hidden" name="type" value="all"/>
+                    <input type="hidden" name="comments" value="includeComments"/>
+                    <input type="hidden" name="order" value="rank"/>
+                   <!-- <input type="submit" name="submit" value="Search Database" /> -->
+                    <button type="submit" aria-label="Search button"><i class="fa fa-search"></i></button>
+
+ </form>
+
+</div>
+<img alt="gtopdb_logo_and_banner_image" width="720" style="margin-top:15px;margin-bottom:15px;" src="images/gtopdb_banner_2020.png">
+</div>
+<script>
+    $("#quick_search").catcomplete({delay: 300, minLength: 2, source: "/GRAC/autocompleteAll.jsp",
+       focus: function( event, ui ) {
+            // $( "#ligand_text" ).val( ui.item.label );
+            // do nothing on mouse over
+            return false;
+       },
+       select: function( event, ui ) {
+            //window.open(ui.item.value);
+            self.location.href = ui.item.value;
+            return false;
+       }
+   });
+</script>
+
+
+
+           </div>
+           <!-- =========== END OF HEAD SECTION =================================================== -->
+
+           <!-- ========== SUPERFISH NAV START ============================================================ -->
+           <div class="mainnavcont menu_guide">
+               <div class="mainnavtext">
+                  <ul id="sample-menu-1" class="sf-menu">
+        <li class="current">
+            <a name="home page">Home</a>
+        </li>
+        <li>
+            <a  href="/about.jsp">About</a>
+            <ul>
+                <li><a href="/about.jsp">About The Guide to PHARMACOLOGY</a></li>
+                <li><a href="/nciuphar.jsp">About NC-IUPHAR</a></li>
+                <li><a href="/GRAC/ContributorListForward">Contributors</a></li>
+                <li><a href="/sponsors.jsp">Sponsors</a></li>
+                <li><a href="/citing.jsp">Citing</a></li>
+                <li><a href="/linking.jsp">Linking to us</a></li>
+                <li><a href="/faq.jsp">FAQ</a></li>
+                <li><a href="/disclaimer.jsp">Disclaimer</a></li>
+		<li><a href="/privacyPolicy.jsp">Privacy and Cookie Policy</a></li>
+            </ul>
+        </li>
+        <li>
+                <a  href="/targets.jsp">Targets </a>
+                <ul>
+                    <li>
+                        <a href="/GRAC/ReceptorFamiliesForward?type=GPCR">GPCRs</a>
+                    </li>
+                    <li>
+                        <a  href="/GRAC/ReceptorFamiliesForward?type=IC">Ion channels</a>
+                        <ul>
+                            <li><a href="/GRAC/ReceptorFamiliesForward?type=IC">LGICs</a></li>
+                            <li><a href="/GRAC/ReceptorFamiliesForward?type=IC">VGICs</a></li>
+                            <li><a href="/GRAC/ReceptorFamiliesForward?type=IC">Other channels</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/GRAC/ReceptorFamiliesForward?type=NHR">Nuclear receptors</a>
+                    </li>
+                    <li>
+                        <a href="/GRAC/FamilyDisplayForward?familyId=698&familyType=ENZYME">Kinases</a>
+                    </li>
+                    <li>
+                        <a href="/GRAC/ReceptorFamiliesForward?type=CATALYTICRECEPTOR">Catalytic receptors</a>
+                    </li>
+                    <li>
+                        <a href="/GRAC/ReceptorFamiliesForward?type=TRANSPORTER">Transporters</a>
+                    </li>
+                    <li>
+                        <a href="/GRAC/ReceptorFamiliesForward?type=ENZYME">Enzymes</a>
+                    </li>
+                    <li>
+                        <a href="/GRAC/ReceptorFamiliesForward?type=OTHER">Other protein targets</a>
+                    </li>
+                    <li><a href="/GRAC/searchPage.jsp">Target search</a>
+                        <ul>
+                            <li><a href="/GRAC/searchPage.jsp">Target search tools</a></li>
+                            <li><a href="/blast">BLAST</a></li>
+                        </ul>
+                    </li>
+                </ul>
+        </li>
+        <li>
+            <a  href="/GRAC/LigandListForward?database=all">Ligands</a>
+            <ul>
+                <li><a href="/GRAC/LigandListForward?database=all">Ligand list</a></li>
+                <li><a href="/GRAC/LigandFamiliesForward">Ligand families</a></li>
+                <li><a href="/GRAC/chemSearch.jsp">Ligand search</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="/GRAC/DiseaseListForward">Diseases</a>
+
+        </li>
+        <li>
+            <a  href="/helpPage.jsp">Resources</a>
+            <ul>
+                <li><a href="/helpPage.jsp">Help</a></li>
+                <li><a href="/GuidetoPHARMACOLOGY_Tutorial.pdf" target="_blank" onClick="recordEvent(this, 'Other files', 'View PDF', 'Tutorial');return false;">Tutorial</a></li>
+                <li><a href="/faq.jsp">FAQ</a></li>
+                <li><a href="/pdfs/termsAndSymbols.pdf" target="_blank" onClick="recordEvent(this, 'Other files', 'View PDF', 'Terms and Symbols');return false;">Terms and symbols</a></li>
+                <li><a href="/nomenclature.jsp">Nomenclature guidelines</a></li>
+                <li><a href="/nciupharPublications.jsp">Publications</a></li>
+                <li><a  href="/download.jsp">Downloads</a>
+                    <ul>
+                        <li><a href="/download.jsp">Download data and reports</a></li>
+                        <li><a href="/webServices.jsp">Web services</a></li>
+
+                        <li><a href="/slides.jsp">Slides and posters</a></li>
+                    </ul>
+                </li>
+                <li><a  href="/news.jsp">News</a>
+                    <ul>
+                        <li><a href="/immuno/immuphar2018.jsp">Immunopharmacology Meeting 2018</a></li>
+                        <li><a href="/news.jsp">Latest news</a></li>
+                        <li><a href="/GRAC/HotTopicsForward">Hot topics</a></li>
+                        <li><a href="/latestPairings.jsp">Latest pairings</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1', 'CGTP table of contents');return false;">Concise Guide to PHARMACOLOGY</a></li>
+                <li><a href="/links.jsp">Useful links</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="/GRAC/searchPage.jsp">Advanced search</a>
+            <ul>
+                <li><a href="/GRAC/searchPage.jsp">Target search</a>
+                    <ul>
+                        <li><a href="/GRAC/searchPage.jsp">Target search tools</a></li>
+                        <li><a href="/blast">BLAST</a></li>
+                    </ul>
+                </li>
+                <li><a href="/GRAC/chemSearch.jsp">Ligand search</a></li>
+                <li><a href="/GRAC/pharmacologySearch.jsp">Pharmacology search</a></li>
+            </ul>
+        </li>
+
+            <li class="immuno_portal">
+                <a href="/immuno/index.jsp" onClick="recordEvent(this, 'index', 'Menu Link to GtoImmuPdb', 'Link to GtoImmuPdb');return false;">Immuno Portal</a>
+            </li>
+            <li class="gtmp_portal">
+                <a href="/malaria/index.jsp" onClick="recordEvent(this, 'index', 'Menu Link to GtoMPdb', 'Link to GtoMPdb');return false;">Malaria Portal</a>
+            </li>
+       <!--
+
+
+
+            <li class="immuno_portal">
+                <a href="http://www.guidetoimmunopharmacology.org/immuno/index.jsp">Guide to IMMUNOPHARMACOLOGY Portal</a>
+            </li>
+
+         -->
+
+    </ul>
+
+               </div>
+           </div>
+           <!-- ========== SUPERFISH NAV END  ============================================================ -->
+
+            <!-- ==================== BREADCRUMBS START - NEEDS TO BE UPDATED MANUALLY ====================
+           <div class="breadcrumbscont">
+             <h3>An expert-driven guide to pharmacological targets and the substances that act on them.</h3>
+           </div>
+           <!-- ==================== BREADCRUMBS END ======================================== -->
+
+           <!-- TEMPORARY ANNOUNCEMENT
+                  <h3 style="color:crimson;">This is a beta version of the new GtoPdb home page - take the tour and let us know what you think.</h3>-->
+
+            <!-- ==================== NEW CONTENT START - NEEDS TO BE UPDATED MANUALLY ==================== -->
+
+             <div class="grid_4 rowA">
+                   <div style="height:35px;"><input type="button" id="starttour" onclick="startTour()" value="GtoPdb home page tour" class="guidebutton" /></div>
+                   <div class="backandborder quicklinks_guide" style="height:586px;">
+                 <h4>Quick links</h4>
+                 <div class="contentbox">
+                     <div class="subbox" style="height:548px; width:210px;">
+                         <h3><a href="/targets.jsp">Targets</a></h3>
+                        <ul style="margin: 10px 0px;">
+                            <li style="list-style: none;"><a href="/GRAC/ReceptorFamiliesForward?type=GPCR">G protein-coupled receptors</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/ReceptorFamiliesForward?type=IC">Ion channels</a>
+                            <li style="list-style: none;"><a href="/GRAC/ReceptorFamiliesForward?type=NHR">Nuclear hormone receptors</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/FamilyDisplayForward?familyId=698&familyType=ENZYME">Kinases</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/ReceptorFamiliesForward?type=CATALYTICRECEPTOR">Catalytic receptors</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/ReceptorFamiliesForward?type=TRANSPORTER">Transporters</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/ReceptorFamiliesForward?type=ENZYME">Enzymes</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/ReceptorFamiliesForward?type=OTHER">Other protein targets</a></li>
+                        </ul>
+                         <h3><a href="/GRAC/LigandListForward">Ligands</a></h3>
+                        <ul style="margin: 10px 0px;">
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Approved&database=all">Approved drugs</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Synthetic-organic&database=all">Synthetic organics</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Small-organic&database=all">Metabolites</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Natural-product&database=all">Natural products</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Endogenous-peptide&database=all">Endogenous peptides</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Peptide&database=all">Other peptides</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Inorganic&database=all">Inorganics</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Antibody&database=all">Antibodies</a></li>
+                            <li style="list-style: none;"><a href="/GRAC/LigandListForward?type=Labelled&database=all">Labelled ligands</a></li>
+                        </ul>
+                        <h3>Resources</h3>
+                        <ul style="margin: 10px 0px;">
+                            <li style="list-style: none;"><a href="/helpPage.jsp">Help documentation</a></li>
+                            <li style="list-style: none;"><a href="/faq.jsp">FAQ</a></li>
+                            <li style="list-style: none;"><a href="/GuidetoPHARMACOLOGY_Tutorial.pdf" target="_blank" onClick="recordEvent(this, 'Other files', 'View PDF', 'Tutorial');return false;">Tutorial</a></li>
+                            <li class="menu_guide2" style="list-style: none;"><a href="/download.jsp">Download data & reports</a></li>
+                            <li style="list-style: none;"><a href="/webServices.jsp">REST web services</a></li>
+
+                        </ul>
+                     </div>
+                </div>
+                   </div>
+                 <div class="backandborder" style="height:290px;">
+                    <h4>Recent Twitter activity</h4>
+                    <div class="contentbox">
+                        <div id="social_media_cookies" class="cc-cookies-error" style="font-size:90%;">Sorry, this content is unavailable until you click to accept cookies from this site.<br/><a class="cc-cookie-accept" style="color:white;" href="#accept">ACCEPT COOKIES</a></div>
+                        <div id="twitter" style="display:none;">
+                            <a class="twitter-timeline" data-lang="en" data-width="220" data-height="260" data-theme="light" href="https://twitter.com/GuideToPHARM?ref_src=twsrc%5Etfw">Tweets by GuidetoPHARM</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </div>
+
+                    </div>
+                </div>
+                 <script>
+                    if (jQuery.cookie('cc_cookie_accept') == "cc_cookie_accept") {
+                            $('#social_media_cookies').hide();
+                            //do_twitter_widget(document,'script','twitter-wjs');
+                            $('#twitter').show();
+                    }
+                </script>
+
+                   </div>
+
+            <div class="grid_12 rowA">
+
+                   <div class="backandborder" style="height:180px;">
+                       <div class="contentbox search_guide">
+ <form id="main_search_form" method="get" action="/GRAC/DatabaseSearchForward">
+                <fieldset class="search_box_home_main">
+                    <input type="text" id="main_search" size="50" maxlength="400" name="searchString"/>
+                    <input type="hidden" name="searchCategories" value="all"/>
+                    <input type="hidden" name="species" value="none"/>
+                    <input type="hidden" name="type" value="all"/>
+                    <input type="hidden" name="comments" value="includeComments"/>
+                    <input type="hidden" name="order" value="rank"/>
+                    <input class="searchbutton" type="submit" name="submit" value="Search GtoPdb" />
+              </fieldset>
+ </form></div>
+                       <script>
+    $("#main_search").catcomplete({delay: 300, minLength: 2, source: "/GRAC/autocompleteAll.jsp",
+       focus: function( event, ui ) {
+            // $( "#ligand_text" ).val( ui.item.label );
+            // do nothing on mouse over
+            return false;
+       },
+       select: function( event, ui ) {
+            //window.open(ui.item.value);
+            self.location.href = ui.item.value;
+            return false;
+       }
+   });
+</script>
+                       <div><p class="advsearch_guide" style="text-align:center;font-size:110%;"><b>Advanced Search: <a href="/GRAC/searchPage.jsp">Targets</a></b> | <b><a href="/GRAC/pharmacologySearch.jsp">Target Pharmacology</a></b> | <b><a href="/GRAC/chemSearch.jsp">Ligands</a></b> | <b><a href="/GRAC/chemSearch.jsp#structureSearch">Chemical Structure</a></b></p>
+                           <p style="text-align:center;"><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Licence" title="Creative Commons Attribution-ShareAlike 4.0 International License" style="border-width:0; padding:7px 7px 7px 0px; vertical-align:middle; width:44px" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a> Current Release Version 2023.2 (7th August 2023). <a href="https://blog.guidetopharmacology.org/2023/08/07/database-release-2023-2/" target="_blank">Read our release notes blog</a>.</p>
+                           <p class="covid_guide" style="text-align:center;font-size:110%;"><a href="/GRAC/CoronavirusForward" target="_blank">Coronavirus (Covid-19) - view our information page</a></p></div>
+                </div>
+             <div class="backandborder ligact_guide" style="height:240px; width:220px; float:left; margin-right:7px;">
+                    <h4>Ligand Activity Charts</h4>
+                    <div class="contentbox">
+                        <p style="text-align:center;margin-bottom:5px;">
+                            <a href="/GRAC/ligandActivityDisplay.jsp" target="_blank" onClick="recordEvent(this, 'Home Page', 'Ligand Activity Charts', 'Ligand Activity Charts image');return false;"><img src="images/ligact_thumb3.png" width="170" alt="GtoPdb Ligand Activity Charts"/></a></p>
+                        <p style="margin-bottom:5px; line-height: 1.6;">Use our <b>interactive ligand activity charts</b> to compare pharmacology across targets and species.</p>
+                    </div></div>
+        <!--     <div class="backandborder wcp2023" style="height:240px; width:220px; float:left; margin-right:7px;">
+                    <h4>WCP 2023</h4>
+                    <div class="contentbox">
+                        <p style="text-align:center;margin-bottom:5px;">
+                            <a href="http://www.wcp2023.org" target="_blank" onClick="recordEvent(this, 'Home Page', 'WCP2023', 'WCP2023logo');return false;"><img src="images/WCP2023logo.png" width="190" alt="WCP2023"/></a></p>
+
+                    </div>
+            </div>-->
+
+                <div class="backandborder" style="height:240px; width:220px; float:left; margin-right:10px;margin-left:7px;margin-bottom: 10px;">
+                    <h4>BJP Malaria Review</h4>
+                    <a style="color:white;" href="https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.16144" target="_blank"><img align="left" src="images/bph.v180.15.cover.jpg" alt="BJP Cover" width="96px" style="margin:10px 6px 2px 4px"></a>
+                         <p style="padding:15px 2px 0px 10px; line-height: 1.6;">Just published in BJP the latest: <a href="https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.16144" target="_blank"><b>IUPHAR Review 38:<br> Advances in malaria pharmacology and the online guide to MALARIA PHARMACOLOGY</b></a>.</p>
+
+            </div>
+
+            <div class="immuno_backandborder gtip_guide" style="border-width: 2px; height:111px; width:224px; float:left; margin-left:2px; margin-bottom:12px;">
+                <h4>Immunopharmacology</h4>
+                <div style="float:left;padding: 10px 2px 0px 2px;"><a href="/immuno/index.jsp" target="_blank"><img src="/images/immuno/square_logo_notext.jpg" alt="GtoImmuPdb logo" height="50" style="margin-left: 5px;"/></a></div>
+                <div style="text-align: center;padding: 5px 0px 4px 5px;margin-left:58px;"><b><a href="/immuno/index.jsp" target="_blank">IUPHAR Guide to IMMUNOPHARMACOLOGY</a></b><br>An immunological access-point to GtoPdb data</div>
+
+            </div>
+            <div class="gtmp_backandborder gtmp_guide" style="border-width: 2px; height:111px; width:224px; float:left; margin-left:2px;margin-bottom: 10px;">
+               <h4>Malaria Pharmacology</h4>
+               <div style="float:left;padding: 20px 2px 0px 0px;"><a href="/malaria/index.jsp" target="_blank"><img src="/images/malaria/gtmp_square_logo.jpg" alt="GtoMPdb logo" height="42" style="margin-left: 2px;"/></a></div>
+               <div style="text-align: center;padding: 5px 0px 4px 5px;"><b><a href="/malaria/index.jsp" target="_blank">IUPHAR/MMV Guide to MALARIA PHARMACOLOGY</a></b><br>Optimised access for the malaria research community</div>
+
+
+
+
+            </div>
+
+                   <div class="backandborder news_guide" style="height:479px; width:460px; float:left; margin-right:8px;">
+                 <h4>Latest News and Hot Topics in Pharmacology</h4>
+                 <div class="contentbox" style="margin-top:4px;">
+
+
+
+
+
+
+                     <!-- start sw-rss-feed code -->
+<script type="text/javascript">
+<!--
+rssfeed_url = new Array();
+rssfeed_url[0]="http://blog.guidetopharmacology.org/feed";
+rssfeed_frame_width="458";
+rssfeed_frame_height="400";
+rssfeed_scroll="off";
+rssfeed_scroll_step="6";
+rssfeed_scroll_bar="on";
+rssfeed_target="_blank";
+rssfeed_font_size="12";
+rssfeed_font_face="Helvetica";
+rssfeed_border="off";
+rssfeed_css_url="";
+rssfeed_title="off";
+rssfeed_title_name="";
+rssfeed_title_bgcolor="#3366ff";
+rssfeed_title_color="#fff";
+rssfeed_title_bgimage="";
+rssfeed_footer="off";
+rssfeed_footer_name="rss feed";
+rssfeed_footer_bgcolor="#fff";
+rssfeed_footer_color="#333";
+rssfeed_footer_bgimage="";
+rssfeed_item_title_length="100";
+rssfeed_item_title_color="#039";
+rssfeed_item_bgcolor="#fff";
+rssfeed_item_bgimage="";
+rssfeed_item_border_bottom="on";
+rssfeed_item_source_icon="off";
+rssfeed_item_date="on";
+rssfeed_item_description="on";
+rssfeed_item_description_length="250";
+rssfeed_item_description_color="black";
+rssfeed_item_description_link_color="#333";
+rssfeed_item_description_tag="on";
+rssfeed_no_items="10";
+rssfeed_cache = "8556e0ac238b76bf2a913a88afc64616";
+//-->
+</script>
+<script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script>
+<!-- The link below helps keep this service FREE, and helps other people find the SW widget. Please be cool and keep it! Thanks. -->
+<div style="color:#999;font-size:10px; text-align:right; width:400px;">powered by <a href="https://surfing-waves.com" rel="noopener" target="_blank" style="color:#999;">Surfing Waves</a></div>
+<!-- end sw-rss-feed code -->
+
+
+                     <p class="contentboxpara" style="text-align: right;margin-top: 0px;">
+                         <a href="/news.jsp" onClick="recordEvent(this, 'News', 'View news', 'link to news');return false;">All news <img src="images_dev27082012/go.jpg"></a>&nbsp;&nbsp;
+                         <a href="https://blog.guidetopharmacology.org/" target="_blank" onClick="recordEvent(this, 'News', 'View blog', 'link to GtoPdb Blog');return false;">Our blog <img src="images_dev27082012/go.jpg"></a>&nbsp;&nbsp;
+                         <a href="/GRAC/HotTopicsForward" onClick="recordEvent(this, 'News', 'View hot topics', 'link to hot topics');return false;">Hot topics <img src="images_dev27082012/go.jpg" alt="go icon to follow link"></a>&nbsp;&nbsp;
+                         <a href="/latestPairings.jsp" onClick="recordEvent(this, 'News', 'View latest pairings', 'link to latest pairings');return false;">Latest pairings <img src="images_dev27082012/go.jpg"></a></p>
+
+                 </div>
+
+                </div>
+
+
+
+                    <div class="backandborder cgtp_guide" style="height:479px; width:220px; float:left; margin-left:8px;">
+                   <h4>The Concise Guide to PHARMACOLOGY 2021/22</h4>
+                   <div class="contentbox" >
+                        <p style="text-align:center;margin-bottom:5px;"> <a href="https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1', 'CGTP table of contents');return false;"><img src="images/cgtp_info_logo_2122.gif" alt="Concise Guide to Pharmacology 2021/22"/></a></p>
+
+                         <p style="margin-bottom:5px;"><strong><a href="https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1', 'CGTP table of contents');return false;">Access the table of contents</a></strong> <a href="https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/toc/14765381/2021/178/S1', 'CGTP table of contents');return false;"><img src="images_dev27082012/go.jpg"></a></p>
+                         <p style="margin-bottom:5px;">Please see the 5 minute introductory video on the Concise Guide:</p>
+
+
+                         <div id="social_media_cookies2" class="cc-cookies-error" style="font-size:90%;">Sorry, this content is unavailable until you click to accept cookies from this site.<br/><a class="cc-cookie-accept" style="color:white;" href="#accept">ACCEPT COOKIES</a></div>
+                        <div id="cgtp_youtube" style="display:none;">
+                             <p id style="margin-bottom:5px;"><iframe width="200" src="https://www.youtube.com/embed/TCsR30TqiN4" frameborder="0" allowfullscreen encrypted-media onClick="recordEvent(this, 'Concise Guide video', 'https://www.youtube.com/embed/uMTgqeWG_K0', 'Concise Guide Video');return false;"></iframe></p>
+                        </div>
+                         <script>
+                    if (jQuery.cookie('cc_cookie_accept') == "cc_cookie_accept") {
+                            $('#social_media_cookies2').hide();
+                            //do_twitter_widget(document,'script','twitter-wjs');
+                            $('#cgtp_youtube').show();
+                    }
+                </script>
+                  </div>
+               </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+             <div class="backandborder grid_16 pub_guide" style="background-color: white;">
+                 <h4>Recent Publications </h4>
+                 <div class="content_box">
+                     <div class="grid_2 alpha" style="background-color: white; text-align:center; vertical-align: middle;">
+                         <p style="text-align:center;"><img src="images_dev27082012/bjp_thumb.jpg" width="100" height="132" alt="BJP journal cover"/></p>
+                     </div>
+                     <div class="grid_6" style="background-color: white;">
+
+
+                         <h3 style="text-align:left;"><a href="https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.16144" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.16144', 'BJP IUPHAR Review 38');return false;">Advances in malaria pharmacology and the online guide to MALARIA PHARMACOLOGY: IUPHAR review 38</a></h3>
+                        <p style="text-align:left;">Armstrong JF, Campo B, Alexander SPH, Arendse LB, Cheng X, Davenport AP, Faccenda E, Fidock DA, Godinez-Macias KP, Harding SD, Kato N, Lee MCS, Luth MR, Mazitschek R, Mittal N, Niles JC, Okombo J, Ottilie S, Pasaje CFA, Probst AS, Rawat M, Rocamora F, Sakata-Kato T, Southan C, Spedding M, Tye MA, Yang T, Zhao N, Davies JA. (2023) <i>Br J Pharmacol.</i> Online ahead of print. doi: 10.1111/bph.16144. <a href="https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.16144" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.16144', 'BJP IUPHAR Review 38');return false;"><img src="images_dev27082012/go.jpg" alt="go icon to follow link"></a></p>
+
+                        <h3 style="text-align:left;"><a href="https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.15853" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.15853', 'BJP IUPHAR Review 37');return false;">Chronic liver diseases: From development to novel pharmacological therapies: IUPHAR Review 37</a></h3>
+                        <p style="text-align:left;">Borrello MT, Mann D. (2022) <i>Br J Pharmacol.</i> Online ahead of print. doi: 10.1111/bph.15853. <a href="https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.15853" target="_blank" onClick="recordEvent(this, 'BJP links', 'https://bpspubs.onlinelibrary.wiley.com/doi/10.1111/bph.15853', 'BJP IUPHAR Review 37');return false;"><img src="images_dev27082012/go.jpg" alt="go icon to follow link"></a></p>
+
+
+
+
+
+
+                     </div>
+
+                     <div class="grid_2" style="background-color: white; text-align:center; vertical-align: middle;">
+                         <p style="text-align:center;"><img src="images_dev27082012/PharmRev_thumb_lg.jpg" width="100" height="132" alt="Pharm Rev journal cover"/></p>
+                     </div>
+                     <div class="grid_6 omega" style="background-color: white;">
+
+
+                         <h3 style="text-align:left;"><a href="https://pharmrev.aspetjournals.org/content/early/2023/08/16/pharmrev.121.000436" target="_blank" onClick="recordEvent(this, 'Pharm Rev links', 'https://pharmrev.aspetjournals.org/content/early/2023/08/16/pharmrev.121.000436', 'Pharm Rev IUPHAR Review CXIII');return false;">IUPHAR Review CXIII: Nuclear Receptor Superfamily - Update 2023</a></h3>
+                        <p style="text-align:left;">Burris TP, de Vera IMS, Cote I, Flaveny CA, Wanninayake US, Chatterjee A, Walker JK, Steinauer N, Zhang J, Coons LA, Korach KS, Cain DW, Hollenberg AN, Webb P, Forrest D, Jetten AM, Edwards DP, Grimm SL, Hartig S, Lange CA, Richer JK, Sartorius CA, Tetel M, Billon C, Elgendy B, Hegazy L, Griffett K, Peinetti N, Burnstein KL, Hughes TS, Sitaula S, Stayrook KR, Culver A, Murray MH, Finck BN, Cidlowski J (2023) <i>Pharmacol Rev.</i> PHARMREV-INR-2021-000436</a>. doi: <a href="https://doi.org/10.1124/pharmrev.121.000436" target="_blank">10.1124/pharmrev.121.000436</a>. Online ahead of print. <a href="https://pharmrev.aspetjournals.org/content/early/2023/08/16/pharmrev.121.000436" target="_blank" onClick="recordEvent(this, 'Pharm Rev links', 'https://pharmrev.aspetjournals.org/content/early/2023/08/16/pharmrev.121.000436', 'Pharm Rev IUPHAR Review CXIII');return false;"><img src="images_dev27082012/go.jpg" alt="go icon to follow link"></a></p>
+
+<h3 style="text-align:left;"><a href="https://pharmrev.aspetjournals.org/content/74/2/340" target="_blank" onClick="recordEvent(this, 'Pharm Rev links', 'https://pharmrev.aspetjournals.org/content/74/2/340', 'Pharm Rev IUPHAR Review CXII');return false;">International Union of Basic and Clinical Pharmacology. CXII: Adenosine Receptors: A Further Update.</a></h3>
+                        <p style="text-align:left;">IJzerman AP, Jacobson KA, Müller CE, Cronstein BN, Cunha RA (2022) <i>Pharmacol Rev.</i> <b>74</b>: 340-372. <a href="https://pharmrev.aspetjournals.org/content/74/2/340" target="_blank" onClick="recordEvent(this, 'Pharm Rev links', 'https://pharmrev.aspetjournals.org/content/74/2/340', 'Pharm Rev IUPHAR Review CXII');return false;"><img src="images_dev27082012/go.jpg" alt="go icon to follow link"></a></p>
+
+
+
+
+
+                    </div>
+                   <div class="grid_4 prefix_12" style="background-color: white; margin-left:0px;">
+                         <p class="contentboxpara" style="text-align: right;margin-top: 0px;"><a href="/nciupharPublications.jsp">Publication list <img src="images_dev27082012/go.jpg" alt="go icon to follow link"></a></p>
+                     </div>
+                     </div>
+
+                 </div>
+
+
+
+
+            <div class="backandborder grid_16" style="background-color: white;">
+                <h4><a href="#dataset">Celebrating >20 years of Servier support</h4>
+                <p style="text-align: center;"><a href="https://www.servier.com" target="_blank"><img src="images/servier.jpg" style="width:200px"></a></p>
+                <div class="grid_14 prefix_1 suffix_1" style="margin:0px;">
+                <p style="text-align: center; padding: 5px;"><a href="https://www.servier.com" target="_blank">Servier</a>, a mid-size French Pharmaceutical company, has a long history in pharmacology, and has supported <a href="/nciuphar.jsp">NC-IUPHAR</a> for >20 years with unrestricted educational grants which have permitted the Paris meetings and thus progress of the database.</p>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+            <div id="footer">
+                <div>
+	<div style="display:table-cell; vertical-align:middle; max-width:200px;  float:left; display:inline;">
+		<p style="text-align:left;margin: 5px 0px 0px 10px;"><a href="/revealEmail.jsp" onclick="window.open('/revealEmail.jsp', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=550,height=300'); return false;" title="Reveal this e-mail address">Contact us</a></p>
+		<p style="text-align:left;margin: 5px 0px 5px 10px;"> <span class="invisible_link"><a href="https://twitter.com/#!/GuidetoPHARM" target="_blank" title="Follow us on Twitter"><img class="logo" style="vertical-align:middle;" src="/images/twitter.png" alt="Link to Guide to Pharmacology on Twitter"/></a><a href="https://www.facebook.com/pages/Guide-to-PHARMACOLOGY/231393780304076" target="_blank" title="Like us on Facebook"><img class="logo" style="vertical-align:middle;margin-left:5px;" src="/images/facebook.png" alt="Link to Guide to Pharmacology on Facebook"/></a><a href="http://www.linkedin.com/company/guide-to-pharmacology" target="_blank" title="Follow us on LinkedIn"><img class="logo" style="vertical-align:middle;margin-left:5px;" src="/images/LinkedIn.png" alt="Link to Guide to Pharmacology on LinkedIn"/></a><a href="http://blog.guidetopharmacology.org/" target="_blank" title="Visit our blog"><img class="logo" style="vertical-align:middle;margin-left:5px;" src="/images/wpmini-blue.png" alt="Wordpress Logo link to Guide to Pharmacology blog"/></a><a href="http://www.slideshare.net/GuidetoPHARM" target="_blank" title="View slide sets and posters on SlideShare"><img class="logo" style="vertical-align:middle;margin-left:5px;" src="/images/slideshare_no_name.png" alt="Link to Guide to Pharmacology on Slideshare"/></a></span></p>
+    		<p style="text-align:left;margin: 8px 0px 0px 10px;"><small><a href="/privacyPolicy.jsp">Privacy and Cookie Policy</a></small></p>
+    	</div>
+
+	<div style="vertical-align:middle; display:table-cell; float:right; display:inline;">
+		<p style="text-align:right; margin: 5px 10px 0px 0px; font-weight:bold; font-size:12pt;"><a href="/sponsors.jsp">Sponsors list</a></p>
+                <p style="text-align:right; margin: 5px 10px 0px 0px; "><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><small>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></small></p>
+	</div>
+</div>
+
+
+
+            </div>
+
+        </div>
+        <!-- end .container_16 -->
+      <!-- dropbox script -->
+<!--      <script>
+// When the user scrolls down 20px from the top of the document, slide down the navbar
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("dropbar").style.top = "0";
+  } else {
+    document.getElementById("dropbar").style.top = "-100px";
+  }
+}
+</script>-->
+        <!-- Prototype bioschemas markup-->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "DataCatalog",
+            "@id" : "https://www.guidetopharmacology.org",
+            "name": "IUPHAR/BPS Guide to PHARMACOLOGY",
+            "alternateName": "GtoPdb",
+            "description": "The IUPHAR/BPS Guide to PHARMACOLOGY is an expert-driven guide to pharmacological targets with quantitative information on the prescription medicines and experimental dugs that act on them. Developed as a joint initiative of the International Union of Basic and Clinical Pharmacology (IUPHAR) and the British Pharmacological Society (BPS) and is now the new home of the IUPHAR Database (IUPHAR-DB).",
+            "url": "https://www.guidetopharmacology.org/",
+
+            "keywords": "protein, target, ligand, drug, pharmacology, curated database",
+            "dataset": [
+                {
+                    "@type" : "Dataset",
+                    "@id" : "https://www.guidetopharmacology.org/index.jsp#dataset",
+                    "name" : "IUPHAR/BPS Guide to PHARMACOLOGY database",
+                    "description": "An expert-curated database of pharmacological targets with quantitative information on the prescription medicines and experimental dugs that act on them.",
+
+                    "url": "https://www.guidetopharmacology.org",
+                    "keywords": "protein, target, ligand, drug, pharmacology, curated database",
+                    "version": "2019.4",
+                    "license": {
+                        "@type": "CreativeWork",
+                        "name": "Open Database License (ODbL) v1.0",
+                        "version": "v1.0",
+                        "url": "https://www.opendatacommons.org/licenses/odbl/1.0/"
+                    },
+                    "distribution": {
+                        "@type": "DataDownload",
+                        "contentUrl": "https://www.guidetopharmacology.org/DATA/public_iuphardb_v2019.4.zip",
+                        "fileFormat": "application/zip of a SQL file"
+                    }
+                }
+            ],
+            "sourceOrganization": [
+                {
+                    "@type": "Organization",
+                    "@id":"https://www.iuphar.org/",
+                    "name": "The International Union of Basic and Clinical Pharmacology",
+                    "url": "https://www.iuphar.org/"
+                },
+                {
+                    "@type": "Organization",
+                    "@id": "https://www.bps.ac.uk/",
+                    "name": "The British Pharmacological Society",
+                    "url": "https://www.bps.ac.uk/"
+                },
+                {
+                    "@type": "Organization",
+                    "@id": "https://www.ed.ac.uk/",
+                    "name": "The University of Edinburgh",
+                    "url": "https://www.ed.ac.uk/"
+                }
+            ],
+            "provider": [
+                {
+                    "@type":"Organization",
+                    "@id":"https://www.iuphar.org/",
+                    "name": "The International Union of Basic and Clinical Pharmacology",
+                    "url": "https://www.iuphar.org/"
+                },
+                {
+                    "@type":"Organization",
+                    "@id": "https://www.bps.ac.uk/",
+                    "name": "The British Pharmacological Society",
+                    "url": "https://www.bps.ac.uk/"
+                }
+            ],
+            "license": {
+                "@type": "CreativeWork",
+                "name": "Open Data Commons Open Database License (ODbL)",
+                "url": "https://opendatacommons.org/licenses/odbl/"
+            },
+            "citation": {
+                "@type": "ScholarlyArticle",
+                "name": "The IUPHAR/BPS guide to PHARMACOLOGY in 2022: curating pharmacology for COVID-19, malaria and antibacterials",
+                "url": "https://identifiers.org/pubmed:34718737"
+            }
+        }
+        </script>
+
+    </body>
+</html>

@@ -46,7 +46,7 @@ def versions_response(fixture_dir):
 
 def test_get_latest(
     mondo: MondoData,
-    mondo_data_dir,
+    mondo_data_dir: Path,
     latest_release_response: Dict,
 ):
     """Test MondoData.get_latest()"""
