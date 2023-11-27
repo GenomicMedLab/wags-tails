@@ -1,6 +1,6 @@
 [project]
 name = "wags_tails"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
     {name = "Kori Kuzma"},
     {name = "James S Stevenson"},

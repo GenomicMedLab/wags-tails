@@ -11,7 +11,7 @@ from .guide_to_pharmacology import GToPLigandData
 from .hemonc import HemOncData
 from .hgnc import HgncData
 from .mondo import MondoData
-from .ncbi import NcbiGenomeData
+from .ncbi import NcbiGeneData, NcbiGenomeData
 from .ncit import NcitData
 from .oncotree import OncoTreeData
 from .rxnorm import RxNormData
@@ -30,6 +30,7 @@ __all__ = [
     "HemOncData",
     "HgncData",
     "MondoData",
+    "NcbiGeneData",
     "NcbiGenomeData",
     "NcitData",
     "OncoTreeData",
