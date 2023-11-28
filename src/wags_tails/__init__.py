@@ -6,9 +6,12 @@ from .custom import CustomData
 from .do import DoData
 from .drugbank import DrugBankData
 from .drugsatfda import DrugsAtFdaData
+from .ensembl import EnsemblData
 from .guide_to_pharmacology import GToPLigandData
 from .hemonc import HemOncData
+from .hgnc import HgncData
 from .mondo import MondoData
+from .ncbi import NcbiGeneData, NcbiGenomeData
 from .ncit import NcitData
 from .oncotree import OncoTreeData
 from .rxnorm import RxNormData
@@ -22,9 +25,13 @@ __all__ = [
     "DoData",
     "DrugBankData",
     "DrugsAtFdaData",
+    "EnsemblData",
     "GToPLigandData",
     "HemOncData",
+    "HgncData",
     "MondoData",
+    "NcbiGeneData",
+    "NcbiGenomeData",
     "NcitData",
     "OncoTreeData",
     "RxNormData",
