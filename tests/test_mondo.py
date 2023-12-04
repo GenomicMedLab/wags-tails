@@ -62,36 +62,36 @@ def test_get_latest(
             json=latest_release_response,
         )
         m.get(
-            "https://github.com/monarch-initiative/mondo/releases/download/v2023-09-12/mondo.owl",
+            "https://github.com/monarch-initiative/mondo/releases/download/v2023-09-12/mondo.obo",
             body="",
         )
         path, version = mondo.get_latest()
-        assert path == mondo_data_dir / "mondo_20230912.owl"
+        assert path == mondo_data_dir / "mondo_20230912.obo"
         assert path.exists()
         assert version == "20230912"
         assert m.call_count == 2
 
         path, version = mondo.get_latest()
-        assert path == mondo_data_dir / "mondo_20230912.owl"
+        assert path == mondo_data_dir / "mondo_20230912.obo"
         assert path.exists()
         assert version == "20230912"
         assert m.call_count == 3
 
         path, version = mondo.get_latest(from_local=True)
-        assert path == mondo_data_dir / "mondo_20230912.owl"
+        assert path == mondo_data_dir / "mondo_20230912.obo"
         assert path.exists()
         assert version == "20230912"
         assert m.call_count == 3
 
-        (mondo_data_dir / "mondo_20230802.owl").touch()
+        (mondo_data_dir / "mondo_20230802.obo").touch()
         path, version = mondo.get_latest(from_local=True)
-        assert path == mondo_data_dir / "mondo_20230912.owl"
+        assert path == mondo_data_dir / "mondo_20230912.obo"
         assert path.exists()
         assert version == "20230912"
         assert m.call_count == 3
 
         path, version = mondo.get_latest(force_refresh=True)
-        assert path == mondo_data_dir / "mondo_20230912.owl"
+        assert path == mondo_data_dir / "mondo_20230912.obo"
         assert path.exists()
         assert version == "20230912"
         assert m.call_count == 5
@@ -126,26 +126,26 @@ def test_get_specific_version(
 
     with requests_mock.Mocker() as m:
         m.get(
-            "https://github.com/monarch-initiative/mondo/releases/download/v2023-08-02/mondo.owl",
+            "https://github.com/monarch-initiative/mondo/releases/download/v2023-08-02/mondo.obo",
             body="",
         )
         response = mondo.get_specific("20230802")
-        assert response == mondo_data_dir / "mondo_20230802.owl"
+        assert response == mondo_data_dir / "mondo_20230802.obo"
         assert response.exists()
         assert m.call_count == 1
 
         response = mondo.get_specific("20230802")
-        assert response == mondo_data_dir / "mondo_20230802.owl"
+        assert response == mondo_data_dir / "mondo_20230802.obo"
         assert response.exists()
         assert m.call_count == 1
 
         response = mondo.get_specific("20230802", from_local=True)
-        assert response == mondo_data_dir / "mondo_20230802.owl"
+        assert response == mondo_data_dir / "mondo_20230802.obo"
         assert response.exists()
         assert m.call_count == 1
 
         response = mondo.get_specific("20230802", force_refresh=True)
-        assert response == mondo_data_dir / "mondo_20230802.owl"
+        assert response == mondo_data_dir / "mondo_20230802.obo"
         assert response.exists()
         assert m.call_count == 2
 
@@ -153,15 +153,15 @@ def test_get_specific_version(
             response = mondo.get_specific("v2023-09-12", from_local=True)
 
         m.get(
-            "https://github.com/monarch-initiative/mondo/releases/download/v2023-09-12/mondo.owl",
+            "https://github.com/monarch-initiative/mondo/releases/download/v2023-09-12/mondo.obo",
             body="",
         )
         response = mondo.get_specific("20230912")
-        assert response == mondo_data_dir / "mondo_20230912.owl"
+        assert response == mondo_data_dir / "mondo_20230912.obo"
         assert response.exists()
         assert m.call_count == 3
 
         response = mondo.get_specific("20230802")
-        assert response == mondo_data_dir / "mondo_20230802.owl"
+        assert response == mondo_data_dir / "mondo_20230802.obo"
         assert response.exists()
         assert m.call_count == 3
