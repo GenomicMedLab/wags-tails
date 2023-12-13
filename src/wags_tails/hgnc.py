@@ -7,7 +7,7 @@ from wags_tails.utils.downloads import download_ftp
 
 
 class HgncData(DataSource):
-    """Provide access to ChEMBL database."""
+    """Provide access to HGNC gene names."""
 
     _src_name = "hgnc"
     _filetype = "json"
