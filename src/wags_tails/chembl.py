@@ -40,8 +40,7 @@ class ChemblData(DataSource):
                 "Unable to parse latest ChEMBL version number from latest release README"
             )
 
-    @staticmethod
-    def _tarball_handler(dl_path: Path, outfile_path: Path) -> None:
+    def _tarball_handler(self, dl_path: Path, outfile_path: Path) -> None:
         """Get ChEMBL file from tarball. Callback to pass to download methods.
 
         :param dl_path: path to temp data file
@@ -49,7 +48,7 @@ class ChemblData(DataSource):
         """
         with tarfile.open(dl_path, "r:gz") as tar:
             for file in tar.getmembers():
-                if fnmatch.fnmatch(file.name, "chembl_*.db"):
+                if fnmatch.fnmatch(file.name, self._glob):
                     file.name = outfile_path.name
                     tar.extract(file, path=outfile_path.parent)
 

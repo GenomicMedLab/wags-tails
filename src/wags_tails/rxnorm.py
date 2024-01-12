@@ -21,8 +21,7 @@ class RxNormData(DataSource):
     _src_name = "rxnorm"
     _filetype = "RRF"
 
-    @staticmethod
-    def _get_latest_version() -> str:
+    def _get_latest_version(self) -> str:
         """Retrieve latest version value
 
         :return: latest release value

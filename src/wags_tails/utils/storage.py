@@ -2,6 +2,7 @@
 import logging
 import os
 from pathlib import Path
+from typing import List
 
 _logger = logging.getLogger(__name__)
 
@@ -45,6 +46,18 @@ def get_data_dir() -> Path:
     return data_base_dir
 
 
+def _get_matching_files(dir: Path, glob: str) -> List[Path]:
+    """Get files matching pattern.
+
+    :param dir: location to check
+    :param glob: pattern to match against
+    :return: List of all matching files (ordered from oldest to newest)
+    """
+    _logger.debug(f"Getting local match in {dir} against pattern {glob}...")
+    files = list(sorted(dir.glob(glob)))
+    return files
+
+
 def get_latest_local_file(dir: Path, glob: str) -> Path:
     """Get most recent locally-available file.
 
@@ -53,12 +66,11 @@ def get_latest_local_file(dir: Path, glob: str) -> Path:
     :return: Path to most recent file
     :raise FileNotFoundError: if no local data is available
     """
-    _logger.debug(f"Getting local match against pattern {glob}...")
-    files = list(sorted(dir.glob(glob)))
+    files = _get_matching_files(dir, glob)
     if not files:
         raise FileNotFoundError(
             f"Unable to find file in {dir.absolute()} matching pattern {glob}"
         )
     latest = files[-1]
-    _logger.debug(f"Returning {latest} as most recent locally-available file.")
+    _logger.debug("Returning %s as most recent locally-available file.", latest)
     return latest

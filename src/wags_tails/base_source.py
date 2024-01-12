@@ -47,6 +47,8 @@ class DataSource(abc.ABC):
             "unit_scale": True,
         }
 
+        self._glob = f"{self._src_name}_*.{self._filetype}"
+
     @abc.abstractmethod
     def _get_latest_version(self) -> str:
         """Acquire value of latest data version.
@@ -77,9 +79,7 @@ class DataSource(abc.ABC):
             raise ValueError("Cannot set both `force_refresh` and `from_local`")
 
         if from_local:
-            file_path = get_latest_local_file(
-                self.data_dir, f"{self._src_name}_*.{self._filetype}"
-            )
+            file_path = get_latest_local_file(self.data_dir, self._glob)
             version = parse_file_version(
                 file_path, f"{self._src_name}_(.+).{self._filetype}"
             )
