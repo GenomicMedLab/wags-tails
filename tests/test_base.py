@@ -8,8 +8,8 @@ import pytest
 from wags_tails.mondo import MondoData
 
 
-@pytest.fixture(scope="function")
-def config_teardown():
+@pytest.fixture()
+def _config_teardown():
     """Make sure environment variables are unset after running `test_config_directory`"""
     yield
     for varname in ("XDG_DATA_DIRS", "XDG_DATA_HOME", "WAGS_TAILS_DIR"):
@@ -17,11 +17,13 @@ def config_teardown():
             del os.environ[varname]
 
 
-def test_config_directory(base_data_dir: Path, config_teardown):
+@pytest.mark.usefixtures("_config_teardown")
+def test_config_directory(base_data_dir: Path):
     """Basic tests of directory configuration that shouldn't affect non-temporary files."""
     m = MondoData(base_data_dir)
     assert m.data_dir == base_data_dir
-    assert m.data_dir.exists() and m.data_dir.is_dir()
+    assert m.data_dir.exists()
+    assert m.data_dir.is_dir()
 
     tempdir = Path(tempfile.gettempdir())
 
@@ -52,9 +54,11 @@ def test_default_directory_configs():
     """
     m = MondoData()
     assert m.data_dir == Path.home() / ".local" / "share" / "wags_tails" / "mondo"
-    assert m.data_dir.exists() and m.data_dir.is_dir()
+    assert m.data_dir.exists()
+    assert m.data_dir.is_dir()
 
     # test again to ensure it's safe if the directory already exists
     m = MondoData()
     assert m.data_dir == Path.home() / ".local" / "share" / "wags_tails" / "mondo"
-    assert m.data_dir.exists() and m.data_dir.is_dir()
+    assert m.data_dir.exists()
+    assert m.data_dir.is_dir()

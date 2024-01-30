@@ -9,15 +9,15 @@ import requests_mock
 from wags_tails.mondo import MondoData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def mondo_data_dir(base_data_dir: Path):
     """Provide Mondo data directory."""
-    dir = base_data_dir / "mondo"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "mondo"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def mondo(mondo_data_dir: Path):
     """Provide MondoData fixture"""
     return MondoData(mondo_data_dir, silent=True)
@@ -26,21 +26,21 @@ def mondo(mondo_data_dir: Path):
 @pytest.fixture(scope="module")
 def latest_release_response(fixture_dir):
     """Provide JSON response to latest release API endpoint"""
-    with open(fixture_dir / "mondo_release_latest.json", "r") as f:
+    with (fixture_dir / "mondo_release_latest.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def august_release_response(fixture_dir):
     """Provide JSON response for older release API endpoint."""
-    with open(fixture_dir / "mondo_release_v2023-08-02.json", "r") as f:
+    with (fixture_dir / "mondo_release_v2023-08-02.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def versions_response(fixture_dir):
     """Provide JSON response to releases API endpoint"""
-    with open(fixture_dir / "mondo_releases.json", "r") as f:
+    with (fixture_dir / "mondo_releases.json").open() as f:
         return json.load(f)
 
 
@@ -50,7 +50,9 @@ def test_get_latest(
     latest_release_response: Dict,
 ):
     """Test MondoData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         mondo.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):
@@ -118,7 +120,9 @@ def test_get_specific_version(
     mondo_data_dir: Path,
 ):
     """Test MondoData.get_specific()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         mondo.get_specific("v2023-09-12", from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

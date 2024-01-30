@@ -10,15 +10,15 @@ import requests_mock
 from wags_tails.do import DoData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def data_dir(base_data_dir: Path):
     """Provide DO data directory."""
-    dir = base_data_dir / "do"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "do"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def do(data_dir: Path):
     """Provide DoData fixture"""
     return DoData(data_dir, silent=True)
@@ -27,21 +27,21 @@ def do(data_dir: Path):
 @pytest.fixture(scope="module")
 def latest_release_response(fixture_dir):
     """Provide JSON response to latest release API endpoint"""
-    with open(fixture_dir / "do_release_latest.json", "r") as f:
+    with (fixture_dir / "do_release_latest.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def versions_response(fixture_dir):
     """Provide JSON response to releases API endpoint"""
-    with open(fixture_dir / "do_releases.json", "r") as f:
+    with (fixture_dir / "do_releases.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def latest_release_file(fixture_dir):
     """Provide tarball response to resource download request."""
-    with open(fixture_dir / "do_release_file.tar.gz", "rb") as f:
+    with (fixture_dir / "do_release_file.tar.gz").open("rb") as f:
         return f.read()
 
 
@@ -53,7 +53,9 @@ def test_get_latest(
     latest_release_file: TextIOWrapper,
 ):
     """Test DoData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         do.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

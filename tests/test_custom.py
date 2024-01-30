@@ -6,15 +6,15 @@ import pytest
 from wags_tails.custom import CustomData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def custom_data_dir(base_data_dir: Path):
     """Provide custom data directory."""
-    dir = base_data_dir / "custom"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "custom"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def custom(custom_data_dir: Path):
     """Provide CustomData fixture"""
     return CustomData(
@@ -32,7 +32,9 @@ def test_get_latest(
     custom_data_dir,
 ):
     """Test CustomData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         custom.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

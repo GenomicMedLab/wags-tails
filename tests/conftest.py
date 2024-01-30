@@ -17,7 +17,7 @@ def fixture_dir():
     return Path(__file__).parent / "fixtures"
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def base_data_dir():
     """Provide path to base data files for testing.
 

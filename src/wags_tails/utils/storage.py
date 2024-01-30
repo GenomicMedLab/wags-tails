@@ -31,8 +31,8 @@ def get_data_dir() -> Path:
             xdg_data_dirs = os.environ.get("XDG_DATA_DIRS")
             if xdg_data_dirs:
                 dirs = os.environ["XDG_DATA_DIRS"].split(":")
-                for dir in dirs:
-                    dir_path = Path(dir) / "wags_tails"
+                for directory in dirs:
+                    dir_path = Path(directory) / "wags_tails"
                     if not dir_path.is_file():
                         data_base_dir = dir_path
                         break
@@ -45,7 +45,7 @@ def get_data_dir() -> Path:
     return data_base_dir
 
 
-def get_latest_local_file(dir: Path, glob: str) -> Path:
+def get_latest_local_file(directory: Path, glob: str) -> Path:
     """Get most recent locally-available file.
 
     :param dir: location to check (presumably, the data directory for a source)
@@ -53,12 +53,11 @@ def get_latest_local_file(dir: Path, glob: str) -> Path:
     :return: Path to most recent file
     :raise FileNotFoundError: if no local data is available
     """
-    _logger.debug(f"Getting local match against pattern {glob}...")
-    files = list(sorted(dir.glob(glob)))
+    _logger.debug("Getting local match against pattern %s...", glob)
+    files = sorted(directory.glob(glob))
     if not files:
-        raise FileNotFoundError(
-            f"Unable to find file in {dir.absolute()} matching pattern {glob}"
-        )
+        msg = f"Unable to find file in {directory.absolute()} matching pattern {glob}"
+        raise FileNotFoundError(msg)
     latest = files[-1]
-    _logger.debug(f"Returning {latest} as most recent locally-available file.")
+    _logger.debug("Returning %s as most recent locally-available file.", latest)
     return latest

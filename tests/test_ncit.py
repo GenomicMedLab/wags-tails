@@ -8,15 +8,15 @@ import requests_mock
 from wags_tails.ncit import NcitData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def ncit_data_dir(base_data_dir: Path):
     """Provide NCIt data directory."""
-    dir = base_data_dir / "ncit"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "ncit"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def ncit(ncit_data_dir: Path):
     """Provide NcitData fixture"""
     return NcitData(ncit_data_dir, silent=True)
@@ -25,14 +25,14 @@ def ncit(ncit_data_dir: Path):
 @pytest.fixture(scope="module")
 def ncit_file(fixture_dir):
     """Provide mock NCIt zip file."""
-    with open(fixture_dir / "ncit_download.zip", "rb") as f:
+    with (fixture_dir / "ncit_download.zip").open("rb") as f:
         return f.read()
 
 
 @pytest.fixture(scope="module")
 def versions_response(fixture_dir):
     """Provide HTML response to parse version value from"""
-    with open(fixture_dir / "ncit_home_page.html", "r") as f:
+    with (fixture_dir / "ncit_home_page.html").open() as f:
         return "\n".join(list(f.readlines()))
 
 
@@ -47,7 +47,9 @@ def test_get_latest(
     Fetching NCIt data requires an extra request to verify file location,
     which is why the call count numbers are different for this test.
     """
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         ncit.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

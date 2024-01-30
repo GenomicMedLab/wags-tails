@@ -6,15 +6,15 @@ import pytest
 from wags_tails import HgncData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def hgnc_data_dir(base_data_dir: Path):
     """Provide HGNC data directory."""
-    dir = base_data_dir / "hgnc"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "hgnc"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def hgnc(hgnc_data_dir: Path):
     """Provide ChemblData fixture"""
     return HgncData(hgnc_data_dir, silent=True)
@@ -25,7 +25,9 @@ def test_get_latest_local(
     hgnc_data_dir: Path,
 ):
     """Test local file management in HgncData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         hgnc.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

@@ -7,7 +7,7 @@ from typing import NamedTuple, Tuple
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
 from .utils.storage import get_latest_local_file
 from .utils.versioning import parse_file_version
 
@@ -34,7 +34,9 @@ class GToPLigandData(DataSource):
         :return: latest release value
         :raise RemoteDataError: if unable to parse version number from releases API
         """
-        r = requests.get("https://www.guidetopharmacology.org/")
+        r = requests.get(
+            "https://www.guidetopharmacology.org/", timeout=HTTPS_REQUEST_TIMEOUT
+        )
         r.raise_for_status()
         r_text = r.text.split("\n")
         pattern = re.compile(r"Current Release Version (\d{4}\.\d) \(.*\)")
@@ -44,9 +46,8 @@ class GToPLigandData(DataSource):
                 if matches:
                     return matches[0]
         else:
-            raise RemoteDataError(
-                "Unable to parse latest Guide to Pharmacology version number homepage HTML."
-            )
+            msg = "Unable to parse latest Guide to Pharmacology version number homepage HTML."
+            raise RemoteDataError(msg)
 
     def _download_data(self, file_paths: GtoPLigandPaths) -> None:
         """Perform file downloads.
@@ -76,7 +77,8 @@ class GToPLigandData(DataSource):
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
         if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
+            msg = "Cannot set both `force_refresh` and `from_local`"
+            raise ValueError(msg)
 
         if from_local:
             ligands_path = get_latest_local_file(self.data_dir, "gtop_ligands_*.tsv")
@@ -101,12 +103,15 @@ class GToPLigandData(DataSource):
         if not force_refresh:
             if ligands_path.exists() and ligand_id_mapping_path.exists():
                 _logger.debug(
-                    f"Found existing files, {file_paths}, matching latest version {latest_version}."
+                    "Found existing files, %s, matching latest version %s.",
+                    file_paths,
+                    latest_version,
                 )
                 return file_paths, latest_version
-            elif ligands_path.exists() or ligand_id_mapping_path.exists():
+            if ligands_path.exists() or ligand_id_mapping_path.exists():
                 _logger.warning(
-                    f"Existing files, {file_paths}, not all available -- attempting full download."
+                    "Existing files, %s, not all available -- attempting full download.",
+                    file_paths,
                 )
         self._download_data(file_paths)
         return file_paths, latest_version

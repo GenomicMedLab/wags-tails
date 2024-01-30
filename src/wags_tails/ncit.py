@@ -5,7 +5,7 @@ from pathlib import Path
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import download_http, handle_zip
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http, handle_zip
 
 
 class NcitData(DataSource):
@@ -21,7 +21,10 @@ class NcitData(DataSource):
         :return: latest release value
         :raise RemoteDataError: if unable to parse version number from releases API
         """
-        r = requests.get("https://ncithesaurus.nci.nih.gov/ncitbrowser/")
+        r = requests.get(
+            "https://ncithesaurus.nci.nih.gov/ncitbrowser/",
+            timeout=HTTPS_REQUEST_TIMEOUT,
+        )
         r.raise_for_status()
         r_text = r.text.split("\n")
         pattern = re.compile(r"Version:(\d\d\.\d\d\w)")
@@ -31,9 +34,8 @@ class NcitData(DataSource):
                 if match and match.groups():
                     return match.groups()[0]
         else:
-            raise RemoteDataError(
-                "Unable to parse latest NCIt version number homepage HTML."
-            )
+            msg = "Unable to parse latest NCIt version number homepage HTML."
+            raise RemoteDataError(msg)
 
     @staticmethod
     def _get_url(version: str) -> str:
@@ -49,20 +51,20 @@ class NcitData(DataSource):
         # ping base NCIt directory
         release_fname = f"Thesaurus_{version}.OWL.zip"
         src_url = f"{base_url}/{release_fname}"
-        r_try = requests.get(src_url)
+        r_try = requests.get(src_url, timeout=HTTPS_REQUEST_TIMEOUT)
         if r_try.status_code != 200:
             # ping NCIt archive directories
             archive_url = f"{base_url}/archive/{version}_Release/{release_fname}"
-            archive_try = requests.get(archive_url)
+            archive_try = requests.get(archive_url, timeout=HTTPS_REQUEST_TIMEOUT)
             if archive_try.status_code != 200:
                 old_archive_url = f"{base_url}/archive/20{version[0:2]}/{version}_Release/{release_fname}"
-                old_archive_try = requests.get(old_archive_url)
+                old_archive_try = requests.get(
+                    old_archive_url, timeout=HTTPS_REQUEST_TIMEOUT
+                )
                 if old_archive_try.status_code != 200:
-                    raise RemoteDataError(
-                        f"Unable to locate URL for NCIt version {version}"
-                    )
-                else:
-                    src_url = old_archive_url
+                    msg = f"Unable to locate URL for NCIt version {version}"
+                    raise RemoteDataError(msg)
+                src_url = old_archive_url
             else:
                 src_url = archive_url
         return src_url

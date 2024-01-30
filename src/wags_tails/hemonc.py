@@ -8,7 +8,7 @@ from typing import NamedTuple, Tuple
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
 from .utils.storage import get_latest_local_file
 from .utils.versioning import parse_file_version
 
@@ -41,14 +41,13 @@ class HemOncData(DataSource):
         :raise RemoteDataError: if unable to parse version number from data file
         """
         data_url = "https://dataverse.harvard.edu/api/datasets/export?persistentId=doi:10.7910/DVN/9CY9C6&exporter=dataverse_json"
-        r = requests.get(data_url)
+        r = requests.get(data_url, timeout=HTTPS_REQUEST_TIMEOUT)
         r.raise_for_status()
         try:
             date = r.json()["datasetVersion"]["createTime"].split("T")[0]
-        except (KeyError, IndexError):
-            raise RemoteDataError(
-                "Unable to parse latest HemOnc version number from release API"
-            )
+        except (KeyError, IndexError) as e:
+            msg = "Unable to parse latest HemOnc version number from release API"
+            raise RemoteDataError(msg) from e
         return date
 
     def _download_handler(self, dl_path: Path, file_paths: HemOncPaths) -> None:
@@ -68,7 +67,7 @@ class HemOncData(DataSource):
                     if path_type in file.filename:
                         file.filename = path.name
                         zip_ref.extract(file, path.parent)
-        os.remove(dl_path)
+        dl_path.unlink()
 
     def _download_data(self, version: str, outfile_paths: HemOncPaths) -> None:
         """Download data file to specified location.
@@ -78,10 +77,8 @@ class HemOncData(DataSource):
         """
         api_key = os.environ.get("HARVARD_DATAVERSE_API_KEY")
         if not api_key:
-            raise RemoteDataError(
-                "Must provide Harvard Dataverse API key in environment variable HARVARD_DATAVERSE_API_KEY. "
-                "See: https://guides.dataverse.org/en/latest/user/account.html"
-            )
+            msg = "Must provide Harvard Dataverse API key in environment variable HARVARD_DATAVERSE_API_KEY. See: https://guides.dataverse.org/en/latest/user/account.html"
+            raise RemoteDataError(msg)
         download_http(
             "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
             self.data_dir,
@@ -121,7 +118,8 @@ class HemOncData(DataSource):
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
         if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
+            msg = "Cannot set both `force_refresh` and `from_local`"
+            raise ValueError(msg)
 
         if from_local:
             return self._get_local_files()
@@ -141,12 +139,15 @@ class HemOncData(DataSource):
             ]
             if all(files_exist):
                 _logger.debug(
-                    f"Found existing files, {file_paths}, matching latest version {latest_version}."
+                    "Found existing files, %s, matching latest version %s.",
+                    file_paths,
+                    latest_version,
                 )
                 return file_paths, latest_version
-            elif sum(files_exist) > 0:
+            if sum(files_exist) > 0:
                 _logger.warning(
-                    f"Existing files, {file_paths}, not all available -- attempting full download."
+                    "Existing files, %s, not all available -- attempting full download.",
+                    file_paths,
                 )
         self._download_data(latest_version, file_paths)
         return file_paths, latest_version

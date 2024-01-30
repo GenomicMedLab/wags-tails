@@ -7,7 +7,7 @@ from pathlib import Path
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
 
 
 class ChemblData(DataSource):
@@ -26,19 +26,17 @@ class ChemblData(DataSource):
         latest_readme_url = (
             "https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/README"
         )
-        response = requests.get(latest_readme_url)
+        response = requests.get(latest_readme_url, timeout=HTTPS_REQUEST_TIMEOUT)
         response.raise_for_status()
         data = response.text
         pattern = re.compile(r"\*\s*Release:\s*chembl_(\d*).*")
         for line in data.splitlines():
             m = re.match(pattern, line)
             if m and m.group():
-                version = m.group(1)
-                return version
+                return m.group(1)
         else:
-            raise RemoteDataError(
-                "Unable to parse latest ChEMBL version number from latest release README"
-            )
+            msg = "Unable to parse latest ChEMBL version number from latest release README"
+            raise RemoteDataError(msg)
 
     @staticmethod
     def _tarball_handler(dl_path: Path, outfile_path: Path) -> None:

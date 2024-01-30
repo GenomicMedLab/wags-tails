@@ -4,7 +4,7 @@ from pathlib import Path
 import requests
 
 from wags_tails.base_source import DataSource
-from wags_tails.utils.downloads import download_ftp, handle_gzip
+from wags_tails.utils.downloads import HTTPS_REQUEST_TIMEOUT, download_ftp, handle_gzip
 
 
 class EnsemblData(DataSource):
@@ -19,7 +19,7 @@ class EnsemblData(DataSource):
         :return: latest release value
         """
         url = "https://rest.ensembl.org/info/data/?content-type=application/json"
-        response = requests.get(url)
+        response = requests.get(url, timeout=HTTPS_REQUEST_TIMEOUT)
         response.raise_for_status()
         releases = response.json()["releases"]
         releases.sort()

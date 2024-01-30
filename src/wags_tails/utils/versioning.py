@@ -17,5 +17,5 @@ def parse_file_version(file_path: Path, pattern: str) -> str:
     match = re.match(pattern, file_path.name)
     if match and match.groups():
         return match.groups()[0]
-    else:
-        raise ValueError(f"Unable to parse version from {file_path.absolute()}")
+    msg = f"Unable to parse version from {file_path.absolute()}"
+    raise ValueError(msg)

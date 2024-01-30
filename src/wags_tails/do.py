@@ -1,13 +1,12 @@
 """Provide source fetching for Human Disease Ontology."""
-import os
+import datetime
 import tarfile
-from datetime import datetime
 from pathlib import Path
 
 import requests
 
 from .base_source import GitHubDataSource
-from .utils.downloads import download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
 from .utils.versioning import DATE_VERSION_PATTERN
 
 
@@ -30,7 +29,7 @@ class DoData(GitHubDataSource):
                 if member.name.endswith("src/ontology/doid.owl"):
                     member.name = outfile_path.name
                     tar.extract(member, path=outfile_path.parent)
-        os.remove(dl_path)
+        dl_path.unlink()
 
     def _download_data(self, version: str, outfile: Path) -> None:
         """Download data file to specified location.
@@ -38,11 +37,13 @@ class DoData(GitHubDataSource):
         :param version: version to acquire
         :param outfile: location and filename for final data file
         """
-        formatted_version = datetime.strptime(version, DATE_VERSION_PATTERN).strftime(
-            "v%Y-%m-%d"
+        formatted_version = (
+            datetime.datetime.strptime(version, DATE_VERSION_PATTERN)
+            .replace(tzinfo=datetime.timezone.utc)
+            .strftime("v%Y-%m-%d")
         )
         tag_info_url = f"https://api.github.com/repos/{self._repo}/releases/tags/{formatted_version}"
-        response = requests.get(tag_info_url)
+        response = requests.get(tag_info_url, timeout=HTTPS_REQUEST_TIMEOUT)
         response.raise_for_status()
         tarball_url = response.json()["tarball_url"]
         download_http(

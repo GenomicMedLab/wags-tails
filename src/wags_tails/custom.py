@@ -42,14 +42,14 @@ class CustomData(DataSource):
         self._src_name = src_name
         self._filetype = filetype
         self._get_latest_version = latest_version_cb
-        self._download_data = download_cb  # type: ignore
+        self._download_data = download_cb
         if file_name:
             self._file_name = file_name
         else:
             self._file_name = src_name
         super().__init__(data_dir, silent)
 
-    def _get_latest_version(self) -> str:  # type: ignore
+    def _get_latest_version(self) -> str:
         """Acquire value of latest data version.
 
         This method is overwritten by the ``latest_version_cb`` argument supplied at
@@ -57,7 +57,6 @@ class CustomData(DataSource):
 
         :return: latest version value
         """
-        pass
 
     def _download_data(self, version: str, outfile: Path) -> None:
         """Download data file to specified location.
@@ -68,4 +67,3 @@ class CustomData(DataSource):
         :param version: version to acquire
         :param outfile: location and filename for final data file
         """
-        pass

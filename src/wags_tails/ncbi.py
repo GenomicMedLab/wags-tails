@@ -35,10 +35,11 @@ class NcbiGenomeData(DataSource):
         try:
             grch_dirs = [d for d in ftp.nlst() if re.match(major_annotation_pattern, d)]
             grch_dir = grch_dirs[0]
-        except (IndexError, AttributeError):
-            raise RemoteDataError(
+        except (IndexError, AttributeError) as e:
+            msg = (
                 "No directories matching expected NCBI latest assembly version pattern"
             )
+            raise RemoteDataError(msg) from e
         ftp.cwd(grch_dir)
 
     def _get_latest_version(self) -> str:
@@ -53,11 +54,9 @@ class NcbiGenomeData(DataSource):
             for file in ftp.nlst():
                 match = re.match(file_pattern, file)
                 if match and match.groups():
-                    latest_version = match.groups()[0]
-                    return latest_version
-        raise RemoteDataError(
-            "No files matching expected NCBI GRCh38 annotation pattern"
-        )
+                    return match.groups()[0]
+        msg = "No files matching expected NCBI GRCh38 annotation pattern"
+        raise RemoteDataError(msg)
 
     def _download_data(self, version: str, outfile: Path) -> None:
         """Download data file to specified location.
@@ -77,9 +76,8 @@ class NcbiGenomeData(DataSource):
                     genomic_filename = f
                     genomic_file_location = ftp.pwd()
             if not genomic_filename or not genomic_file_location:
-                raise RemoteDataError(
-                    "Unable to find latest available NCBI GRCh38 annotation"
-                )
+                msg = "Unable to find latest available NCBI GRCh38 annotation"
+                raise RemoteDataError(msg)
         download_ftp(
             "ftp.ncbi.nlm.nih.gov",
             genomic_file_location,
@@ -154,7 +152,8 @@ class NcbiGeneData(DataSource):
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
         if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
+            msg = "Cannot set both `force_refresh` and `from_local`"
+            raise ValueError(msg)
 
         if from_local:
             info_path = get_latest_local_file(self.data_dir, "ncbi_info_*.tsv")
@@ -169,12 +168,15 @@ class NcbiGeneData(DataSource):
         if not force_refresh:
             if info_path.exists() and history_path.exists():
                 _logger.debug(
-                    f"Found existing files, {file_paths}, matching latest version {latest_version}."
+                    "Found existing files, %s, matching latest version %s.",
+                    file_paths,
+                    latest_version,
                 )
                 return file_paths, latest_version
-            elif info_path.exists() or history_path.exists():
+            if info_path.exists() or history_path.exists():
                 _logger.warning(
-                    f"Existing files, {file_paths}, not all available -- attempting full download."
+                    "Existing files, %s, not all available -- attempting full download.",
+                    file_paths,
                 )
         self._download_data(file_paths)
         return file_paths, latest_version

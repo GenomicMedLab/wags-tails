@@ -9,15 +9,15 @@ import requests_mock
 from wags_tails.drugbank import DrugBankData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def drugbank_data_dir(base_data_dir: Path):
     """Provide Drugbank data directory."""
-    dir = base_data_dir / "drugbank"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "drugbank"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def drugbank(drugbank_data_dir: Path):
     """Provide DrugBankData fixture"""
     return DrugBankData(drugbank_data_dir, silent=True)
@@ -26,14 +26,14 @@ def drugbank(drugbank_data_dir: Path):
 @pytest.fixture(scope="module")
 def drugbank_file(fixture_dir):
     """Provide mock DrugBank zip file."""
-    with open(fixture_dir / "drugbank_all_drugbank_vocabulary.csv.zip", "rb") as f:
+    with (fixture_dir / "drugbank_all_drugbank_vocabulary.csv.zip").open("rb") as f:
         return f.read()
 
 
 @pytest.fixture(scope="module")
 def versions_response(fixture_dir):
     """Provide JSON response to releases API endpoint"""
-    with open(fixture_dir / "drugbank_releases.json", "r") as f:
+    with (fixture_dir / "drugbank_releases.json").open() as f:
         return json.load(f)
 
 
@@ -44,7 +44,9 @@ def test_get_latest(
     drugbank_file: str,
 ):
     """Test chemblData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         drugbank.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

@@ -11,15 +11,15 @@ import requests_mock
 from wags_tails.rxnorm import RxNormData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def rxnorm_data_dir(base_data_dir: Path):
     """Provide RxNorm data directory."""
-    dir = base_data_dir / "rxnorm"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "rxnorm"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def rxnorm(rxnorm_data_dir: Path):
     """Provide RxNormData fixture"""
     return RxNormData(rxnorm_data_dir, silent=True)
@@ -28,14 +28,14 @@ def rxnorm(rxnorm_data_dir: Path):
 @pytest.fixture(scope="module")
 def latest_release_response(fixture_dir):
     """Provide JSON response to latest release API endpoint"""
-    with open(fixture_dir / "rxnorm_release.json", "r") as f:
+    with (fixture_dir / "rxnorm_release.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def rxnorm_file(fixture_dir):
     """Provide mock RxNorm zip file."""
-    with open(fixture_dir / "rxnorm_files.zip", "rb") as f:
+    with (fixture_dir / "rxnorm_files.zip").open("rb") as f:
         return f.read()
 
 
@@ -47,7 +47,9 @@ def test_get_latest(
 ):
     """Test RxNormData.get_latest()"""
     os.environ["UMLS_API_KEY"] = "abcdefghijklmnopqrstuvwxyz"
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         rxnorm.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):
