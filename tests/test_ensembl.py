@@ -6,15 +6,15 @@ import pytest
 from wags_tails import EnsemblData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def ensembl_data_dir(base_data_dir: Path):
     """Provide Ensembl data directory."""
-    dir = base_data_dir / "ensembl"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "ensembl"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def ensembl(ensembl_data_dir: Path):
     """Provide ChemblData fixture"""
     return EnsemblData(ensembl_data_dir, silent=True)
@@ -25,7 +25,9 @@ def test_get_latest_local(
     ensembl_data_dir: Path,
 ):
     """Test local file management in EnsemblData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         ensembl.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

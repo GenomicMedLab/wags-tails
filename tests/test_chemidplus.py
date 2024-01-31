@@ -7,15 +7,15 @@ import requests_mock
 from wags_tails.chemidplus import ChemIDplusData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def chemidplus_data_dir(base_data_dir: Path):
     """Provide chemidplus data directory."""
-    dir = base_data_dir / "chemidplus"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "chemidplus"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def chemidplus(chemidplus_data_dir: Path):
     """Provide ChemIDplusData fixture"""
     return ChemIDplusData(chemidplus_data_dir, silent=True)
@@ -24,7 +24,7 @@ def chemidplus(chemidplus_data_dir: Path):
 @pytest.fixture(scope="module")
 def chemidplus_file(fixture_dir):
     """Provide mock ChemIDplus XML file."""
-    with open(fixture_dir / "chemidplus.xml", "r") as f:
+    with (fixture_dir / "chemidplus.xml").open() as f:
         return "\n".join(list(f.readlines()))
 
 
@@ -34,7 +34,9 @@ def test_get_latest(
     chemidplus_file: str,
 ):
     """Test chemblData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         chemidplus.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

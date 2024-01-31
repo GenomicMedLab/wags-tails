@@ -7,7 +7,7 @@ from pathlib import Path
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
 from .utils.versioning import DATE_VERSION_PATTERN
 
 
@@ -29,17 +29,18 @@ class RxNormData(DataSource):
         :raise RemoteDataError: if unable to parse version number from releases API
         """
         url = "https://rxnav.nlm.nih.gov/REST/version.json"
-        r = requests.get(url)
+        r = requests.get(url, timeout=HTTPS_REQUEST_TIMEOUT)
         r.raise_for_status()
         try:
             raw_version = r.json()["version"]
-            return datetime.datetime.strptime(raw_version, "%d-%b-%Y").strftime(
-                DATE_VERSION_PATTERN
+            return (
+                datetime.datetime.strptime(raw_version, "%d-%b-%Y")
+                .replace(tzinfo=datetime.timezone.utc)
+                .strftime(DATE_VERSION_PATTERN)
             )
-        except (ValueError, KeyError):
-            raise RemoteDataError(
-                f"Unable to parse latest RxNorm version from API endpoint: {url}."
-            )
+        except (ValueError, KeyError) as e:
+            msg = f"Unable to parse latest RxNorm version from API endpoint: {url}."
+            raise RemoteDataError(msg) from e
 
     def _zip_handler(self, dl_path: Path, outfile_path: Path) -> None:
         """Provide simple callback function to extract the largest file within a given
@@ -56,9 +57,10 @@ class RxNormData(DataSource):
                     target = file
                     break
             else:
-                raise RemoteDataError("Unable to find RxNorm RRF in downloaded file")
+                msg = "Unable to find RxNorm RRF in downloaded file"
+                raise RemoteDataError(msg)
             zip_ref.extract(target, path=outfile_path.parent)
-        os.remove(dl_path)
+        dl_path.unlink()
 
     def _download_data(self, version: str, file_path: Path) -> None:
         """Download latest RxNorm data file.
@@ -69,13 +71,13 @@ class RxNormData(DataSource):
         """
         api_key = os.environ.get("UMLS_API_KEY")
         if not api_key:
-            raise RemoteDataError(
-                "Must provide UMLS API key in environment variable UMLS_API_KEY. "
-                "See: https://documentation.uts.nlm.nih.gov/rest/authentication.html"
-            )
-        fmt_version = datetime.datetime.strptime(
-            version, DATE_VERSION_PATTERN
-        ).strftime("%m%d%Y")
+            msg = "Must provide UMLS API key in environment variable UMLS_API_KEY. See: https://documentation.uts.nlm.nih.gov/rest/authentication.html"
+            raise RemoteDataError(msg)
+        fmt_version = (
+            datetime.datetime.strptime(version, DATE_VERSION_PATTERN)
+            .replace(tzinfo=datetime.timezone.utc)
+            .strftime("%m%d%Y")
+        )
         dl_url = f"https://download.nlm.nih.gov/umls/kss/rxnorm/RxNorm_full_{fmt_version}.zip"
         url = f"https://uts-ws.nlm.nih.gov/download?url={dl_url}&apiKey={api_key}"
 

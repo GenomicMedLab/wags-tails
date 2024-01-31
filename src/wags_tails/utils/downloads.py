@@ -15,6 +15,9 @@ from tqdm import tqdm
 _logger = logging.getLogger(__name__)
 
 
+HTTPS_REQUEST_TIMEOUT = 30
+
+
 def handle_zip(dl_path: Path, outfile_path: Path) -> None:
     """Provide simple callback function to extract the largest file within a given
     zipfile and save it within the appropriate data directory.
@@ -30,7 +33,7 @@ def handle_zip(dl_path: Path, outfile_path: Path) -> None:
             target = zip_ref.filelist[0]
         target.filename = outfile_path.name
         zip_ref.extract(target, path=outfile_path.parent)
-    os.remove(dl_path)
+    dl_path.unlink()
 
 
 def handle_gzip(dl_path: Path, outfile_path: Path) -> None:
@@ -39,9 +42,8 @@ def handle_gzip(dl_path: Path, outfile_path: Path) -> None:
     :param dl_path: path to temp data file
     :param outfile_path: path to save file within
     """
-    with gzip.open(dl_path, "rb") as gz:
-        with open(outfile_path, "wb") as f:
-            f.write(gz.read())
+    with gzip.open(dl_path, "rb") as gz, outfile_path.open("wb") as f:
+        f.write(gz.read())
 
 
 def download_ftp(
@@ -65,31 +67,32 @@ def download_ftp(
     """
     if not tqdm_params:
         tqdm_params = {}
-    _logger.info(f"Downloading {outfile_path.name} from {host}...")
+    _logger.info("Downloading %s from %s...", outfile_path.name, host)
     if handler:
         dl_path = Path(tempfile.gettempdir()) / "wags_tails_tmp"
     else:
         dl_path = outfile_path
     with ftplib.FTP(host) as ftp:
         ftp.login()
-        _logger.debug(f"FTP login to {host} was successful.")
+        _logger.debug("FTP login to %s was successful.", host)
         ftp.cwd(host_directory_path)
         file_size = ftp.size(host_filename)
         if not tqdm_params.get("disable"):
             print(f"Downloading {host}/{host_directory_path}{host_filename}...")
-        with open(dl_path, "wb") as fp:
-            with tqdm(total=file_size, **tqdm_params) as progress_bar:
+        with dl_path.open("wb") as fp, tqdm(
+            total=file_size, **tqdm_params
+        ) as progress_bar:
 
-                def _cb(data: bytes) -> None:
-                    progress_bar.update(len(data))
-                    fp.write(data)
-                    if fp.tell() == file_size:
-                        progress_bar.close()
+            def _cb(data: bytes) -> None:
+                progress_bar.update(len(data))
+                fp.write(data)
+                if fp.tell() == file_size:
+                    progress_bar.close()
 
-                ftp.retrbinary(f"RETR {host_filename}", _cb)
+            ftp.retrbinary(f"RETR {host_filename}", _cb)
     if handler:
         handler(dl_path, outfile_path)
-    _logger.info(f"Successfully downloaded {outfile_path.name}.")
+    _logger.info("Successfully downloaded %s.", outfile_path.name)
 
 
 def download_http(
@@ -111,31 +114,31 @@ def download_http(
     """
     if not tqdm_params:
         tqdm_params = {}
-    _logger.info(f"Downloading {outfile_path.name} from {url}...")
+    _logger.info("Downloading %s from %s...", outfile_path.name, url)
     if handler:
         dl_path = Path(tempfile.gettempdir()) / "wags_tails_tmp"
     else:
         dl_path = outfile_path
     # use stream to avoid saving download completely to memory
-    with requests.get(url, stream=True, headers=headers) as r:
+    with requests.get(
+        url, stream=True, headers=headers, timeout=HTTPS_REQUEST_TIMEOUT
+    ) as r:
         r.raise_for_status()
         total_size = int(r.headers.get("content-length", 0))
         if not tqdm_params.get("disable"):
             if "apiKey" in url:  # don't print RxNorm API key
                 pattern = r"&apiKey=.{8}-.{4}-.{4}-.{4}-.{12}"
-                print_url = re.sub(pattern, "", os.path.basename(url))
+                print_url = re.sub(pattern, "", os.path.basename(url))  # noqa: PTH119
                 print(f"Downloading {print_url}...")
             else:
-                print(f"Downloading {os.path.basename(url)}...")
-        with open(dl_path, "wb") as h:
-            with tqdm(
-                total=total_size,
-                **tqdm_params,
-            ) as progress_bar:
-                for chunk in r.iter_content(chunk_size=8192):
-                    if chunk:
-                        h.write(chunk)
-                        progress_bar.update(len(chunk))
+                print(f"Downloading {os.path.basename(url)}...")  # noqa: PTH119
+        with dl_path.open("wb") as h, tqdm(
+            total=total_size, **tqdm_params
+        ) as progress_bar:
+            for chunk in r.iter_content(chunk_size=8192):
+                if chunk:
+                    h.write(chunk)
+                    progress_bar.update(len(chunk))
     if handler:
         handler(dl_path, outfile_path)
-    _logger.info(f"Successfully downloaded {outfile_path.name}.")
+    _logger.info("Successfully downloaded %s.", outfile_path.name)

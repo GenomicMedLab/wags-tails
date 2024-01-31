@@ -8,15 +8,15 @@ import requests_mock
 from wags_tails.chembl import ChemblData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def chembl_data_dir(base_data_dir: Path):
     """Provide chembl data directory."""
-    dir = base_data_dir / "chembl"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "chembl"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def chembl(chembl_data_dir: Path):
     """Provide ChemblData fixture"""
     return ChemblData(chembl_data_dir, silent=True)
@@ -25,14 +25,14 @@ def chembl(chembl_data_dir: Path):
 @pytest.fixture(scope="module")
 def chembl_latest_readme(fixture_dir: Path):
     """Provide latest ChEMBL README fixture, for getting latest version."""
-    with open(fixture_dir / "chembl_latest_readme.txt", "r") as f:
+    with (fixture_dir / "chembl_latest_readme.txt").open() as f:
         return "\n".join(list(f.readlines()))
 
 
 @pytest.fixture(scope="module")
 def chembl_file(fixture_dir):
     """Provide mock ChEMBL sqlite tarball."""
-    with open(fixture_dir / "chembl_33_sqlite.tar.gz", "rb") as f:
+    with (fixture_dir / "chembl_33_sqlite.tar.gz").open("rb") as f:
         return f.read()
 
 
@@ -43,7 +43,9 @@ def test_get_latest(
     chembl_file: TextIOWrapper,
 ):
     """Test chemblData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         chembl.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

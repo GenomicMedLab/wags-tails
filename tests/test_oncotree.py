@@ -9,15 +9,15 @@ import requests_mock
 from wags_tails.oncotree import OncoTreeData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def data_dir(base_data_dir: Path):
     """Provide source data directory."""
-    dir = base_data_dir / "oncotree"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "oncotree"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def oncotree(data_dir: Path):
     """Provide OncoTreeData fixture"""
     return OncoTreeData(data_dir, silent=True)
@@ -26,14 +26,14 @@ def oncotree(data_dir: Path):
 @pytest.fixture(scope="module")
 def oncotree_versions_response(fixture_dir: Path):
     """Provide latest OncoTree versions fixture, for getting latest version."""
-    with open(fixture_dir / "oncotree_versions.json", "r") as f:
+    with (fixture_dir / "oncotree_versions.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def oncotree_tree(fixture_dir):
     """Provide mock OncoTree data file."""
-    with open(fixture_dir / "oncotree_data.json", "r") as f:
+    with (fixture_dir / "oncotree_data.json").open() as f:
         return json.load(f)
 
 
@@ -44,7 +44,9 @@ def test_get_latest(
     oncotree_tree: Dict,
 ):
     """Test chemblData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         oncotree.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

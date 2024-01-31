@@ -6,21 +6,21 @@ import pytest
 from wags_tails import NcbiGeneData, NcbiGenomeData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def ncbi_data_dir(base_data_dir: Path):
     """Provide NCBI data directory."""
-    dir = base_data_dir / "ncbi"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "ncbi"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def ncbi_genome(ncbi_data_dir: Path):
     """Provide NcbiGenomeData fixture"""
     return NcbiGenomeData(ncbi_data_dir, silent=True)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def ncbi_gene(ncbi_data_dir: Path):
     """Provide NcbiGeneData fixture"""
     return NcbiGeneData(ncbi_data_dir, silent=True)
@@ -31,7 +31,9 @@ def test_genome_get_latest_local(
     ncbi_data_dir: Path,
 ):
     """Test local file management in NcbiGenomeData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         ncbi_genome.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):
@@ -49,7 +51,9 @@ def test_info_get_latest_local(
     ncbi_data_dir: Path,
 ):
     """Test local file management in NcbiGeneData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         ncbi_gene.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

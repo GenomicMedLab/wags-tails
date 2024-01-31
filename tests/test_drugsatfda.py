@@ -9,15 +9,15 @@ import requests_mock
 from wags_tails.drugsatfda import DrugsAtFdaData
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def drugsatfda_data_dir(base_data_dir: Path):
     """Provide Drugs@FDA data directory."""
-    dir = base_data_dir / "drugsatfda"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "drugsatfda"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def drugsatfda(drugsatfda_data_dir: Path):
     """Provide DrugsAtFdaData fixture"""
     return DrugsAtFdaData(drugsatfda_data_dir, silent=True)
@@ -26,14 +26,14 @@ def drugsatfda(drugsatfda_data_dir: Path):
 @pytest.fixture(scope="module")
 def latest_release_response(fixture_dir):
     """Provide JSON response to latest release API endpoint"""
-    with open(fixture_dir / "drugsatfda_release.json", "r") as f:
+    with (fixture_dir / "drugsatfda_release.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def drugsatfda_file(fixture_dir):
     """Provide mock Drugs@FDA download file."""
-    with open(fixture_dir / "drugsatfda_download.zip", "rb") as f:
+    with (fixture_dir / "drugsatfda_download.zip").open("rb") as f:
         return f.read()
 
 
@@ -44,7 +44,9 @@ def test_get_latest(
     drugsatfda_file: str,
 ):
     """Test DrugsAtFdaData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         drugsatfda.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

@@ -1,11 +1,11 @@
 """Provide access to Oncotree data."""
-from datetime import datetime
+import datetime
 from pathlib import Path
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
 from .utils.versioning import DATE_VERSION_PATTERN
 
 
@@ -22,22 +22,22 @@ class OncoTreeData(DataSource):
         :raise RemoteDataError: if unable to parse version number from API response
         """
         info_url = "http://oncotree.info/api/versions"
-        response = requests.get(info_url)
+        response = requests.get(info_url, timeout=HTTPS_REQUEST_TIMEOUT)
         response.raise_for_status()
         try:
             raw_version = next(
-                (
-                    r["release_date"]
-                    for r in response.json()
-                    if r["api_identifier"] == "oncotree_latest_stable"
-                )
+                r["release_date"]
+                for r in response.json()
+                if r["api_identifier"] == "oncotree_latest_stable"
             )
-        except StopIteration:
-            raise RemoteDataError("Unable to locate latest stable Oncotree version")
-        version = datetime.strptime(raw_version, "%Y-%m-%d").strftime(
-            DATE_VERSION_PATTERN
+        except StopIteration as e:
+            msg = "Unable to locate latest stable Oncotree version"
+            raise RemoteDataError(msg) from e
+        return (
+            datetime.datetime.strptime(raw_version, "%Y-%m-%d")
+            .replace(tzinfo=datetime.timezone.utc)
+            .strftime(DATE_VERSION_PATTERN)
         )
-        return version
 
     def _download_data(self, version: str, outfile: Path) -> None:
         """Download data file to specified location.

@@ -8,15 +8,15 @@ import requests_mock
 from wags_tails.guide_to_pharmacology import GToPLigandData, GtoPLigandPaths
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def gtop_data_dir(base_data_dir: Path):
     """Provide Guide to Pharmacology data directory."""
-    dir = base_data_dir / "guidetopharmacology"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "guidetopharmacology"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def gtop_ligand(gtop_data_dir: Path):
     """Provide GToPLigandData fixture"""
     return GToPLigandData(gtop_data_dir, silent=True)
@@ -25,11 +25,11 @@ def gtop_ligand(gtop_data_dir: Path):
 @pytest.fixture(scope="module")
 def latest_release_response(fixture_dir: Path):
     """Provide JSON response to latest release API endpoint"""
-    with open(fixture_dir / "gtop_home.html", "r") as f:
+    with (fixture_dir / "gtop_home.html").open() as f:
         return f.read()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def gtop_ligand_file_paths(gtop_data_dir: Path):
     """Provide expected Path descriptors for Guide to Pharmacology ligand data objects."""
     return GtoPLigandPaths(
@@ -45,7 +45,9 @@ def test_get_latest(
     gtop_ligand_file_paths: GtoPLigandPaths,
 ):
     """Test GToPLigandData.get_latest()"""
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         gtop_ligand.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):

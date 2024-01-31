@@ -5,7 +5,7 @@ from pathlib import Path
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import download_http, handle_zip
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http, handle_zip
 from .utils.versioning import DATE_VERSION_PATTERN
 
 
@@ -22,17 +22,20 @@ class DrugsAtFdaData(DataSource):
         :return: latest release value
         :raise RemoteDataError: if unable to parse version number from releases API
         """
-        r = requests.get("https://api.fda.gov/download.json")
+        r = requests.get(
+            "https://api.fda.gov/download.json", timeout=HTTPS_REQUEST_TIMEOUT
+        )
         r.raise_for_status()
         r_json = r.json()
         try:
             date = r_json["results"]["drug"]["drugsfda"]["export_date"]
-        except KeyError:
-            raise RemoteDataError(
-                "Unable to parse latest DrugBank version number from releases API endpoint"
-            )
-        return datetime.datetime.strptime(date, "%Y-%m-%d").strftime(
-            DATE_VERSION_PATTERN
+        except KeyError as e:
+            msg = "Unable to parse latest DrugBank version number from releases API endpoint"
+            raise RemoteDataError(msg) from e
+        return (
+            datetime.datetime.strptime(date, "%Y-%m-%d")
+            .replace(tzinfo=datetime.timezone.utc)
+            .strftime(DATE_VERSION_PATTERN)
         )
 
     def _download_data(self, version: str, outfile: Path) -> None:

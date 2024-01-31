@@ -1,11 +1,13 @@
 """Define base data source class."""
 import abc
+import datetime
 import logging
-from datetime import datetime
 from pathlib import Path
 from typing import Generator, Optional, Tuple
 
 import requests
+
+from wags_tails.utils.downloads import HTTPS_REQUEST_TIMEOUT
 
 from .utils.storage import get_data_dir, get_latest_local_file
 from .utils.versioning import DATE_VERSION_PATTERN, parse_file_version
@@ -74,7 +76,8 @@ class DataSource(abc.ABC):
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
         """
         if force_refresh and from_local:
-            raise ValueError("Cannot set both `force_refresh` and `from_local`")
+            msg = "Cannot set both `force_refresh` and `from_local`"
+            raise ValueError(msg)
 
         if from_local:
             file_path = get_latest_local_file(
@@ -91,7 +94,9 @@ class DataSource(abc.ABC):
         )
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
-                f"Found existing file, {latest_file.name}, matching latest version {latest_version}."
+                "Found existing file, %s, matching latest version %s.",
+                latest_file.name,
+                latest_version,
             )
             return latest_file, latest_version
         self._download_data(latest_version, latest_file)
@@ -112,12 +117,14 @@ class GitHubDataSource(DataSource):
         :return: Generator yielding version strings
         """
         url = f"https://api.github.com/repos/{self._repo}/releases"
-        response = requests.get(url)
+        response = requests.get(url, timeout=HTTPS_REQUEST_TIMEOUT)
         response.raise_for_status()
         data = response.json()
         for release in data:
-            yield datetime.strptime(release["tag_name"], "v%Y-%m-%d").strftime(
-                DATE_VERSION_PATTERN
+            yield (
+                datetime.datetime.strptime(release["tag_name"], "v%Y-%m-%d")
+                .replace(tzinfo=datetime.timezone.utc)
+                .strftime(DATE_VERSION_PATTERN)
             )
 
     def _get_latest_version(self) -> str:

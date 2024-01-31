@@ -10,15 +10,15 @@ import requests_mock
 from wags_tails.hemonc import HemOncData, HemOncPaths
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def hemonc_data_dir(base_data_dir: Path):
     """Provide HemOnc data directory."""
-    dir = base_data_dir / "hemonc"
-    dir.mkdir(exist_ok=True, parents=True)
-    return dir
+    directory = base_data_dir / "hemonc"
+    directory.mkdir(exist_ok=True, parents=True)
+    return directory
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def hemonc(hemonc_data_dir: Path):
     """Provide HemOncData fixture"""
     return HemOncData(hemonc_data_dir, silent=True)
@@ -27,18 +27,18 @@ def hemonc(hemonc_data_dir: Path):
 @pytest.fixture(scope="module")
 def latest_release_response(fixture_dir: Path):
     """Provide JSON response to latest release API endpoint"""
-    with open(fixture_dir / "hemonc_version.json", "r") as f:
+    with (fixture_dir / "hemonc_version.json").open() as f:
         return json.load(f)
 
 
 @pytest.fixture(scope="module")
 def hemonc_file(fixture_dir: Path):
     """Provide mock hemonc download ZIP file."""
-    with open(fixture_dir / "hemonc_files.zip", "rb") as f:
+    with (fixture_dir / "hemonc_files.zip").open("rb") as f:
         return f.read()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def hemonc_file_paths(hemonc_data_dir: Path):
     """Provide expected Path descriptors for HemOnc data objects."""
     return HemOncPaths(
@@ -57,7 +57,9 @@ def test_get_latest(
 ):
     """Test HemOncData.get_latest()"""
     os.environ["HARVARD_DATAVERSE_API_KEY"] = "zzzz"
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError, match="Cannot set both `force_refresh` and `from_local`"
+    ):
         hemonc.get_latest(from_local=True, force_refresh=True)
 
     with pytest.raises(FileNotFoundError):
