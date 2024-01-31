@@ -27,6 +27,7 @@ class DataSource(abc.ABC):
     # required attributes
     _src_name: str
     _filetype: str
+    _versioned: bool = True
 
     def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
         """Set common class parameters.
@@ -69,6 +70,10 @@ class DataSource(abc.ABC):
     ) -> Tuple[Path, str]:
         """Get path to latest version of data.
 
+        Provides logic for both versioned and unversioned data here, rather than in the
+        ``UnversionedDataSource`` child class, to support ``CustomData`` instances
+        regardless of whether they're versioned.
+
         :param from_local: if True, use latest available local file
         :param force_refresh: if True, fetch and return data from remote regardless of
             whether a local copy is present
@@ -80,27 +85,49 @@ class DataSource(abc.ABC):
             raise ValueError(msg)
 
         if from_local:
-            file_path = get_latest_local_file(
-                self.data_dir, f"{self._src_name}_*.{self._filetype}"
+            file_glob = (
+                f"{self._src_name}_*.{self._filetype}"
+                if self._versioned
+                else f"{self._src_name}.{self._filetype}"
             )
-            version = parse_file_version(
-                file_path, f"{self._src_name}_(.+).{self._filetype}"
+            file_path = get_latest_local_file(self.data_dir, file_glob)
+            version = (
+                parse_file_version(file_path, f"{self._src_name}_(.+).{self._filetype}")
+                if self._versioned
+                else ""
             )
             return file_path, version
 
         latest_version = self._get_latest_version()
         latest_file = (
-            self.data_dir / f"{self._src_name}_{latest_version}.{self._filetype}"
+            f"{self._src_name}_{latest_version}.{self._filetype}"
+            if self._versioned
+            else f"{self._src_name}.{self._filetype}"
         )
-        if (not force_refresh) and latest_file.exists():
+        latest_file_path = self.data_dir / latest_file
+        if (not force_refresh) and latest_file_path.exists():
             _logger.debug(
                 "Found existing file, %s, matching latest version %s.",
-                latest_file.name,
-                latest_version,
+                latest_file_path.name,
+                latest_version if latest_version else "(unversioned)",
             )
-            return latest_file, latest_version
-        self._download_data(latest_version, latest_file)
-        return latest_file, latest_version
+            return latest_file_path, latest_version
+        self._download_data(latest_version, latest_file_path)
+        return latest_file_path, latest_version
+
+
+class UnversionedDataSource(DataSource):
+    """Data acess tool for unversioned data. Provides some additional defaults."""
+
+    _versioned = False
+
+    def _get_latest_version(self) -> str:
+        """Return blank version. Unversioned data sources shouldn't need to implement
+        anything further.
+
+        :return: empty string
+        """
+        return ""
 
 
 class GitHubDataSource(DataSource):

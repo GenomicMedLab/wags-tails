@@ -21,6 +21,7 @@ class CustomData(DataSource):
         download_cb: Callable[[str, Path], None],
         data_dir: Optional[Path] = None,
         file_name: Optional[str] = None,
+        versioned: bool = True,
         silent: bool = False,
     ) -> None:
         """Set common class parameters.
@@ -47,6 +48,7 @@ class CustomData(DataSource):
             self._file_name = file_name
         else:
             self._file_name = src_name
+        self._versioned = versioned
         super().__init__(data_dir, silent)
 
     def _get_latest_version(self) -> str:
