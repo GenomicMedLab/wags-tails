@@ -9,7 +9,7 @@ from wags_tails.ensembl_transcript_mappings import EnsemblTranscriptMappingData
 
 @pytest.fixture()
 def mappings_data_dir(base_data_dir: Path):
-    """Provide chembl data directory."""
+    """Provide ensembl transcript mappings data directory."""
     directory = base_data_dir / "ensembl_transcript_mappings"
     directory.mkdir(exist_ok=True, parents=True)
     return directory
@@ -17,7 +17,7 @@ def mappings_data_dir(base_data_dir: Path):
 
 @pytest.fixture()
 def ensembl_transcript_mappings(mappings_data_dir: Path):
-    """Provide ChemblData fixture"""
+    """Provide EnsemblTranscriptMappingData fixture"""
     return EnsemblTranscriptMappingData(mappings_data_dir, silent=True)
 
 
@@ -49,15 +49,15 @@ def test_get_latest(
         assert path == mappings_data_dir / "ensembl_transcript_mappings.tsv"
         assert path.exists()
         assert version == ""
-        assert m.call_count == 1
+        assert m.call_count == 1, "don't make extra call if data already exists"
 
         path, version = ensembl_transcript_mappings.get_latest(from_local=True)
         assert path == mappings_data_dir / "ensembl_transcript_mappings.tsv"
         assert path.exists()
-        assert m.call_count == 1
+        assert m.call_count == 1, "don't make extra call if `from_local` == True"
 
         path, version = ensembl_transcript_mappings.get_latest(force_refresh=True)
         assert path == mappings_data_dir / "ensembl_transcript_mappings.tsv"
         assert path.exists()
         assert version == ""
-        assert m.call_count == 2
+        assert m.call_count == 2, "make extra call if `force_refresh` == True"
