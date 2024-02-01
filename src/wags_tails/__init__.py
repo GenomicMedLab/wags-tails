@@ -13,7 +13,7 @@ from .hemonc import HemOncData
 from .hgnc import HgncData
 from .mondo import MondoData
 from .ncbi import NcbiGeneData, NcbiGenomeData
-from .ncbi_lrg_refseqgene import NcbiLrgRefseqGeneData
+from .ncbi_lrg_refseqgene import NcbiLrgRefSeqGeneData
 from .ncbi_mane_summary import NcbiManeSummaryData
 from .ncit import NcitData
 from .oncotree import OncoTreeData
@@ -37,7 +37,7 @@ __all__ = [
     "NcbiGeneData",
     "NcbiGenomeData",
     "NcbiManeSummaryData",
-    "NcbiLrgRefseqGeneData",
+    "NcbiLrgRefSeqGeneData",
     "NcitData",
     "OncoTreeData",
     "RxNormData",

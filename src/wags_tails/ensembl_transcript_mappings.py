@@ -11,7 +11,7 @@ QUERY = '<Query virtualSchemaName="default" formatter="TSV" header="1" datasetCo
 class EnsemblTranscriptMappingData(UnversionedDataSource):
     """Provide access to Ensembl transcript mapping data, from the Ensembl BioMart."""
 
-    _src_name = "ensembl_transcript_mapping"
+    _src_name = "ensembl_transcript_mappings"
     _filetype = "tsv"
 
     def _download_data(self, version: str, outfile: Path) -> None:

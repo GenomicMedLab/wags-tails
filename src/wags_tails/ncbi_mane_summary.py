@@ -10,7 +10,7 @@ from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http, handle_gzip
 class NcbiManeSummaryData(DataSource):
     """Provide access to NCBI MANE summary file."""
 
-    _src_name = "ncbi_mane"
+    _src_name = "ncbi_mane_summary"
     _filetype = "txt"
 
     def _get_latest_version(self) -> str:

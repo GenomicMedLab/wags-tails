@@ -8,7 +8,7 @@ from .base_source import DataSource, RemoteDataError
 from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
 
 
-class NcbiLrgRefseqGeneData(DataSource):
+class NcbiLrgRefSeqGeneData(DataSource):
     """Provide access to NCBI LRG_RefSeqGene data."""
 
     _src_name = "ncbi_lrg_refseqgene"
