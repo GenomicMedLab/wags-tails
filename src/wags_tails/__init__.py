@@ -7,6 +7,7 @@ from .do import DoData
 from .drugbank import DrugBankData
 from .drugsatfda import DrugsAtFdaData
 from .ensembl import EnsemblData
+from .ensembl_transcript_mappings import EnsemblTranscriptMappingData
 from .guide_to_pharmacology import GToPLigandData
 from .hemonc import HemOncData
 from .hgnc import HgncData
@@ -28,6 +29,7 @@ __all__ = [
     "DrugBankData",
     "DrugsAtFdaData",
     "EnsemblData",
+    "EnsemblTranscriptMappingData",
     "GToPLigandData",
     "HemOncData",
     "HgncData",
