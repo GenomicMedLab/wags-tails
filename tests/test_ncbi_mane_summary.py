@@ -66,6 +66,7 @@ def test_get_latest(
         path, version = ncbi_mane_summary.get_latest(from_local=True)
         assert path == ncbi_mane_summary_data_dir / "ncbi_mane_summary_1.3.txt"
         assert path.exists()
+        assert version == "1.3"
         assert m.call_count == 3
 
         (ncbi_mane_summary_data_dir / "ncbi_mane_summary_1.2.txt").touch()
