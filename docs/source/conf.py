@@ -56,7 +56,7 @@ html_theme_options = {
 import os  # noqa: E402
 import sys  # noqa: E402
 
-sys.path.insert(0, os.path.abspath("../../src/"))  # TODO double check this
+sys.path.insert(0, os.path.abspath("../../src/"))
 autodoc_preserve_defaults = True
 autodoc_member_order = 'bysource'
 
@@ -72,7 +72,7 @@ def linkcode_resolve(domain, info):
     if not info["module"]:
         return None
     filename = info["module"].replace(".", "/")
-    return f"https://github.com/genomicmedlab/wags-tails/blob/main/{filename}.py"
+    return f"https://github.com/genomicmedlab/wags-tails/blob/main/src/{filename}.py"
 
 
 # -- code block style --------------------------------------------------------

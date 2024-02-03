@@ -11,7 +11,7 @@ Adding new data sources
 
 .. note::
 
-   ``wags-tails`` is intended to remain dependency-light to enable broad usage across our projects. If a new source requires additional dependencies to acquire, strong consideration should be given to whether it should be stood up as a :py:class:`CustomData <wags_tails.custom.CustomData>` subclass in the downstream library, instead of being added directly to ``wags-tails``.
+   ``wags-tails`` is intended to remain dependency-light to enable broad usage across our projects. If fetching new data requires adding additional dependencies, strong consideration should be given to whether it should be stood up as a :py:class:`CustomData <wags_tails.custom.CustomData>` subclass in the downstream library, instead of being added directly to ``wags-tails``.
 
 Generally, data classes for versioned data should inherit from :py:class:`~wags_tails.base_source.DataSource` and must, at minimum, implement two instance methods, :py:meth:`~wags_tails.base_source.DataSource._get_latest_version` and :py:meth:`~wags_tails.base_source.DataSource._download_data`, and two instance attributes, :py:attr:`~wags_tails.base_source.DataSource._src_name` and :py:attr:`~wags_tails.base_source.DataSource._filetype`. Data supplied via GitHub release should be implemented as a :py:class:`~wags_tails.base_source.GitHubDataSource` and also supply a :py:attr:`~wags_tails.base_source.GitHubDataSource._repo` attribute, but may not need to reimplement ``_get_latest_version()``. Unversioned data (i.e. a data object that is static or doesn't ever need to be updated) can be implemented as an :py:class:`~wags_tails.base_source.UnversionedDataSource`, which also obviates the need to define a ``_get_latest_version()`` method.
 

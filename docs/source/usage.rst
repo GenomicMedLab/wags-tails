@@ -1,7 +1,9 @@
+.. _usage:
+
 Usage
 =====
 
-Data source classes provide a :py:meth:`~wags_tails.base_source.DataSource.get_latest()` method that acquires the most recent available data file and returns a pathlib.Path object with its location:
+Data source classes provide a :py:meth:`~wags_tails.base_source.DataSource.get_latest()` method that acquires the most recent available data file and returns a `pathlib.Path <https://docs.python.org/3/library/pathlib.html#pathlib.Path>`_ object with its location, along with a string denoting the version of that file:
 
 .. code-block:: pycon
 
@@ -19,7 +21,7 @@ Initialize the source class with the ``silent`` parameter set to True to suppres
    >>> m = MondoData(silent=True)
    >>> latest_file, version = m.get_latest(force_refresh=True)
 
-Additional parameters are available to force usage of the most recent locally-available version of the data (``from_local=True``) or, alternatively, to forcefully re-fetch the most recent data version regardless of local system availability (``force_refresh=True``).
+Additional parameters are available to force usage of the most recent locally-available version of the data (``from_local=True``) or, alternatively, to forcefully re-fetch the most recent data version regardless of local system availability (``force_refresh=True``). Logically, setting both to ``True`` raises a ``ValueError``.
 
 .. _configuration:
 
@@ -28,10 +30,12 @@ Configuration
 
 All data is stored within source-specific subdirectories of a designated ``wags-tails`` data directory. By default, this location is ``~/.local/share/wags_tails/``, but it can be configured by passing a Path directly to a data class on initialization, via the ``$WAGS_TAILS_DIR`` environment variable, or via `XDG data environment variables <https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html>`_.
 
+.. _custom_data_source:
+
 Custom Data Source
 ------------------
 
-``wags-tails`` provides a number of built-in methods to handle data access, version sorting, storage, and fetching. Users can employ these methods in their own libraries using the :py:class:`~wags_tails.custom.CustomData` class by providing parameters for the source name and filetype, as well as callback functions for fetching the most recent version value and downloading the data.
+``wags-tails`` provides a number of built-in methods to handle data access, version sorting, storage, and fetching. Users can employ these methods in their own libraries using the :py:class:`~wags_tails.custom.CustomData` class by providing parameters for the source name and filetype, as well as callback functions for fetching the most recent version value and downloading the data. For example, the code below supports saving the results of a specified Wikidata query, versioned by day.
 
 .. code-block:: python
 

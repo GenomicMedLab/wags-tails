@@ -1,4 +1,8 @@
-"""Define base data source class."""
+"""Define core data source classes.
+
+All source classes should inherit - directly or indirectly - from ``DataSource``. Each
+class defined here is an ``abstract base class`` and cannot be instantiated directly.
+"""
 import abc
 import datetime
 import logging
@@ -22,7 +26,7 @@ class RemoteDataError(Exception):
 
 
 class DataSource(abc.ABC):
-    """Access tool for a given data source."""
+    """Abstract base class for a data source."""
 
     # required attributes
     _src_name: str

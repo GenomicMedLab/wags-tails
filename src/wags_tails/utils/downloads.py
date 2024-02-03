@@ -19,8 +19,8 @@ HTTPS_REQUEST_TIMEOUT = 30
 
 
 def handle_zip(dl_path: Path, outfile_path: Path) -> None:
-    """Provide simple callback function to extract the largest file within a given
-    zipfile and save it within the appropriate data directory.
+    """Extract the largest file within a given zipfile and save it within the
+    appropriate data directory. Can be passed as a callback to a downloader method.
 
     :param dl_path: path to temp data file
     :param outfile_path: path to save file within
@@ -37,7 +37,7 @@ def handle_zip(dl_path: Path, outfile_path: Path) -> None:
 
 
 def handle_gzip(dl_path: Path, outfile_path: Path) -> None:
-    """Provide simple callback to extract file from gzip.
+    """Extract file from gzip. Can be passed as a callback to a downloader method.
 
     :param dl_path: path to temp data file
     :param outfile_path: path to save file within
