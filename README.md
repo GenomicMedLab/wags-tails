@@ -5,10 +5,11 @@
 [![image](https://img.shields.io/pypi/v/wags-tails.svg)](https://pypi.python.org/pypi/wags-tails)
 [![image](https://img.shields.io/pypi/l/wags-tails.svg)](https://pypi.python.org/pypi/wags-tails)
 [![image](https://img.shields.io/pypi/pyversions/wags-tails.svg)](https://pypi.python.org/pypi/wags-tails)
-[![Actions status](https://github.com/genomicmedlab/wags-tails/workflows/CI/badge.svg)](https://github.com/genomicmedlab/wags-tails/actions)
+[![Actions status](https://github.com/genomicmedlab/wags-tails/workflows/checks.yaml/badge.svg)](https://github.com/genomicmedlab/wags-tails/actions/workflows/checks.yaml)
 
 <!-- description -->
 This tool provides data acquisition and access utilities for several projects developed by the [Wagner Lab](https://www.nationwidechildrens.org/specialties/institute-for-genomic-medicine/research-labs/wagner-lab). It designates a storage location in user-space where external data files can be saved, and provides methods to download and update them when available.
+<!-- /description -->
 
 It is currently used in:
 
@@ -16,7 +17,6 @@ It is currently used in:
 * [Gene Normalizer](https://github.com/cancervariants/gene-normalization)
 * [Disease Normalizer](https://github.com/cancervariants/disease-normalization)
 * and more!
-<!-- /description -->
 
 ---
 
