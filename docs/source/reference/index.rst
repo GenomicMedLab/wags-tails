@@ -32,11 +32,14 @@ Data Sources
    wags_tails.drugbank
    wags_tails.drugsatfda
    wags_tails.ensembl
+   wags_tails.ensembl_transcript_mappings
    wags_tails.guide_to_pharmacology
    wags_tails.hemonc
    wags_tails.hgnc
    wags_tails.mondo
    wags_tails.ncbi
+   wags_tails.ncbi_lrg_refseqgene
+   wags_tails.ncbi_mane_summary
    wags_tails.ncit
    wags_tails.oncotree
    wags_tails.rxnorm

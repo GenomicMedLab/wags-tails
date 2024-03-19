@@ -1,7 +1,7 @@
-﻿wags_tails.hemonc
-=================
+﻿wags_tails.ensembl_transcript_mappings
+======================================
 
-.. automodule:: wags_tails.hemonc
+.. automodule:: wags_tails.ensembl_transcript_mappings
    :members:
    :undoc-members:
    :special-members: __init__

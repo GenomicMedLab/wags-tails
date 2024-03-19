@@ -8,7 +8,7 @@ from wags_tails.utils.downloads import HTTPS_REQUEST_TIMEOUT, download_ftp, hand
 
 
 class EnsemblData(DataSource):
-    """Provide access to Ensembl data."""
+    """Provide access to Ensembl gene data."""
 
     _src_name = "ensembl"
     _filetype = "gff"

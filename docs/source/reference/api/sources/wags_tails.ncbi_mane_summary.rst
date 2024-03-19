@@ -1,7 +1,7 @@
-﻿wags_tails.hemonc
-=================
+﻿wags_tails.ncbi_mane_summary
+============================
 
-.. automodule:: wags_tails.hemonc
+.. automodule:: wags_tails.ncbi_mane_summary
    :members:
    :undoc-members:
    :special-members: __init__

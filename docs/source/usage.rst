@@ -8,7 +8,7 @@ Data source classes provide a :py:meth:`~wags_tails.base_source.DataSource.get_l
 .. code-block:: pycon
 
    >>> from wags_tails.mondo import MondoData
-   >>> m = MondoData()
+   >>> m = MondoData(silent=False)
    >>> m.get_latest(force_refresh=True)
    Downloading mondo.obo: 100%|█████████████████| 171M/171M [00:28<00:00, 6.23MB/s]
    PosixPath('/Users/genomicmedlab/.local/share/wags_tails/mondo/mondo_v2023-09-12.obo'), 'v2023-09-12'
@@ -28,7 +28,7 @@ Additional parameters are available to force usage of the most recent locally-av
 Configuration
 -------------
 
-All data is stored within source-specific subdirectories of a designated ``wags-tails`` data directory. By default, this location is ``~/.local/share/wags_tails/``, but it can be configured by passing a Path directly to a data class on initialization, via the ``$WAGS_TAILS_DIR`` environment variable, or via `XDG data environment variables <https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html>`_.
+All data is stored within source-specific subdirectories of a designated ``wags-tails`` data directory. By default, this location is ``~/.local/share/wags_tails/``, but it can be configured by passing a Path directly to a data class on initialization, via the ``$WAGS_TAILS_DIR`` environment variable, or via `XDG data environment variables <https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html>`_. This is explicated in full in the :py:meth:`~wags_tails.utils.storage.get_data_dir()` method description.
 
 .. _custom_data_source:
 
@@ -38,6 +38,10 @@ Custom Data Source
 ``wags-tails`` provides a number of built-in methods to handle data access, version sorting, storage, and fetching. Users can employ these methods in their own libraries using the :py:class:`~wags_tails.custom.CustomData` class by providing parameters for the source name and filetype, as well as callback functions for fetching the most recent version value and downloading the data. For example, the code below supports saving the results of a specified Wikidata query, versioned by day.
 
 .. code-block:: python
+
+   import datetime
+   from pathlib import Path
+   import json
 
    from wags_tails import CustomData, DataSource
    from wags_tails.utils.versioning import DATE_VERSION_PATTERN

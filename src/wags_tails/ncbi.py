@@ -1,4 +1,4 @@
-"""Provide data fetching for NCBI."""
+"""Provide data fetching for NCBI gene data sources."""
 import ftplib
 import logging
 import re
@@ -96,7 +96,7 @@ class NcbiGenePaths(NamedTuple):
 
 
 class NcbiGeneData(DataSource):
-    """Provide access to Guide to Pharmacology data."""
+    """Provide access to NCBI Gene data."""
 
     _src_name = "ncbi"
     _filetype = "tsv"

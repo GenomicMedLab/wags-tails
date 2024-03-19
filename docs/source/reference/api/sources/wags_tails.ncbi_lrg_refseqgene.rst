@@ -1,7 +1,7 @@
-﻿wags_tails.hemonc
-=================
+﻿wags_tails.ncbi_lrg_refseqgene
+==============================
 
-.. automodule:: wags_tails.hemonc
+.. automodule:: wags_tails.ncbi_lrg_refseqgene
    :members:
    :undoc-members:
    :special-members: __init__
