@@ -2,7 +2,12 @@
 
 Some source data (e.g. Wikidata, for Thera-py), fetching data is a more involved and
 customized process, but this library should be very dependency-light to ensure broad
-compatibility.
+compatibility. The ``CustomData`` abstract class is provided so that users can employ
+basic ``wags-tails`` utilities without also burdening it with their own software
+dependencies.
+
+The :ref:`documentation <custom_data_source>` provides more explanation and an in-depth
+example.
 """
 from pathlib import Path
 from typing import Callable, Optional
@@ -55,7 +60,8 @@ class CustomData(DataSource):
         """Acquire value of latest data version.
 
         This method is overwritten by the ``latest_version_cb`` argument supplied at
-        class initialization.
+        class initialization. It is defined here as an empty method to suppress abstract
+        base class checks.
 
         :return: latest version value
         """
@@ -64,7 +70,8 @@ class CustomData(DataSource):
         """Download data file to specified location.
 
         This method is overwritten by the ``download_cb`` argument supplied at
-        class initialization.
+        class initialization. It is defined here as an empty method to suppress abstract
+        base class checks.
 
         :param version: version to acquire
         :param outfile: location and filename for final data file
