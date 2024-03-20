@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 requires-python = ">=3.8"
 description = "Data acquisition tools for Wagnerds"
@@ -31,7 +32,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=6.0", "pytest-cov", "requests-mock"]
-dev = ["pre-commit", "ruff>=0.1.14"]
+dev = ["pre-commit", "ruff==0.2.0"]
 docs = [
     "sphinx==6.1.3",
     "sphinx-autodoc-typehints==1.22.0",
@@ -67,6 +68,8 @@ branch = true
 [tool.ruff]
 src = ["src"]
 exclude = ["docs/source/conf.py"]
+
+[tool.ruff.lint]
 select = [
     "F",  # https://docs.astral.sh/ruff/rules/#pyflakes-f
     "E", "W",  # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
@@ -135,7 +138,7 @@ ignore = [
     "S321",
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 # ANN001 - missing-type-function-argument
 # ANN2 - missing-return-type
 # ANN201 - Missing type annotation
