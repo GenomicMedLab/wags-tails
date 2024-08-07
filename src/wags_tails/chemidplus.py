@@ -1,4 +1,5 @@
 """Provide source fetching for ChemIDplus."""
+
 import datetime
 import re
 from pathlib import Path
@@ -38,7 +39,7 @@ class ChemIDplusData(DataSource):
             .strftime(DATE_VERSION_PATTERN)
         )
 
-    def _download_data(self, version: str, outfile: Path) -> None:
+    def _download_data(self, version: str, outfile: Path) -> None:  # noqa: ARG002
         """Download data file to specified location. ChemIDplus data is no longer
         updated, so versioning is irrelevant.
 

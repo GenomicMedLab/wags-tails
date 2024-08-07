@@ -1,4 +1,5 @@
 """Provide source fetching for Drugs@FDA."""
+
 import datetime
 from pathlib import Path
 
@@ -38,7 +39,7 @@ class DrugsAtFdaData(DataSource):
             .strftime(DATE_VERSION_PATTERN)
         )
 
-    def _download_data(self, version: str, outfile: Path) -> None:
+    def _download_data(self, version: str, outfile: Path) -> None:  # noqa: ARG002
         """Download latest data file to specified location.
 
         :param version: version to acquire

@@ -1,4 +1,5 @@
 """Test NCBI MANE summary data."""
+
 from pathlib import Path
 
 import pytest

@@ -1,7 +1,7 @@
 """Test OncoTree data source."""
+
 import json
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -40,8 +40,8 @@ def oncotree_tree(fixture_dir):
 def test_get_latest(
     oncotree: OncoTreeData,
     data_dir: Path,
-    oncotree_versions_response: Dict,
-    oncotree_tree: Dict,
+    oncotree_versions_response: dict,
+    oncotree_tree: dict,
 ):
     """Test chemblData.get_latest()"""
     with pytest.raises(

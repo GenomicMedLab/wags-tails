@@ -1,4 +1,5 @@
 """Test NCBI data source."""
+
 from pathlib import Path
 
 import pytest

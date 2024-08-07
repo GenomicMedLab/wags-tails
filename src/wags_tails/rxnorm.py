@@ -1,4 +1,5 @@
 """Provide source fetching for RxNorm."""
+
 import datetime
 import os
 import zipfile

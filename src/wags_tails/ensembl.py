@@ -1,4 +1,5 @@
 """Provide data management for Ensembl genomic data."""
+
 from pathlib import Path
 
 import requests

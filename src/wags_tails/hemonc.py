@@ -1,9 +1,10 @@
 """Provide source fetching for HemOnc."""
+
 import logging
 import os
 import zipfile
 from pathlib import Path
-from typing import NamedTuple, Tuple
+from typing import NamedTuple
 
 import requests
 
@@ -69,7 +70,7 @@ class HemOncData(DataSource):
                         zip_ref.extract(file, path.parent)
         dl_path.unlink()
 
-    def _download_data(self, version: str, outfile_paths: HemOncPaths) -> None:
+    def _download_data(self, version: str, outfile_paths: HemOncPaths) -> None:  # noqa: ARG002
         """Download data file to specified location.
 
         :param version: version to acquire
@@ -84,13 +85,13 @@ class HemOncData(DataSource):
             self.data_dir,
             headers={"X-Dataverse-key": api_key},
             # provide save_path arg for API consistency, but don't use it
-            handler=lambda dl_path, save_path: self._download_handler(
+            handler=lambda dl_path, save_path: self._download_handler(  # noqa: ARG005
                 dl_path, outfile_paths
             ),
             tqdm_params=self._tqdm_params,
         )
 
-    def _get_local_files(self) -> Tuple[HemOncPaths, str]:
+    def _get_local_files(self) -> tuple[HemOncPaths, str]:
         """Acquire locally-available data files.
 
         :return: HemOnc file paths and their version
@@ -108,7 +109,7 @@ class HemOncData(DataSource):
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[HemOncPaths, str]:
+    ) -> tuple[HemOncPaths, str]:
         """Get path to latest version of data, and its version value
 
         :param from_local: if True, use latest available local file

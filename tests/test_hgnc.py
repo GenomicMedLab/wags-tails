@@ -1,4 +1,5 @@
 """Test HGNC data source."""
+
 from pathlib import Path
 
 import pytest
