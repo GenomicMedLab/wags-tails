@@ -3,11 +3,12 @@
 All source classes should inherit - directly or indirectly - from ``DataSource``. Each
 class defined here is an ``abstract base class`` and cannot be instantiated directly.
 """
+
 import abc
 import datetime
 import logging
+from collections.abc import Generator
 from pathlib import Path
-from typing import Generator, Optional, Tuple
 
 import requests
 
@@ -33,7 +34,7 @@ class DataSource(abc.ABC):
     _filetype: str
     _versioned: bool = True
 
-    def __init__(self, data_dir: Optional[Path] = None, silent: bool = True) -> None:
+    def __init__(self, data_dir: Path | None = None, silent: bool = True) -> None:
         """Set common class parameters.
 
         :param data_dir: direct location to store data files in, if specified. See
@@ -71,7 +72,7 @@ class DataSource(abc.ABC):
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[Path, str]:
+    ) -> tuple[Path, str]:
         """Get path to latest version of data.
 
         Provides logic for both versioned and unversioned data here, rather than in the

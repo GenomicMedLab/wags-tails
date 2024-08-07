@@ -1,8 +1,8 @@
 """Test HemOnc data source."""
+
 import json
 import os
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -51,7 +51,7 @@ def hemonc_file_paths(hemonc_data_dir: Path):
 def test_get_latest(
     hemonc: HemOncData,
     hemonc_data_dir,
-    latest_release_response: Dict,
+    latest_release_response: dict,
     hemonc_file: str,
     hemonc_file_paths: HemOncPaths,
 ):

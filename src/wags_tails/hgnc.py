@@ -1,4 +1,5 @@
 """Provide data fetching for HGNC."""
+
 import ftplib
 from pathlib import Path
 
@@ -26,7 +27,7 @@ class HgncData(DataSource):
             timestamp = ftp.voidcmd(f"MDTM {self._directory_path}{self._host_filename}")
         return timestamp[4:12]
 
-    def _download_data(self, version: str, outfile: Path) -> None:
+    def _download_data(self, version: str, outfile: Path) -> None:  # noqa: ARG002
         """Download data file to specified location.
 
         :param version: version to acquire

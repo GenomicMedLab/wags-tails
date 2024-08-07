@@ -9,8 +9,9 @@ dependencies.
 The :ref:`documentation <custom_data_source>` provides more explanation and an in-depth
 example.
 """
+
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable, Optional
 
 from .base_source import DataSource
 
@@ -24,8 +25,8 @@ class CustomData(DataSource):
         filetype: str,
         latest_version_cb: Callable[[], str],
         download_cb: Callable[[str, Path], None],
-        data_dir: Optional[Path] = None,
-        file_name: Optional[str] = None,
+        data_dir: Path | None = None,
+        file_name: str | None = None,
         versioned: bool = True,
         silent: bool = False,
     ) -> None:

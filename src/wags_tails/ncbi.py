@@ -1,9 +1,10 @@
 """Provide data fetching for NCBI gene data sources."""
+
 import ftplib
 import logging
 import re
 from pathlib import Path
-from typing import NamedTuple, Tuple
+from typing import NamedTuple
 
 from wags_tails.base_source import DataSource, RemoteDataError
 from wags_tails.utils.downloads import download_ftp, handle_gzip
@@ -142,7 +143,7 @@ class NcbiGeneData(DataSource):
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[NcbiGenePaths, str]:
+    ) -> tuple[NcbiGenePaths, str]:
         """Get path to latest version of data, and its version value
 
         :param from_local: if True, use latest available local file
