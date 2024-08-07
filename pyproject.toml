@@ -30,13 +30,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=6.0", "pytest-cov", "requests-mock"]
-<<<<<<< Updated upstream
-dev = ["pre-commit", "ruff==0.5.0"]
-||||||| Stash base
-dev = ["pre-commit", "ruff==0.2.0"]
-=======
-dev = ["pre-commit>=3.7.1", "ruff==0.2.0"]
->>>>>>> Stashed changes
+dev = ["pre-commit>=3.7.1", "ruff==0.5.0"]
 docs = [
     "sphinx==6.1.3",
     "sphinx-autodoc-typehints==1.22.0",
