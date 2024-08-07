@@ -7,8 +7,8 @@ import os
 import re
 import tempfile
 import zipfile
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable, Dict, Optional
 
 import requests
 from tqdm import tqdm
@@ -52,8 +52,8 @@ def download_ftp(
     host_directory_path: str,
     host_filename: str,
     outfile_path: Path,
-    handler: Optional[Callable[[Path, Path], None]] = None,
-    tqdm_params: Optional[Dict] = None,
+    handler: Callable[[Path, Path], None] | None = None,
+    tqdm_params: dict | None = None,
 ) -> None:
     """Perform FTP download of remote data file.
 
@@ -80,9 +80,10 @@ def download_ftp(
         file_size = ftp.size(host_filename)
         if not tqdm_params.get("disable"):
             print(f"Downloading {host}/{host_directory_path}{host_filename}...")
-        with dl_path.open("wb") as fp, tqdm(
-            total=file_size, **tqdm_params
-        ) as progress_bar:
+        with (
+            dl_path.open("wb") as fp,
+            tqdm(total=file_size, **tqdm_params) as progress_bar,
+        ):
 
             def _cb(data: bytes) -> None:
                 progress_bar.update(len(data))
@@ -99,9 +100,9 @@ def download_ftp(
 def download_http(
     url: str,
     outfile_path: Path,
-    headers: Optional[Dict] = None,
-    handler: Optional[Callable[[Path, Path], None]] = None,
-    tqdm_params: Optional[Dict] = None,
+    headers: dict | None = None,
+    handler: Callable[[Path, Path], None] | None = None,
+    tqdm_params: dict | None = None,
 ) -> None:
     """Perform HTTP download of remote data file.
 
@@ -133,9 +134,10 @@ def download_http(
                 print(f"Downloading {print_url}...")
             else:
                 print(f"Downloading {os.path.basename(url)}...")  # noqa: PTH119
-        with dl_path.open("wb") as h, tqdm(
-            total=total_size, **tqdm_params
-        ) as progress_bar:
+        with (
+            dl_path.open("wb") as h,
+            tqdm(total=total_size, **tqdm_params) as progress_bar,
+        ):
             for chunk in r.iter_content(chunk_size=8192):
                 if chunk:
                     h.write(chunk)

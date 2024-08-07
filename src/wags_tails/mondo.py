@@ -3,7 +3,6 @@
 import datetime
 import logging
 from pathlib import Path
-from typing import Tuple
 
 import requests
 
@@ -23,7 +22,7 @@ class MondoData(GitHubDataSource):
     _repo = "monarch-initiative/mondo"
 
     @staticmethod
-    def _get_latest_version() -> Tuple[str, str]:
+    def _get_latest_version() -> tuple[str, str]:
         """Retrieve latest version value, and download URL, from GitHub release data.
 
         :param asset_name: name of file asset, if needed
@@ -72,7 +71,7 @@ class MondoData(GitHubDataSource):
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[Path, str]:
+    ) -> tuple[Path, str]:
         """Get path to latest version of data. Overwrite inherited method because
         final downloads depend on information gleaned from the version API call.
 

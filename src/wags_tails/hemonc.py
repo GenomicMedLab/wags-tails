@@ -4,7 +4,7 @@ import logging
 import os
 import zipfile
 from pathlib import Path
-from typing import NamedTuple, Tuple
+from typing import NamedTuple
 
 import requests
 
@@ -91,7 +91,7 @@ class HemOncData(DataSource):
             tqdm_params=self._tqdm_params,
         )
 
-    def _get_local_files(self) -> Tuple[HemOncPaths, str]:
+    def _get_local_files(self) -> tuple[HemOncPaths, str]:
         """Acquire locally-available data files.
 
         :return: HemOnc file paths and their version
@@ -109,7 +109,7 @@ class HemOncData(DataSource):
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[HemOncPaths, str]:
+    ) -> tuple[HemOncPaths, str]:
         """Get path to latest version of data, and its version value
 
         :param from_local: if True, use latest available local file

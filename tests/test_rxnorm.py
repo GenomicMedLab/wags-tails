@@ -4,7 +4,6 @@ import json
 import os
 from io import TextIOWrapper
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -43,7 +42,7 @@ def rxnorm_file(fixture_dir):
 def test_get_latest(
     rxnorm: RxNormData,
     rxnorm_data_dir: Path,
-    latest_release_response: Dict,
+    latest_release_response: dict,
     rxnorm_file: TextIOWrapper,
 ):
     """Test RxNormData.get_latest()"""

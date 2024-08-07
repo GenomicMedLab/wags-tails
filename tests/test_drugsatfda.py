@@ -2,7 +2,6 @@
 
 import json
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -41,7 +40,7 @@ def drugsatfda_file(fixture_dir):
 def test_get_latest(
     drugsatfda: DrugsAtFdaData,
     drugsatfda_data_dir: Path,
-    latest_release_response: Dict,
+    latest_release_response: dict,
     drugsatfda_file: str,
 ):
     """Test DrugsAtFdaData.get_latest()"""

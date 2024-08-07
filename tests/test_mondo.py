@@ -2,7 +2,6 @@
 
 import json
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -48,7 +47,7 @@ def versions_response(fixture_dir):
 def test_get_latest(
     mondo: MondoData,
     mondo_data_dir: Path,
-    latest_release_response: Dict,
+    latest_release_response: dict,
 ):
     """Test MondoData.get_latest()"""
     with pytest.raises(
@@ -100,7 +99,7 @@ def test_get_latest(
         assert m.call_count == 5
 
 
-def test_iterate_versions(mondo: MondoData, versions_response: Dict):
+def test_iterate_versions(mondo: MondoData, versions_response: dict):
     """Test MondoData.iterate_versions()"""
     with requests_mock.Mocker() as m:
         m.get(

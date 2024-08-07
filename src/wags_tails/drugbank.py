@@ -2,7 +2,6 @@
 
 import logging
 from pathlib import Path
-from typing import Tuple
 
 import requests
 
@@ -20,7 +19,7 @@ class DrugBankData(DataSource):
     _filetype = "csv"
 
     @staticmethod
-    def _get_latest_version() -> Tuple[str, str]:
+    def _get_latest_version() -> tuple[str, str]:
         """Retrieve latest version value
 
         :return: latest release value and base download URL
@@ -36,7 +35,7 @@ class DrugBankData(DataSource):
             msg = "Unable to parse latest DrugBank version number from releases API endpoint"
             raise RemoteDataError(msg) from e
 
-    def _get_latest_local_file(self, glob: str) -> Tuple[Path, str]:
+    def _get_latest_local_file(self, glob: str) -> tuple[Path, str]:
         """Get most recent locally-available file. DrugBank uses versioning that isn't
         easily sortable by default so we have to use some extra magic.
 
@@ -73,7 +72,7 @@ class DrugBankData(DataSource):
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[Path, str]:
+    ) -> tuple[Path, str]:
         """Get path to latest version of data, and its version value
 
         :param from_local: if True, use latest available local file
