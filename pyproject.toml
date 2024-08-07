@@ -1,6 +1,5 @@
 [project]
 name = "wags_tails"
-version = "0.1.3"
 authors = [
     {name = "Kori Kuzma"},
     {name = "James S Stevenson"},
@@ -27,6 +26,7 @@ dependencies = [
     "requests",
     "tqdm",
 ]
+dynamic = ["version"]
 
 [project.optional-dependencies]
 test = ["pytest>=6.0", "pytest-cov", "requests-mock"]
@@ -50,11 +50,13 @@ Source = "https://github.com/GenomicMedLab/wags-tails/"
 "Bug Tracker" = "https://github.com/GenomicMedLab/wags-tails/issues"
 
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools_scm]
 
 [tool.pytest.ini_options]
 addopts = "--cov=src --cov-report term-missing"

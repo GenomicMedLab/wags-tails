@@ -1,5 +1,7 @@
 """Data acquisition tools for Wagnerds."""
 
+from importlib.metadata import PackageNotFoundError, version
+
 from .base_source import DataSource, RemoteDataError
 from .chembl import ChemblData
 from .chemidplus import ChemIDplusData
@@ -19,6 +21,13 @@ from .ncbi_mane_summary import NcbiManeSummaryData
 from .ncit import NcitData
 from .oncotree import OncoTreeData
 from .rxnorm import RxNormData
+
+try:
+    __version__ = version("wags-tails")
+except PackageNotFoundError:
+    __version__ = "unknown"
+finally:
+    del version, PackageNotFoundError
 
 __all__ = [
     "DataSource",
@@ -42,4 +51,5 @@ __all__ = [
     "NcitData",
     "OncoTreeData",
     "RxNormData",
+    "__version__",
 ]
