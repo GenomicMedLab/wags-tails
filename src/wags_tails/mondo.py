@@ -1,4 +1,5 @@
 """Provide source fetching for Mondo Disease Ontology."""
+
 import datetime
 import logging
 from pathlib import Path

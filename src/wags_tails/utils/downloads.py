@@ -1,4 +1,5 @@
 """Provide helper functions for downloading data."""
+
 import ftplib
 import gzip
 import logging

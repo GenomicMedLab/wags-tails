@@ -1,4 +1,5 @@
 """Test Disease Ontology data source."""
+
 import json
 from io import TextIOWrapper
 from pathlib import Path

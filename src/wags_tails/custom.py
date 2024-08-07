@@ -9,6 +9,7 @@ dependencies.
 The :ref:`documentation <custom_data_source>` provides more explanation and an in-depth
 example.
 """
+
 from pathlib import Path
 from typing import Callable, Optional
 

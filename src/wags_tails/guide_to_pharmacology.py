@@ -1,4 +1,5 @@
 """Provide source fetching for Guide To Pharmacology."""
+
 import logging
 import re
 from pathlib import Path

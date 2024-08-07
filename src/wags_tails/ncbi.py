@@ -1,4 +1,5 @@
 """Provide data fetching for NCBI gene data sources."""
+
 import ftplib
 import logging
 import re

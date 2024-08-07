@@ -1,4 +1,5 @@
 """Test RxNorm data source."""
+
 import json
 import os
 from io import TextIOWrapper

@@ -1,4 +1,5 @@
 """Provide source fetching for HemOnc."""
+
 import logging
 import os
 import zipfile
@@ -69,7 +70,7 @@ class HemOncData(DataSource):
                         zip_ref.extract(file, path.parent)
         dl_path.unlink()
 
-    def _download_data(self, version: str, outfile_paths: HemOncPaths) -> None:
+    def _download_data(self, version: str, outfile_paths: HemOncPaths) -> None:  # noqa: ARG002
         """Download data file to specified location.
 
         :param version: version to acquire
@@ -84,7 +85,7 @@ class HemOncData(DataSource):
             self.data_dir,
             headers={"X-Dataverse-key": api_key},
             # provide save_path arg for API consistency, but don't use it
-            handler=lambda dl_path, save_path: self._download_handler(
+            handler=lambda dl_path, save_path: self._download_handler(  # noqa: ARG005
                 dl_path, outfile_paths
             ),
             tqdm_params=self._tqdm_params,

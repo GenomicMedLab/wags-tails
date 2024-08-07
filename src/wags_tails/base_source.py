@@ -3,6 +3,7 @@
 All source classes should inherit - directly or indirectly - from ``DataSource``. Each
 class defined here is an ``abstract base class`` and cannot be instantiated directly.
 """
+
 import abc
 import datetime
 import logging

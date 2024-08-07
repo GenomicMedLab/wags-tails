@@ -1,4 +1,5 @@
 """Provide source fetching for NCI Thesaurus."""
+
 import re
 from pathlib import Path
 

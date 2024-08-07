@@ -1,4 +1,5 @@
 """Fetches NCBI LRG_RefSeqGene data."""
+
 import re
 from pathlib import Path
 
@@ -36,7 +37,7 @@ class NcbiLrgRefSeqGeneData(DataSource):
             raise RemoteDataError(msg)
         return match[0].replace("-", "")
 
-    def _download_data(self, version: str, outfile: Path) -> None:
+    def _download_data(self, version: str, outfile: Path) -> None:  # noqa: ARG002
         """Download data file to specified location.
 
         :param version: version to acquire
