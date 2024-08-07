@@ -1,4 +1,5 @@
 """Test base class functions."""
+
 import os
 import tempfile
 from pathlib import Path

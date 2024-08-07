@@ -9,8 +9,10 @@ dependencies.
 The :ref:`documentation <custom_data_source>` provides more explanation and an in-depth
 example.
 """
+
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable, Optional, Protocol
+from typing import Protocol
 
 from .base_source import DataSource
 
@@ -19,7 +21,11 @@ class _DownloadCallbackType(Protocol):
     """Define type for CustomData ``download_cb`` arg"""
 
     def __call__(self, version: str, outfile: Path) -> None:
-        ...
+        """Implicit description of ``download_cb`` arg. Shouldn't actually be used.
+
+        :param version: version to acquire
+        :param outfile: location and filename for final data file
+        """
 
 
 class CustomData(DataSource):
@@ -31,8 +37,8 @@ class CustomData(DataSource):
         filetype: str,
         latest_version_cb: Callable[[], str],
         download_cb: _DownloadCallbackType,
-        data_dir: Optional[Path] = None,
-        file_name: Optional[str] = None,
+        data_dir: Path | None = None,
+        file_name: str | None = None,
         versioned: bool = True,
         silent: bool = False,
     ) -> None:

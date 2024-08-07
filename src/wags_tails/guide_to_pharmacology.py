@@ -1,8 +1,9 @@
 """Provide source fetching for Guide To Pharmacology."""
+
 import logging
 import re
 from pathlib import Path
-from typing import NamedTuple, Tuple
+from typing import NamedTuple
 
 import requests
 
@@ -67,7 +68,7 @@ class GToPLigandData(DataSource):
 
     def get_latest(
         self, from_local: bool = False, force_refresh: bool = False
-    ) -> Tuple[GtoPLigandPaths, str]:
+    ) -> tuple[GtoPLigandPaths, str]:
         """Get path to latest version of data, and its version value
 
         :param from_local: if True, use latest available local file

@@ -1,8 +1,8 @@
 """Test Disease Ontology data source."""
+
 import json
 from io import TextIOWrapper
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -48,8 +48,8 @@ def latest_release_file(fixture_dir):
 def test_get_latest(
     do: DoData,
     data_dir,
-    versions_response: Dict,
-    latest_release_response: Dict,
+    versions_response: dict,
+    latest_release_response: dict,
     latest_release_file: TextIOWrapper,
 ):
     """Test DoData.get_latest()"""

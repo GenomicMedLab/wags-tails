@@ -1,4 +1,5 @@
 """Fetches NCBI MANE summary data."""
+
 from pathlib import Path
 
 import requests

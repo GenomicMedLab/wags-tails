@@ -1,4 +1,5 @@
 """Test NCIt data source."""
+
 from io import TextIOWrapper
 from pathlib import Path
 

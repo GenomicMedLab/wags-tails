@@ -1,4 +1,5 @@
 """Test ChemIDplus data source."""
+
 from pathlib import Path
 
 import pytest

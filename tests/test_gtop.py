@@ -1,6 +1,6 @@
 """Test Guide to Pharmacology data source."""
+
 from pathlib import Path
-from typing import Dict
 
 import pytest
 import requests_mock
@@ -41,7 +41,7 @@ def gtop_ligand_file_paths(gtop_data_dir: Path):
 def test_get_latest(
     gtop_ligand: GToPLigandData,
     gtop_data_dir: Path,
-    latest_release_response: Dict,
+    latest_release_response: dict,
     gtop_ligand_file_paths: GtoPLigandPaths,
 ):
     """Test GToPLigandData.get_latest()"""

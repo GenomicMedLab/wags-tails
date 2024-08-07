@@ -14,7 +14,7 @@ class EnsemblTranscriptMappingData(UnversionedDataSource):
     _src_name = "ensembl_transcript_mappings"
     _filetype = "tsv"
 
-    def _download_data(self, version: str, outfile: Path) -> None:
+    def _download_data(self, version: str, outfile: Path) -> None:  # noqa: ARG002
         """Download data file to specified location.
 
         :param version: version to acquire
