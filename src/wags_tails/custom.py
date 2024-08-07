@@ -10,9 +10,16 @@ The :ref:`documentation <custom_data_source>` provides more explanation and an i
 example.
 """
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Optional, Protocol
 
 from .base_source import DataSource
+
+
+class _DownloadCallbackType(Protocol):
+    """Define type for CustomData ``download_cb`` arg"""
+
+    def __call__(self, version: str, outfile: Path) -> None:
+        ...
 
 
 class CustomData(DataSource):
@@ -23,7 +30,7 @@ class CustomData(DataSource):
         src_name: str,
         filetype: str,
         latest_version_cb: Callable[[], str],
-        download_cb: Callable[[str, Path], None],
+        download_cb: _DownloadCallbackType,
         data_dir: Optional[Path] = None,
         file_name: Optional[str] = None,
         versioned: bool = True,
