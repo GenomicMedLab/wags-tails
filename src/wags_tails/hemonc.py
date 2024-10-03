@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re
 import zipfile
 from pathlib import Path
 from typing import NamedTuple
@@ -45,8 +46,11 @@ class HemOncData(DataSource):
         r = requests.get(data_url, timeout=HTTPS_REQUEST_TIMEOUT)
         r.raise_for_status()
         try:
-            date = r.json()["datasetVersion"]["createTime"].split("T")[0]
-        except (KeyError, IndexError) as e:
+            first_file_name = r.json()["datasetVersion"]["files"][0]["label"]
+            date = re.match(
+                r"(\d\d\d\d-\d\d-\d\d)\.ccby_.*\.tab", first_file_name
+            ).groups()[0]
+        except (KeyError, IndexError, AttributeError) as e:
             msg = "Unable to parse latest HemOnc version number from release API"
             raise RemoteDataError(msg) from e
         return date
