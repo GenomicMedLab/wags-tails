@@ -36,6 +36,7 @@ Data Sources
    wags_tails.guide_to_pharmacology
    wags_tails.hemonc
    wags_tails.hgnc
+   wags_tails.moa
    wags_tails.mondo
    wags_tails.ncbi
    wags_tails.ncbi_lrg_refseqgene
