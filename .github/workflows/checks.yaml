@@ -42,18 +42,18 @@ jobs:
       matrix:
         hook:
           - name: "Check EOF format"
-            args: "end-of-file-fixer --all-files"
+            args: "end-of-file-fixer"
           - name: "Check trailing whitespace"
-            args: "trailing-whitespace --all-files"
+            args: "trailing-whitespace"
           - name: "Check line ending format"
-            args: "mixed-line-ending --fix=lf --all-files"
+            args: "mixed-line-ending"
     steps:
       - uses: actions/checkout@v3
 
       - name: ${{ matrix.hook.name }}
         uses: pre-commit/action@v3.0.1
         with:
-          extra_args: ${{ matrix.hook.args }}
+          extra_args: ${{ matrix.hook.args }} --all-files
   docs:
     runs-on: ubuntu-latest
     env:
