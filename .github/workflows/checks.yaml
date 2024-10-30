@@ -46,18 +46,13 @@ jobs:
           - "mixed-line-ending"
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: 3.12
-
-      - name: Install dependencies
-        run: |
-          python3 -m pip install ".[dev]"
-
-      - name: Run pre-commit ${{ matrix.hook.cmd }} hook
-        run: pre-commit run ${{ matrix.hook.cmd }} --all-files
+      - uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: ${{ matrix.cmd }} --all-files
   docs:
     runs-on: ubuntu-latest
     env:
