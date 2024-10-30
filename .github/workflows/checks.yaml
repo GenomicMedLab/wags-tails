@@ -40,9 +40,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        - cmd: "end-of-file-fixer"
-        - cmd: "trailing-whitespace"
-        - cmd: "mixed-line-ending"
+        hook:
+          - "end-of-file-fixer"
+          - "trailing-whitespace"
+          - "mixed-line-ending"
     steps:
       - uses: actions/checkout@v4
 
@@ -55,8 +56,8 @@ jobs:
         run: |
           python3 -m pip install ".[dev]"
 
-      - name: Run pre-commit ${{ matrix.cmd }} hook
-        run: pre-commit run ${{ matrix.cmd }} --all-files
+      - name: Run pre-commit ${{ matrix.hook.cmd }} hook
+        run: pre-commit run ${{ matrix.hook.cmd }} --all-files
   docs:
     runs-on: ubuntu-latest
     env:
