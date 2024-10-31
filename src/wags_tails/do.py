@@ -40,7 +40,7 @@ class DoData(GitHubDataSource):
         """
         formatted_version = (
             datetime.datetime.strptime(version, DATE_VERSION_PATTERN)
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime("v%Y-%m-%d")
         )
         tag_info_url = f"https://api.github.com/repos/{self._repo}/releases/tags/{formatted_version}"

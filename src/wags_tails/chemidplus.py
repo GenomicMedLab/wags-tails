@@ -35,7 +35,7 @@ class ChemIDplusData(DataSource):
         raw_date = result.groups()[0]
         return (
             datetime.datetime.strptime(raw_date, "%Y-%m-%d")
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime(DATE_VERSION_PATTERN)
         )
 

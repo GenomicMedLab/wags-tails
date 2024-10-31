@@ -38,7 +38,7 @@ class MondoData(GitHubDataSource):
         raw_version = data["tag_name"]
         version = (
             datetime.datetime.strptime(raw_version, "v%Y-%m-%d")
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime(DATE_VERSION_PATTERN)
         )
 
@@ -60,7 +60,7 @@ class MondoData(GitHubDataSource):
         """
         formatted_version = (
             datetime.datetime.strptime(version, DATE_VERSION_PATTERN)
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime("v%Y-%m-%d")
         )
         download_http(

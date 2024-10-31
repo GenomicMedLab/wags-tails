@@ -36,7 +36,7 @@ class OncoTreeData(DataSource):
             raise RemoteDataError(msg) from e
         return (
             datetime.datetime.strptime(raw_version, "%Y-%m-%d")
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime(DATE_VERSION_PATTERN)
         )
 
