@@ -31,7 +31,7 @@ class MoaData(DataSource):
         data = response.json()
         return (
             datetime.datetime.strptime(data[0]["tag_name"], self._src_date_fmt)
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime(DATE_VERSION_PATTERN)
         )
 
@@ -50,7 +50,7 @@ class MoaData(DataSource):
         }
         formatted_version = (
             datetime.datetime.strptime(version, DATE_VERSION_PATTERN)
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime(self._src_date_fmt)
         )
         download_http(

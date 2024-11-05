@@ -36,7 +36,7 @@ class RxNormData(DataSource):
             raw_version = r.json()["version"]
             return (
                 datetime.datetime.strptime(raw_version, "%d-%b-%Y")
-                .replace(tzinfo=datetime.timezone.utc)
+                .replace(tzinfo=datetime.UTC)
                 .strftime(DATE_VERSION_PATTERN)
             )
         except (ValueError, KeyError) as e:
@@ -76,7 +76,7 @@ class RxNormData(DataSource):
             raise RemoteDataError(msg)
         fmt_version = (
             datetime.datetime.strptime(version, DATE_VERSION_PATTERN)
-            .replace(tzinfo=datetime.timezone.utc)
+            .replace(tzinfo=datetime.UTC)
             .strftime("%m%d%Y")
         )
         dl_url = f"https://download.nlm.nih.gov/umls/kss/rxnorm/RxNorm_full_{fmt_version}.zip"
