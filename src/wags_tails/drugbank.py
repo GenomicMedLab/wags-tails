@@ -1,6 +1,7 @@
 """Provide source fetching for DrugBank."""
 
 import logging
+import re
 from pathlib import Path
 
 import requests
@@ -25,12 +26,21 @@ class DrugBankData(DataSource):
         :return: latest release value and base download URL
         :raise RemoteDataError: if unable to parse version number from releases API
         """
-        releases_url = "https://go.drugbank.com/releases.json"
+        releases_url = "https://go.drugbank.com/releases/latest.json"
         r = requests.get(releases_url, timeout=HTTPS_REQUEST_TIMEOUT)
         r.raise_for_status()
         try:
             latest = r.json()[0]
-            return latest["version"], latest["url"]
+            url = latest["url"]
+            version = (
+                re.match(
+                    r"https:\/\/go.drugbank.com\/releases\/(.*)\/downloads\/all-drugbank-vocabulary",
+                    url,
+                )
+                .groups()[0]
+                .replace("-", ".")
+            )
+            return version, url
         except (KeyError, IndexError) as e:
             msg = "Unable to parse latest DrugBank version number from releases API endpoint"
             raise RemoteDataError(msg) from e
@@ -89,8 +99,7 @@ class DrugBankData(DataSource):
             file_path, version = self._get_latest_local_file("drugbank_*.csv")
             return file_path, version
 
-        latest_version, latest_url_base = self._get_latest_version()
-        latest_url = f"{latest_url_base}/downloads/all-drugbank-vocabulary"
+        latest_version, latest_url = self._get_latest_version()
         latest_file = self.data_dir / f"drugbank_{latest_version}.csv"
         if (not force_refresh) and latest_file.exists():
             _logger.debug(
