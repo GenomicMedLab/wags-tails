@@ -54,38 +54,38 @@ def test_get_latest(
 
     with requests_mock.Mocker() as m:
         m.get(
-            "https://go.drugbank.com/releases.json",
+            "https://go.drugbank.com/releases/latest.json",
             json=versions_response,
         )
         m.get(
-            "https://go.drugbank.com/releases/5-1-10/downloads/all-drugbank-vocabulary",
+            "https://go.drugbank.com/releases/5-1-12/downloads/all-drugbank-vocabulary",
             content=drugbank_file,
         )
         path, version = drugbank.get_latest()
-        assert path == drugbank_data_dir / "drugbank_5.1.10.csv"
+        assert path == drugbank_data_dir / "drugbank_5.1.12.csv"
         assert path.exists()
-        assert version == "5.1.10"
+        assert version == "5.1.12"
 
         path, version = drugbank.get_latest()
-        assert path == drugbank_data_dir / "drugbank_5.1.10.csv"
+        assert path == drugbank_data_dir / "drugbank_5.1.12.csv"
         assert path.exists()
-        assert version == "5.1.10"
+        assert version == "5.1.12"
         assert m.call_count == 3
 
         path, version = drugbank.get_latest(from_local=True)
-        assert path == drugbank_data_dir / "drugbank_5.1.10.csv"
+        assert path == drugbank_data_dir / "drugbank_5.1.12.csv"
         assert path.exists()
         assert m.call_count == 3
 
         (drugbank_data_dir / "drugbank_5.1.9.csv").touch()
         path, version = drugbank.get_latest(from_local=True)
-        assert path == drugbank_data_dir / "drugbank_5.1.10.csv"
+        assert path == drugbank_data_dir / "drugbank_5.1.12.csv"
         assert path.exists()
-        assert version == "5.1.10"
+        assert version == "5.1.12"
         assert m.call_count == 3
 
         path, version = drugbank.get_latest(force_refresh=True)
-        assert path == drugbank_data_dir / "drugbank_5.1.10.csv"
+        assert path == drugbank_data_dir / "drugbank_5.1.12.csv"
         assert path.exists()
-        assert version == "5.1.10"
+        assert version == "5.1.12"
         assert m.call_count == 5
