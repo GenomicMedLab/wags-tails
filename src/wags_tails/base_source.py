@@ -155,7 +155,7 @@ class GitHubDataSource(DataSource):
         for release in data:
             yield (
                 datetime.datetime.strptime(release["tag_name"], "v%Y-%m-%d")
-                .replace(tzinfo=datetime.timezone.utc)
+                .replace(tzinfo=datetime.UTC)
                 .strftime(DATE_VERSION_PATTERN)
             )
 

@@ -15,11 +15,11 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 description = "Data acquisition tools for Wagnerds"
 license = {file = "LICENSE"}
 dependencies = [
@@ -155,6 +155,8 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 # ANN001 - missing-type-function-argument
 # ANN2 - missing-return-type
+# D100 - undocumented-public-module
+# D102 - undocumented-public-class
 # S101 - assert
 # B011 - assert-false
 # INP001 - implicit-namespace-package
@@ -162,13 +164,15 @@ ignore = [
 # ARG001 - unused-function-argument
 # ARG005 - unused-lambda-argument
 # T201 - print
-"tests/*" = ["ANN001", "ANN2", "S101", "B011", "INP001"]
+"tests/*" = ["ANN001", "ANN2", "D100", "D102", "S101", "B011", "INP001"]
 "tests/test_hemonc.py" = ["PT018"]
 "tests/test_gtop.py" = ["PT018"]
 "tests/test_do.py" = ["PT018"]
 "tests/test_custom.py" = ["ARG001", "ARG005"]
 "src/wags_tails/utils/downloads.py" = ["T201"]
 
+[tool.ruff.lint.flake8-annotations]
+mypy-init-return = true
 
 [tool.ruff.format]
 docstring-code-format = true
