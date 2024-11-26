@@ -31,7 +31,7 @@ class DrugsAtFdaData(DataSource):
         try:
             date = r_json["results"]["drug"]["drugsfda"]["export_date"]
         except KeyError as e:
-            msg = "Unable to parse latest DrugBank version number from releases API endpoint"
+            msg = "Unable to parse latest Drugs@FDA version number from releases API endpoint"
             raise RemoteDataError(msg) from e
         return (
             datetime.datetime.strptime(date, "%Y-%m-%d")
