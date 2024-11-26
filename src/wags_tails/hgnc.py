@@ -35,7 +35,7 @@ class HgncData(DataSource):
         try:
             date = r_json["lastModified"]
         except KeyError as e:
-            msg = "Unable to parse latest DrugBank version number from releases API endpoint"
+            msg = f"Unable to parse latest {self._src_name} version number from info API endpoint"
             raise RemoteDataError(msg) from e
         return (
             datetime.datetime.strptime(date.split("T")[0], "%Y-%m-%d")
