@@ -48,26 +48,28 @@ _DATA_SOURCES = {
     "-s",
     is_flag=True,
     default=False,
-    help="if true, suppress intermediary output to console",
+    help="Suppress intermediary printing to stdout.",
 )
 @click.option(
     "--from_local",
     is_flag=True,
     default=False,
-    help="if true, use latest available local file",
+    help="Use latest available local file.",
 )
 @click.option(
     "--force_refresh",
     is_flag=True,
     default=False,
-    help="if true, retrieve data from source regardless of local availability",
+    help="Retrieve data from source regardless of local availability.",
 )
 def get_latest(data: str, silent: bool, from_local: bool, force_refresh: bool) -> None:
     """Get latest version of specified dataset.
 
+    For example, to retrieve the latest Disease Ontology release:
+
         % wags-tails get-version do
 
-    Unless ``--from_local`` is declared, ``wags-tails`` will first make an API call
+    Unless --from_local is declared, wags-tails will first make an API call
     against the resource to determine the most recent release version, and then either
     provide a local copy if already available, or first download from the data origin
     and then return a link.
