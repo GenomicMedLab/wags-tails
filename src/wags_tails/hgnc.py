@@ -1,10 +1,13 @@
 """Provide data fetching for HGNC."""
 
-import ftplib
+import datetime
 from pathlib import Path
 
-from wags_tails.base_source import DataSource
-from wags_tails.utils.downloads import download_ftp
+import requests
+
+from wags_tails.base_source import DataSource, RemoteDataError
+from wags_tails.utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
+from wags_tails.utils.versioning import DATE_VERSION_PATTERN
 
 
 class HgncData(DataSource):
@@ -22,10 +25,23 @@ class HgncData(DataSource):
 
         :return: latest release value
         """
-        with ftplib.FTP(self._host) as ftp:
-            ftp.login()
-            timestamp = ftp.voidcmd(f"MDTM {self._directory_path}{self._host_filename}")
-        return timestamp[4:12]
+        r = requests.get(
+            "https://rest.genenames.org/info",
+            timeout=HTTPS_REQUEST_TIMEOUT,
+            headers={"Accept": "application/json"},
+        )
+        r.raise_for_status()
+        r_json = r.json()
+        try:
+            date = r_json["lastModified"]
+        except KeyError as e:
+            msg = f"Unable to parse latest {self._src_name} version number from info API endpoint"
+            raise RemoteDataError(msg) from e
+        return (
+            datetime.datetime.strptime(date.split("T")[0], "%Y-%m-%d")
+            .replace(tzinfo=datetime.UTC)
+            .strftime(DATE_VERSION_PATTERN)
+        )
 
     def _download_data(self, version: str, outfile: Path) -> None:  # noqa: ARG002
         """Download data file to specified location.
@@ -33,10 +49,8 @@ class HgncData(DataSource):
         :param version: version to acquire
         :param outfile: location and filename for final data file
         """
-        download_ftp(
-            self._host,
-            self._directory_path,
-            self._host_filename,
+        download_http(
+            "https://storage.googleapis.com/public-download-files/hgnc/json/json/hgnc_complete_set.json",
             outfile,
             tqdm_params=self._tqdm_params,
         )
