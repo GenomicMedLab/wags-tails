@@ -11,7 +11,7 @@ Data source classes provide a :py:meth:`~wags_tails.base_source.DataSource.get_l
    >>> m = MondoData(silent=False)
    >>> m.get_latest(force_refresh=True)
    Downloading mondo.obo: 100%|█████████████████| 171M/171M [00:28<00:00, 6.23MB/s]
-   PosixPath('/Users/genomicmedlab/.local/share/wags_tails/mondo/mondo_v2023-09-12.obo'), 'v2023-09-12'
+   PosixPath('/Users/genomicmedlab/.local/share/wags_tails/mondo/mondo_20241105.obo'), '20241105'
 
 Initialize the source class with the ``silent`` parameter set to True to suppress console output:
 

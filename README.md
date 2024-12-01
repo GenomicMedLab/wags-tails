@@ -34,7 +34,7 @@ python3 -m pip install wags_tails
 
 ---
 
-## Usage
+## Overview
 
 Data source classes provide a `get_latest()` method that acquires the most recent available data file and returns a pathlib.Path object with its location:
 
@@ -43,15 +43,14 @@ Data source classes provide a `get_latest()` method that acquires the most recen
 >>> m = MondoData()
 >>> m.get_latest(force_refresh=True)
 Downloading mondo.obo: 100%|█████████████████| 171M/171M [00:28<00:00, 6.23MB/s]
-PosixPath('/Users/genomicmedlab/.local/share/wags_tails/mondo/mondo_v2023-09-12.obo'), 'v2023-09-12'
+PosixPath('/Users/genomicmedlab/.local/share/wags_tails/mondo/mondo_20241105.obo'), '20241105'
 ```
 
-Initialize the source class with the `silent` parameter set to True to suppress console output:
+This method is also available as a shell command for ease of use and for interoperability with other runtimes:
 
-```pycon
->>> from wags_tails.mondo import MondoData
->>> m = MondoData(silent=True)
->>> latest_file, version = m.get_latest(force_refresh=True)
+```console
+% wags-tails get-latest mondo
+/Users/genomicmedlab/.local/share/wags_tails/mondo/mondo_20241105.obo
 ```
 
 ---
