@@ -24,7 +24,7 @@ def _configure_logs(log_level: int = logging.INFO) -> None:
 
 @click.group()
 def cli() -> None:
-    """Manage genomic source data."""
+    """Manage data files from genomics databases and knowledge sources."""
     _configure_logs()
 
 
@@ -63,7 +63,7 @@ _DATA_SOURCES = {
     help="Retrieve data from source regardless of local availability.",
 )
 def get_latest(data: str, silent: bool, from_local: bool, force_refresh: bool) -> None:
-    """Get latest version of specified dataset.
+    """Get latest version of specified data.
 
     For example, to retrieve the latest Disease Ontology release:
 
@@ -73,6 +73,8 @@ def get_latest(data: str, silent: bool, from_local: bool, force_refresh: bool) -
     against the resource to determine the most recent release version, and then either
     provide a local copy if already available, or first download from the data origin
     and then return a link.
+
+    See the list-sources command for all legal inputs for DATA.
     """
     data_class = _DATA_SOURCES[data]
     result, _ = data_class(silent=silent).get_latest(from_local, force_refresh)

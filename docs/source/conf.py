@@ -92,20 +92,30 @@ from click.core import Context
 from sphinx.application import Sphinx
 from sphinx_click.ext import _get_usage, _indent
 
-CMD_PATTERN = r"--[^ ]+"
+FLAG_PATTERN = r"--[^ ]+"
 STR_PATTERN = r"\"[^ ]+\""
 SNAKE_PATTERN = r"[A-Z]+_[A-Z_]*[A-Z][., ]"
 WAGS_TAILS_PATTERN = r"wags\-tails"
+LIST_SOURCES_CMD_PATTERN = r"list\-sources"
+
+REFORMAT_PATTERNS = [
+    FLAG_PATTERN,
+    STR_PATTERN,
+    SNAKE_PATTERN,
+    WAGS_TAILS_PATTERN,
+    LIST_SOURCES_CMD_PATTERN
+]
 
 
 def _add_formatting_to_string(line: str) -> str:
     """Add fixed-width code formatting to span sections in lines:
 
-    * shell options, eg `--update_all`
-    * double-quoted strings, eg `"HGNC"`
-    * all caps SNAKE_CASE env vars, eg `GENE_NORM_REMOTE_DB_URL`
+    * shell options, eg "--update_all"
+    * double-quoted strings, eg "HGNC"
+    * all caps SNAKE_CASE env vars, eg "GENE_NORM_REMOTE_DB_URL"
+    * the name of this library, "wags-tails"
     """
-    for pattern in (CMD_PATTERN, STR_PATTERN, SNAKE_PATTERN, WAGS_TAILS_PATTERN):
+    for pattern in REFORMAT_PATTERNS:
         line = re.sub(pattern, lambda x: f"``{x.group()}``", line)
     return line
 
@@ -134,18 +144,12 @@ def process_description(app: Sphinx, ctx: Context, lines: List[str]):
         del lines[param_boundary:]
         lines[-1] = ""
 
-    # add code formatting to strings, commands, and env vars
+    # add custom formatting to strings, commands, and env vars
     lines_to_fmt = []
     for i, line in enumerate(lines):
         if line.startswith(("   ", ">>> ", "|")):
             continue  # skip example code blocks
-        if any(
-            [
-                re.findall(CMD_PATTERN, line),
-                re.findall(STR_PATTERN, line),
-                re.findall(SNAKE_PATTERN, line),
-            ]
-        ):
+        if any(re.findall(pattern, line) for pattern in REFORMAT_PATTERNS):
             lines_to_fmt.append(i)
     for line_num in lines_to_fmt:
         lines[line_num] = _add_formatting_to_string(lines[line_num])
@@ -168,7 +172,7 @@ def process_description(app: Sphinx, ctx: Context, lines: List[str]):
 
 
 def process_option(app: Sphinx, ctx: Context, lines: List[str]):
-    """Add fixed-width formatting to strings in sphinx-click autodoc options."""
+    """Add fixed-width formatting to strings in sphinx-click autodoc option descriptions."""
     for i, line in enumerate(lines):
         if re.findall(STR_PATTERN, line):
             lines[i] = re.sub(STR_PATTERN, lambda x: f"``{x.group()}``", line)
