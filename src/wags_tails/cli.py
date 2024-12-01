@@ -74,7 +74,8 @@ def get_latest(data: str, silent: bool, from_local: bool, force_refresh: bool) -
     provide a local copy if already available, or first download from the data origin
     and then return a link.
 
-    See the list-sources command for all legal inputs for DATA.
+    The --help option for this command will display all legal inputs for DATA; alternatively,
+    use the list-sources command to show them in a computable (line-delimited) format.
     """
     data_class = _DATA_SOURCES[data]
     result, _ = data_class(silent=silent).get_latest(from_local, force_refresh)
