@@ -14,6 +14,7 @@ from .ensembl_transcript_mappings import EnsemblTranscriptMappingData
 from .guide_to_pharmacology import GToPLigandData
 from .hemonc import HemOncData
 from .hgnc import HgncData
+from .moa import MoaData
 from .mondo import MondoData
 from .ncbi import NcbiGeneData, NcbiGenomeData
 from .ncbi_lrg_refseqgene import NcbiLrgRefSeqGeneData
@@ -43,6 +44,7 @@ __all__ = [
     "GToPLigandData",
     "HemOncData",
     "HgncData",
+    "MoaData",
     "MondoData",
     "NcbiGeneData",
     "NcbiGenomeData",
