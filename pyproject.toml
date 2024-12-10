@@ -25,6 +25,7 @@ license = {file = "LICENSE"}
 dependencies = [
     "requests",
     "tqdm",
+    "click",
 ]
 dynamic = ["version"]
 
@@ -38,7 +39,7 @@ docs = [
     "sphinx-copybutton==0.5.2",
     "sphinxext-opengraph==0.8.2",
     "furo==2023.3.27",
-    "gravis==0.1.0",
+    "sphinx-click==5.0.1",
     "sphinx-github-changelog==1.2.1"
 ]
 
@@ -48,6 +49,9 @@ Documentation = "https://wags-tails.readthedocs.io/"
 Changelog = "https://github.com/GenomicMedLab/wags-tails/releases"
 Source = "https://github.com/GenomicMedLab/wags-tails/"
 "Bug Tracker" = "https://github.com/GenomicMedLab/wags-tails/issues"
+
+[project.scripts]
+wags-tails = "wags_tails.cli:cli"
 
 [build-system]
 requires = ["setuptools>=64", "setuptools_scm>=8"]
