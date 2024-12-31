@@ -30,7 +30,7 @@ dependencies = [
 dynamic = ["version"]
 
 [project.optional-dependencies]
-test = ["pytest>=6.0", "pytest-cov", "requests-mock"]
+tests = ["pytest>=6.0", "pytest-cov", "requests-mock"]
 dev = ["pre-commit>=3.7.1", "ruff==0.5.0"]
 docs = [
     "sphinx==6.1.3",
