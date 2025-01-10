@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        hook:
+        cmd:
           - "end-of-file-fixer"
           - "trailing-whitespace"
           - "mixed-line-ending"
