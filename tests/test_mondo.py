@@ -9,7 +9,7 @@ import requests_mock
 from wags_tails.mondo import MondoData
 
 
-@pytest.fixture()
+@pytest.fixture
 def mondo_data_dir(base_data_dir: Path):
     """Provide Mondo data directory."""
     directory = base_data_dir / "mondo"
@@ -17,7 +17,7 @@ def mondo_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def mondo(mondo_data_dir: Path):
     """Provide MondoData fixture"""
     return MondoData(mondo_data_dir, silent=True)

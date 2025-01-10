@@ -8,7 +8,7 @@ import requests_mock
 from wags_tails.chemidplus import ChemIDplusData
 
 
-@pytest.fixture()
+@pytest.fixture
 def chemidplus_data_dir(base_data_dir: Path):
     """Provide chemidplus data directory."""
     directory = base_data_dir / "chemidplus"
@@ -16,7 +16,7 @@ def chemidplus_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def chemidplus(chemidplus_data_dir: Path):
     """Provide ChemIDplusData fixture"""
     return ChemIDplusData(chemidplus_data_dir, silent=True)

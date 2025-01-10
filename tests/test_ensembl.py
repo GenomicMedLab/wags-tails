@@ -7,7 +7,7 @@ import pytest
 from wags_tails import EnsemblData
 
 
-@pytest.fixture()
+@pytest.fixture
 def ensembl_data_dir(base_data_dir: Path):
     """Provide Ensembl data directory."""
     directory = base_data_dir / "ensembl"
@@ -15,7 +15,7 @@ def ensembl_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def ensembl(ensembl_data_dir: Path):
     """Provide ChemblData fixture"""
     return EnsemblData(ensembl_data_dir, silent=True)

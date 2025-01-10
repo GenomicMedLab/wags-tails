@@ -11,7 +11,7 @@ import requests_mock
 from wags_tails.rxnorm import RxNormData
 
 
-@pytest.fixture()
+@pytest.fixture
 def rxnorm_data_dir(base_data_dir: Path):
     """Provide RxNorm data directory."""
     directory = base_data_dir / "rxnorm"
@@ -19,7 +19,7 @@ def rxnorm_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def rxnorm(rxnorm_data_dir: Path):
     """Provide RxNormData fixture"""
     return RxNormData(rxnorm_data_dir, silent=True)

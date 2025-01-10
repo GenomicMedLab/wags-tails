@@ -9,7 +9,7 @@ import requests_mock
 from wags_tails import HgncData
 
 
-@pytest.fixture()
+@pytest.fixture
 def hgnc_data_dir(base_data_dir: Path):
     """Provide fixture for HGNC wags-tails directory"""
     directory = base_data_dir / "hgnc"
@@ -17,7 +17,7 @@ def hgnc_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def hgnc(hgnc_data_dir: Path):
     """Provide fixture for HGNC fetcher instance"""
     return HgncData(hgnc_data_dir, silent=True)

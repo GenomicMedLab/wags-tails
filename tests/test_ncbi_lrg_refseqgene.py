@@ -8,7 +8,7 @@ import requests_mock
 from wags_tails import NcbiLrgRefSeqGeneData
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncbi_lrg_refseqgene_data_dir(base_data_dir: Path):
     """Provide LRG_RefSeqGene data directory."""
     directory = base_data_dir / "ncbi_lrg_refseqgene"
@@ -16,7 +16,7 @@ def ncbi_lrg_refseqgene_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncbi_lrg_refseqgene(ncbi_lrg_refseqgene_data_dir: Path):
     """Provide NcbiLrgRefSeqGeneData fixture"""
     return NcbiLrgRefSeqGeneData(ncbi_lrg_refseqgene_data_dir, silent=True)

@@ -31,11 +31,10 @@ finally:
     del version, PackageNotFoundError
 
 __all__ = [
-    "DataSource",
-    "RemoteDataError",
-    "ChemblData",
     "ChemIDplusData",
+    "ChemblData",
     "CustomData",
+    "DataSource",
     "DoData",
     "DrugBankData",
     "DrugsAtFdaData",
@@ -48,10 +47,11 @@ __all__ = [
     "MondoData",
     "NcbiGeneData",
     "NcbiGenomeData",
-    "NcbiManeSummaryData",
     "NcbiLrgRefSeqGeneData",
+    "NcbiManeSummaryData",
     "NcitData",
     "OncoTreeData",
+    "RemoteDataError",
     "RxNormData",
     "__version__",
 ]

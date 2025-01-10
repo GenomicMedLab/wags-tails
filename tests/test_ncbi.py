@@ -7,7 +7,7 @@ import pytest
 from wags_tails import NcbiGeneData, NcbiGenomeData
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncbi_data_dir(base_data_dir: Path):
     """Provide NCBI data directory."""
     directory = base_data_dir / "ncbi"
@@ -15,13 +15,13 @@ def ncbi_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncbi_genome(ncbi_data_dir: Path):
     """Provide NcbiGenomeData fixture"""
     return NcbiGenomeData(ncbi_data_dir, silent=True)
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncbi_gene(ncbi_data_dir: Path):
     """Provide NcbiGeneData fixture"""
     return NcbiGeneData(ncbi_data_dir, silent=True)

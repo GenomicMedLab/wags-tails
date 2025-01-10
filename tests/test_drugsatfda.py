@@ -9,7 +9,7 @@ import requests_mock
 from wags_tails.drugsatfda import DrugsAtFdaData
 
 
-@pytest.fixture()
+@pytest.fixture
 def drugsatfda_data_dir(base_data_dir: Path):
     """Provide Drugs@FDA data directory."""
     directory = base_data_dir / "drugsatfda"
@@ -17,7 +17,7 @@ def drugsatfda_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def drugsatfda(drugsatfda_data_dir: Path):
     """Provide DrugsAtFdaData fixture"""
     return DrugsAtFdaData(drugsatfda_data_dir, silent=True)

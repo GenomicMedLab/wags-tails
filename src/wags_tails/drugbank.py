@@ -40,10 +40,11 @@ class DrugBankData(DataSource):
                 .groups()[0]
                 .replace("-", ".")
             )
-            return version, url
         except (KeyError, IndexError) as e:
             msg = "Unable to parse latest DrugBank version number from releases API endpoint"
             raise RemoteDataError(msg) from e
+        else:
+            return version, url
 
     def _get_latest_local_file(self, glob: str) -> tuple[Path, str]:
         """Get most recent locally-available file. DrugBank uses versioning that isn't

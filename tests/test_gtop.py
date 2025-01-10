@@ -8,7 +8,7 @@ import requests_mock
 from wags_tails.guide_to_pharmacology import GToPLigandData, GtoPLigandPaths
 
 
-@pytest.fixture()
+@pytest.fixture
 def gtop_data_dir(base_data_dir: Path):
     """Provide Guide to Pharmacology data directory."""
     directory = base_data_dir / "guidetopharmacology"
@@ -16,7 +16,7 @@ def gtop_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def gtop_ligand(gtop_data_dir: Path):
     """Provide GToPLigandData fixture"""
     return GToPLigandData(gtop_data_dir, silent=True)
@@ -29,7 +29,7 @@ def latest_release_response(fixture_dir: Path):
         return f.read()
 
 
-@pytest.fixture()
+@pytest.fixture
 def gtop_ligand_file_paths(gtop_data_dir: Path):
     """Provide expected Path descriptors for Guide to Pharmacology ligand data objects."""
     return GtoPLigandPaths(
