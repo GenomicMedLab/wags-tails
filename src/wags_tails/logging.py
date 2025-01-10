@@ -4,7 +4,8 @@ import logging
 
 
 def initialize_logs(log_level: int = logging.DEBUG) -> None:
-    """Configure logging.
+    """Configure logging for application-level uses.
+
     :param log_level: app log level to set
     """
     logging.basicConfig(
