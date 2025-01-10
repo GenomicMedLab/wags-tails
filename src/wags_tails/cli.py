@@ -1,31 +1,18 @@
 """Provide a CLI application for accessing basic wags-tails functions."""
 
 import inspect
-import logging
 
 import click
 
 import wags_tails
+from wags_tails.logging import initialize_logs
 from wags_tails.utils.storage import get_data_dir
-
-
-def _configure_logs(log_level: int = logging.INFO) -> None:
-    """Configure logging.
-
-    :param log_level: global log level to set
-    """
-    logging.basicConfig(
-        filename="wags_tails.log",
-        format="[%(asctime)s] - %(name)s - %(levelname)s : %(message)s",
-    )
-    logger = logging.getLogger(__package__)
-    logger.setLevel(log_level)
 
 
 @click.group()
 def cli() -> None:
     """Manage data files from genomics databases and knowledge sources."""
-    _configure_logs()
+    initialize_logs()
 
 
 @cli.command()
