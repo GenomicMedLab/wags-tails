@@ -8,7 +8,7 @@ import requests_mock
 from wags_tails import NcbiManeSummaryData
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncbi_mane_summary_data_dir(base_data_dir: Path):
     """Provide NCBI MANE summary data directory."""
     directory = base_data_dir / "ncbi_mane_summary"
@@ -16,7 +16,7 @@ def ncbi_mane_summary_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncbi_mane_summary(ncbi_mane_summary_data_dir: Path):
     """Provide NcbiManeSummaryData fixture"""
     return NcbiManeSummaryData(ncbi_mane_summary_data_dir, silent=True)

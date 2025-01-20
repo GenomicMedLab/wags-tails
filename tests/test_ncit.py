@@ -9,7 +9,7 @@ import requests_mock
 from wags_tails.ncit import NcitData
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncit_data_dir(base_data_dir: Path):
     """Provide NCIt data directory."""
     directory = base_data_dir / "ncit"
@@ -17,7 +17,7 @@ def ncit_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def ncit(ncit_data_dir: Path):
     """Provide NcitData fixture"""
     return NcitData(ncit_data_dir, silent=True)

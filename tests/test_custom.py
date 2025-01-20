@@ -10,7 +10,7 @@ from wags_tails.custom import CustomData
 from wags_tails.utils.downloads import download_http, handle_gzip
 
 
-@pytest.fixture()
+@pytest.fixture
 def custom_data_dir(base_data_dir: Path):
     """Provide custom data directory."""
     directory = base_data_dir / "custom"
@@ -18,7 +18,7 @@ def custom_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def custom(custom_data_dir: Path):
     """Provide CustomData fixture"""
     return CustomData(
@@ -71,7 +71,7 @@ def test_get_latest(
     assert version == "999"
 
 
-@pytest.fixture()
+@pytest.fixture
 def chain_data_dir(base_data_dir: Path):
     """Provide ucsc-chainfile data directory."""
     directory = base_data_dir / "ucsc-chainfile"
@@ -79,7 +79,7 @@ def chain_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def chain_data_source(chain_data_dir: Path):
     """Provide UCSC chainfile data directory. Mirrors implementation in ``agct``."""
 

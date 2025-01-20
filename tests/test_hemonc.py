@@ -10,7 +10,7 @@ import requests_mock
 from wags_tails.hemonc import HemOncData, HemOncPaths
 
 
-@pytest.fixture()
+@pytest.fixture
 def hemonc_data_dir(base_data_dir: Path):
     """Provide HemOnc data directory."""
     directory = base_data_dir / "hemonc"
@@ -18,7 +18,7 @@ def hemonc_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def hemonc(hemonc_data_dir: Path):
     """Provide HemOncData fixture"""
     return HemOncData(hemonc_data_dir, silent=True)
@@ -38,7 +38,7 @@ def hemonc_file(fixture_dir: Path):
         return f.read()
 
 
-@pytest.fixture()
+@pytest.fixture
 def hemonc_file_paths(hemonc_data_dir: Path):
     """Provide expected Path descriptors for HemOnc data objects."""
     return HemOncPaths(

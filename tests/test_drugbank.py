@@ -9,7 +9,7 @@ import requests_mock
 from wags_tails.drugbank import DrugBankData
 
 
-@pytest.fixture()
+@pytest.fixture
 def drugbank_data_dir(base_data_dir: Path):
     """Provide Drugbank data directory."""
     directory = base_data_dir / "drugbank"
@@ -17,7 +17,7 @@ def drugbank_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def drugbank(drugbank_data_dir: Path):
     """Provide DrugBankData fixture"""
     return DrugBankData(drugbank_data_dir, silent=True)

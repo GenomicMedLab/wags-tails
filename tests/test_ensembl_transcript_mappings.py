@@ -8,7 +8,7 @@ import requests_mock
 from wags_tails.ensembl_transcript_mappings import EnsemblTranscriptMappingData
 
 
-@pytest.fixture()
+@pytest.fixture
 def mappings_data_dir(base_data_dir: Path):
     """Provide ensembl transcript mappings data directory."""
     directory = base_data_dir / "ensembl_transcript_mappings"
@@ -16,7 +16,7 @@ def mappings_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def ensembl_transcript_mappings(mappings_data_dir: Path):
     """Provide EnsemblTranscriptMappingData fixture"""
     return EnsemblTranscriptMappingData(mappings_data_dir, silent=True)

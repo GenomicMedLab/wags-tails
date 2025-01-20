@@ -9,7 +9,7 @@ import requests_mock
 from wags_tails.oncotree import OncoTreeData
 
 
-@pytest.fixture()
+@pytest.fixture
 def data_dir(base_data_dir: Path):
     """Provide source data directory."""
     directory = base_data_dir / "oncotree"
@@ -17,7 +17,7 @@ def data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def oncotree(data_dir: Path):
     """Provide OncoTreeData fixture"""
     return OncoTreeData(data_dir, silent=True)

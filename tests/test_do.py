@@ -10,7 +10,7 @@ import requests_mock
 from wags_tails.do import DoData
 
 
-@pytest.fixture()
+@pytest.fixture
 def data_dir(base_data_dir: Path):
     """Provide DO data directory."""
     directory = base_data_dir / "do"
@@ -18,7 +18,7 @@ def data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def do(data_dir: Path):
     """Provide DoData fixture"""
     return DoData(data_dir, silent=True)

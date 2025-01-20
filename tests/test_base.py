@@ -9,7 +9,7 @@ import pytest
 from wags_tails.mondo import MondoData
 
 
-@pytest.fixture()
+@pytest.fixture
 def _config_teardown():
     """Make sure environment variables are unset after running `test_config_directory`"""
     yield

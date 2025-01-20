@@ -10,7 +10,7 @@ import requests_mock
 from wags_tails.moa import MoaData
 
 
-@pytest.fixture()
+@pytest.fixture
 def moa_data_dir(base_data_dir: Path):
     """Provide MOA data directory."""
     directory = base_data_dir / "moalmanac"
@@ -18,7 +18,7 @@ def moa_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def moa(moa_data_dir: Path):
     """Provide MoaData fixture"""
     return MoaData(moa_data_dir, silent=True)

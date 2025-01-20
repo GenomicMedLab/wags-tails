@@ -9,7 +9,7 @@ import requests_mock
 from wags_tails.chembl import ChemblData
 
 
-@pytest.fixture()
+@pytest.fixture
 def chembl_data_dir(base_data_dir: Path):
     """Provide chembl data directory."""
     directory = base_data_dir / "chembl"
@@ -17,7 +17,7 @@ def chembl_data_dir(base_data_dir: Path):
     return directory
 
 
-@pytest.fixture()
+@pytest.fixture
 def chembl(chembl_data_dir: Path):
     """Provide ChemblData fixture"""
     return ChemblData(chembl_data_dir, silent=True)
