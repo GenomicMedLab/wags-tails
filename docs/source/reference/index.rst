@@ -52,9 +52,19 @@ Utilities
 
 .. autosummary::
    :nosignatures:
-   :toctree: api/handlers/
+   :toctree: api/utils/
    :template: module_summary.rst
 
    wags_tails.utils.downloads
    wags_tails.utils.storage
    wags_tails.utils.versioning
+
+Miscellany
+----------
+
+.. autosummary::
+   :nosignatures:
+   :toctree: api/misc/
+   :template: module_summary.rst
+
+   wags_tails.logging
