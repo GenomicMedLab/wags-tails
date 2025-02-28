@@ -62,9 +62,9 @@ autodoc_preserve_defaults = True
 autodoc_member_order = 'bysource'
 
 # -- get version -------------------------------------------------------------
-from importlib.metadata import version
+from wags_tails import __version__
 
-release = version = version("wags-tails")
+release = version = __version__
 
 # -- linkcode ----------------------------------------------------------------
 def linkcode_resolve(domain, info):
