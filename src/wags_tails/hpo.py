@@ -43,11 +43,11 @@ class HpoData(GitHubDataSource):
         assets = data["assets"]
         url = None
         for asset in assets:
-            if asset["name"] == "hp-full.obo":
+            if asset["name"] == "hp-base.obo":
                 url = asset["browser_download_url"]
                 return (version, url)
         else:
-            msg = f"Unable to retrieve hp-full.obo under release {version}"
+            msg = f"Unable to retrieve hp-base.obo under release {version}"
             raise RemoteDataError(msg)
 
     def _download_data(self, version: str, outfile: Path) -> None:
@@ -62,7 +62,7 @@ class HpoData(GitHubDataSource):
             .strftime("%Y-%m-%d")
         )
         download_http(
-            f"https://github.com/{self._repo}/releases/download/{formatted_version}/hp-full.obo",
+            f"https://github.com/{self._repo}/releases/download/{formatted_version}/hp-base.obo",
             outfile,
             tqdm_params=self._tqdm_params,
         )

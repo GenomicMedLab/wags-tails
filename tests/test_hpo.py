@@ -50,7 +50,7 @@ def test_get_latest(
             json=latest_release_response,
         )
         m.get(
-            "https://github.com/obophenotype/human-phenotype-ontology/releases/download/2025-03-03/hp-full.obo",
+            "https://github.com/obophenotype/human-phenotype-ontology/releases/download/2025-03-03/hp-base.obo",
             body="",
         )
         path, version = hpo.get_latest()
