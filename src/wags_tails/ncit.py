@@ -1,6 +1,6 @@
 """Provide source fetching for NCI Thesaurus."""
 
-import re
+from json import JSONDecodeError
 from pathlib import Path
 
 import requests
@@ -23,20 +23,15 @@ class NcitData(DataSource):
         :raise RemoteDataError: if unable to parse version number from releases API
         """
         r = requests.get(
-            "https://ncithesaurus.nci.nih.gov/ncitbrowser/",
+            "https://evsexplore.semantics.cancer.gov/evsexplore/api/v1/concept/ncit/roots",
             timeout=HTTPS_REQUEST_TIMEOUT,
         )
         r.raise_for_status()
-        r_text = r.text.split("\n")
-        pattern = re.compile(r"Version:(\d\d\.\d\d\w)")
-        for line in r_text:
-            if "Version" in line:
-                match = re.match(pattern, line.strip())
-                if match and match.groups():
-                    return match.groups()[0]
-        else:
+        try:
+            return r.json()[0]["version"]
+        except (IndexError, KeyError, JSONDecodeError) as e:
             msg = "Unable to parse latest NCIt version number homepage HTML."
-            raise RemoteDataError(msg)
+            raise RemoteDataError(msg) from e
 
     @staticmethod
     def _get_url(version: str) -> str:

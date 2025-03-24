@@ -33,7 +33,7 @@ def ncit_file(fixture_dir):
 @pytest.fixture(scope="module")
 def versions_response(fixture_dir):
     """Provide HTML response to parse version value from"""
-    with (fixture_dir / "ncit_home_page.html").open() as f:
+    with (fixture_dir / "ncit_evs_api.txt").open() as f:
         return "\n".join(list(f.readlines()))
 
 
@@ -58,40 +58,40 @@ def test_get_latest(
 
     with requests_mock.Mocker() as m:
         m.get(
-            "https://ncithesaurus.nci.nih.gov/ncitbrowser/",
+            "https://evsexplore.semantics.cancer.gov/evsexplore/api/v1/concept/ncit/roots",
             text=versions_response,
         )
         m.get(
-            "https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/Thesaurus_23.09d.OWL.zip",
+            "https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/Thesaurus_25.02d.OWL.zip",
             content=ncit_file,
         )
         path, version = ncit.get_latest()
-        assert path == ncit_data_dir / "ncit_23.09d.owl"
+        assert path == ncit_data_dir / "ncit_25.02d.owl"
         assert path.exists()
-        assert version == "23.09d"
+        assert version == "25.02d"
         assert m.call_count == 3
 
         path, version = ncit.get_latest()
-        assert path == ncit_data_dir / "ncit_23.09d.owl"
+        assert path == ncit_data_dir / "ncit_25.02d.owl"
         assert path.exists()
-        assert version == "23.09d"
+        assert version == "25.02d"
         assert m.call_count == 4
 
         path, version = ncit.get_latest(from_local=True)
-        assert path == ncit_data_dir / "ncit_23.09d.owl"
+        assert path == ncit_data_dir / "ncit_25.02d.owl"
         assert path.exists()
         assert m.call_count == 4
 
         (ncit_data_dir / "ncit_23.08d").touch()
         (ncit_data_dir / "ncit_23.07e").touch()
         path, version = ncit.get_latest(from_local=True)
-        assert path == ncit_data_dir / "ncit_23.09d.owl"
+        assert path == ncit_data_dir / "ncit_25.02d.owl"
         assert path.exists()
-        assert version == "23.09d"
+        assert version == "25.02d"
         assert m.call_count == 4
 
         path, version = ncit.get_latest(force_refresh=True)
-        assert path == ncit_data_dir / "ncit_23.09d.owl"
+        assert path == ncit_data_dir / "ncit_25.02d.owl"
         assert path.exists()
-        assert version == "23.09d"
+        assert version == "25.02d"
         assert m.call_count == 7
