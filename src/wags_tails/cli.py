@@ -10,6 +10,7 @@ from wags_tails.utils.storage import get_data_dir
 
 
 @click.group()
+@click.version_option(wags_tails.__version__)
 def cli() -> None:
     """Manage data files from genomics databases and knowledge sources."""
     initialize_logs()
