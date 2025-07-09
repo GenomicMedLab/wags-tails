@@ -29,8 +29,7 @@ class NcbiGenomeData(DataSource):
         :raise RemoteDataError: if navigation fails (e.g. because expected directories don't exist)
         """
         ftp.cwd(
-            "genomes/refseq/vertebrate_mammalian/Homo_sapiens/"
-            "latest_assembly_versions"
+            "genomes/refseq/vertebrate_mammalian/Homo_sapiens/latest_assembly_versions"
         )
         major_annotation_pattern = r"GCF_\d+\.\d+_GRCh\d+.+"
         try:
