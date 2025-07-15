@@ -1,4 +1,4 @@
-"""Fetches NCBI MANE summary data."""
+"""Fetches NCBI MANE data."""
 
 from pathlib import Path
 
