@@ -19,7 +19,7 @@ from wags_tails.moa import MoaData
 from wags_tails.mondo import MondoData
 from wags_tails.ncbi import NcbiGeneData, NcbiGenomeData
 from wags_tails.ncbi_lrg_refseqgene import NcbiLrgRefSeqGeneData
-from wags_tails.ncbi_mane_summary import NcbiManeSummaryData
+from wags_tails.ncbi_mane import NcbiManeRefSeqGenomicData, NcbiManeSummaryData
 from wags_tails.ncit import NcitData
 from wags_tails.oncotree import OncoTreeData
 from wags_tails.rxnorm import RxNormData
@@ -50,6 +50,7 @@ __all__ = [
     "NcbiGeneData",
     "NcbiGenomeData",
     "NcbiLrgRefSeqGeneData",
+    "NcbiManeRefSeqGenomicData",
     "NcbiManeSummaryData",
     "NcitData",
     "OncoTreeData",
