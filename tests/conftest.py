@@ -1,5 +1,6 @@
 """Provide core testing utilities."""
 
+import contextlib
 import logging
 import shutil
 from pathlib import Path
@@ -49,4 +50,5 @@ def base_data_dir():
     if path.exists():  # make sure it's empty
         shutil.rmtree(str(path.absolute()))
     yield path
-    shutil.rmtree(str(path.absolute()))  # clean up afterward
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(str(path.absolute()))  # clean up afterward
