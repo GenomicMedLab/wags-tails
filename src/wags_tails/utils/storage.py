@@ -7,7 +7,11 @@ from pathlib import Path
 _logger = logging.getLogger(__name__)
 
 
-def get_data_dir() -> Path:
+class WagsTailsDirPermissionsError(Exception):
+    """Raise for cases where resolved data dir appears to be unwriteable by current process"""
+
+
+def get_data_dir(assert_writeable: bool = True) -> Path:
     """Get base wags-tails data storage location.
 
     By default, conform to `XDG Base Directory Specification <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_,
@@ -19,7 +23,11 @@ def get_data_dir() -> Path:
         that can't be used (i.e. they're already a file)
     4) otherwise, use ``~/.local/share/``
 
+    :param assert_writeable: whether to check that the resolved directory appears writeable.
+        This won't perform an exhaustive check but should be good enough for most users.
+        Disable when intended use is read-only.
     :return: path to base data directory
+    :raise WagsTailsDirPermissionsError: if writeable assertion check fails
     """
     spec_wagstails_dir = os.environ.get("WAGS_TAILS_DIR")
     if spec_wagstails_dir:
@@ -42,7 +50,19 @@ def get_data_dir() -> Path:
             else:
                 data_base_dir = Path.home() / ".local" / "share" / "wags_tails"
 
-    data_base_dir.mkdir(exist_ok=True, parents=True)
+    if assert_writeable:
+        failure_msg = f"wags-tails get_data_dir() writeability assertion failed for path `{data_base_dir}`. Ensure wags-tails directory is configured to be a writeable location, or use `get_data_dir(assert_writeable=False)` if read-only mode is intended. See docs entry on data dir configuration: https://wags-tails.readthedocs.io/latest/usage.html#configuration"
+        # check for writeability both with os.access and mkdir(). There are some
+        # edge cases that one will miss but not the other, so we'll do both
+        if not os.access(data_base_dir, os.W_OK | os.X_OK):
+            _logger.error(failure_msg)
+            raise WagsTailsDirPermissionsError(failure_msg)
+        try:
+            data_base_dir.mkdir(exist_ok=True, parents=True)
+        except PermissionError as e:
+            _logger.exception(failure_msg)
+            raise WagsTailsDirPermissionsError(failure_msg) from e
+
     return data_base_dir
 
 
