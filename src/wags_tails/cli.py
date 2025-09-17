@@ -1,12 +1,30 @@
 """Provide a CLI application for accessing basic wags-tails functions."""
 
 import inspect
+import logging
+from logging.handlers import RotatingFileHandler
 
 import click
 
 import wags_tails
-from wags_tails.logging import initialize_logs
 from wags_tails.utils.storage import get_data_dir
+
+
+def initialize_logs(log_level: int = logging.INFO) -> None:
+    """Configure logging.
+    :param log_level: app log level to set
+    """
+    root = logging.getLogger()
+    if root.handlers:
+        return
+
+    root.setLevel(log_level)
+    formatter = logging.Formatter(
+        "[%(asctime)s] - %(name)s - %(levelname)s : %(message)s"
+    )
+    fh = RotatingFileHandler(f"{__package__}.log", maxBytes=5_000_000, backupCount=3)
+    fh.setFormatter(formatter)
+    root.addHandler(fh)
 
 
 @click.group()
