@@ -11,6 +11,10 @@ class WagsTailsDirWriteError(Exception):
     """Raise for cases where resolved data dir appears to be unwriteable by current process"""
 
 
+class WagsTailsDirNotAvailableError(Exception):
+    """Raise for cases where resolved data dir cannot be used (e.g. doesn't exist and write mode is disabled)"""
+
+
 def _check_write(data_dir: Path) -> None:
     """Perform writeability checks
 
@@ -19,10 +23,10 @@ def _check_write(data_dir: Path) -> None:
     * a mkdir() call should catch most cases but won't tell us anything if the directory
         already exists
 
-    :param data_dir: full data dir (i.e. most likely points to a directory named "wags-tails")
+    :param data_dir: wags-tails data dir
     :raise WagsTailsDirWriteError: if any checks fail
     """
-    base_failure_msg = f"wags-tails get_data_dir() writeability assertion failed for path `{data_dir}`. INSERT_SPECIFIC_HERE Ensure wags-tails directory is configured to be a writeable location, or use `get_data_dir(assert_writeable=False)` if read-only mode is intended. See docs entry on data dir configuration: https://wags-tails.readthedocs.io/latest/usage.html#configuration"
+    base_failure_msg = f"wags-tails get_data_dir() writeability assertion failed for path `{data_dir}`. INSERT_SPECIFIC_HERE Ensure wags-tails directory is configured to be a writeable location, or use `get_data_dir(writeable=False)` or env var `WAGS_TAILS_READONLY=True` if read-only mode is intended. See docs entry on data dir configuration: https://wags-tails.readthedocs.io/latest/usage.html#configuration"
 
     # since we might be making multiple new subdirectories, use the nearest existing directory
     probe = data_dir
@@ -64,7 +68,7 @@ def _check_write(data_dir: Path) -> None:
         raise WagsTailsDirWriteError(msg) from e
 
 
-def get_data_dir(writeable: bool = True) -> Path:
+def get_data_dir(readonly: bool | None = None) -> Path:
     """Get base wags-tails data storage location.
 
     By default, conform to `XDG Base Directory Specification <https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>`_,
@@ -73,24 +77,47 @@ def get_data_dir(writeable: bool = True) -> Path:
     1) check env var ``"WAGS_TAILS_DIR"``
     2) check env var ``"XDG_DATA_HOME"``. If set, use ``${XDG_DATA_HOME}/wags_tails/``
     3) check env var ``"XDG_DATA_DIRS"`` for a colon-separated list, looking for an
-        element that contains a ``wags_tails/`` subdirectory (only available if ``writeable=False``)
+        element that contains a ``wags_tails/`` subdirectory (only available in read-only mode)
     4) otherwise, use ``~/.local/share/wags_tails``
 
-    :param writeable: whether to check that the resolved directory appears writeable.
-        This won't perform an exhaustive check but should be good enough for most use cases.
-        Disable when intended use is read-only. When set, will attempt to mkdir the
-        resolved data dir if it doesn't already exist.
+    Enable read-only mode by calling with ``readonly=True`` or setting the env var ``WAGS_TAILS_READONLY=TRUE``.
+
+    * If read-only is enabled, ``$XDG_DATA_DIRS`` can be used to provide a data directory, but only if
+      a ``wags-tails`` subdirectory already exists within it. Otherwise, an individual directory entry
+      is skipped. If unable to resolve to a directory that exists, raises ``WagsTailsDirNotAvailableError``.
+    * If read-only is not enabled, ``$XDG_DATA_DIRS`` is ignored, and cursory checks are performed
+      to assess writeability of the resolved data directory. If they fail, then a
+      ``WagsTailsDirWriteError`` is raised.
+
+    :param readonly: whether to enable read-only mode. If left unset, checks the ``$WAGS_TAILS_READONLY``
+        env var, and otherwise defaults to ``False``.
     :return: path to base data directory
     :raise WagsTailsDirWriteError: if writeable assertion check fails
+    :raise WagsTailsDirNotAvailableError: if read-only mode enabled but resolved directory doesn't exist
     """
+    if readonly is None:
+        if env_var_value := os.environ.get("WAGS_TAILS_READONLY"):
+            if env_var_value.upper() == "TRUE":
+                readonly = True
+            elif env_var_value.upper() == "FALSE":
+                readonly = False
+            else:
+                _logger.warning(
+                    "Unrecognized `WAGS_TAILS_READONLY` value: %s. Defaulting to readonly=False.",
+                    env_var_value,
+                )
+                readonly = False
+        else:
+            readonly = False
     default_name = "wags_tails"
+
     data_base_dir = None
     if spec_wagstails_dir := os.environ.get("WAGS_TAILS_DIR"):
         data_base_dir = Path(spec_wagstails_dir)
     else:
         if xdg_data_home := os.environ.get("XDG_DATA_HOME"):
             data_base_dir = Path(xdg_data_home) / default_name
-        elif not writeable:  # noqa: SIM102
+        elif readonly:  # noqa: SIM102
             if xdg_data_dirs := os.environ.get("XDG_DATA_DIRS"):
                 dirs = xdg_data_dirs.split(":")
                 for directory in dirs:
@@ -106,7 +133,16 @@ def get_data_dir(writeable: bool = True) -> Path:
         msg = f"Unable to expand user prefix for path {data_base_dir}"
         _logger.warning(msg)
 
-    if writeable:
+    if readonly:
+        if not data_base_dir.exists():
+            msg = f"Resolved wags-tails dir location `{data_base_dir}` does not exist, but write mode is disabled so it cannot be created or used"
+            _logger.error(msg)
+            raise WagsTailsDirNotAvailableError(msg)
+        if not data_base_dir.is_dir():
+            msg = f"Resolved wags-tails dir location `{data_base_dir}` is not a directory."
+            _logger.error(msg)
+            raise WagsTailsDirNotAvailableError(msg)
+    else:
         _check_write(data_base_dir)
 
     return data_base_dir

@@ -28,7 +28,9 @@ Additional parameters are available to force usage of the most recent locally-av
 Configuration
 -------------
 
-All data is stored within source-specific subdirectories of a designated ``wags-tails`` data directory. By default, this location is ``~/.local/share/wags_tails/``, but it can be configured by passing a Path directly to a data class on initialization, via the ``$WAGS_TAILS_DIR`` environment variable, or via `XDG data environment variables <https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html>`_. This is explicated in full in the :py:meth:`~wags_tails.utils.storage.get_data_dir()` method description.
+All data is stored within source-specific subdirectories of a designated ``wags-tails`` data directory. By default, this location is ``~/.local/share/wags_tails/``, but it can be configured by passing a Path directly to a data class on initialization, via the ``$WAGS_TAILS_DIR`` environment variable, or via `XDG data environment variables <https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html>`_. This is explicated in full in the :py:meth:`wags_tails.utils.storage.get_data_dir()` method description.
+
+``wags-tails`` will attempt to create the resolved data directory if it does not already exist. This behavior can be disabled by passing ``writeable=False`` to the :py:meth:`wags_tails.utils.storage.get_data_dir()` method, or by setting the environment variable ``WAGS_TAILS_READONLY`` to ``"TRUE"``. If read-only mode is not engaged, ``get_data_dir()`` will perform cursory checks to assess whether the resolved directory appears writeable, and raise a :py:class:`wags_tails.utils.storage.WagsTailsDirWriteError` if those checks fail. If read-only mode is enabled but the resolved data directory is not available, a :py:class:`wags_tails.utils.storage.WagsTailsDirNotAvailableError` will be raised.
 
 .. _custom_data_source:
 
