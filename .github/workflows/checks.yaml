@@ -14,13 +14,18 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
       - name: Install dependencies
-        run: python3 -m pip install ".[tests]"
+        run: uv sync --extra tests
 
       - name: Run tests
         env:
           WAGSTAILS_TEST_ENV: true
-        run: python3 -m pytest tests/
+        run: uv run pytest
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -31,11 +36,16 @@ jobs:
         with:
           python-version: 3.11
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
       - name: Install dependencies
-        run: python3 -m pip install ".[dev]"
+        run: uv sync --extra dev
 
       - name: Check style
-        run: python3 -m ruff check . && ruff format --check .
+        run: uv run ruff check . && uv run ruff format --check .
   precommit_hooks:
     runs-on: ubuntu-latest
     strategy:
@@ -65,11 +75,14 @@ jobs:
         with:
           python-version: 3.11
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
       - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install '.[docs]'
+        run: uv sync --extra docs
 
       - name: Attempt docs build
         working-directory: ./docs
-        run: make html
+        run: source ../.venv/bin/activate && make html
