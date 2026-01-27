@@ -20,7 +20,8 @@ class NcbiLrgRefSeqGeneData(DataSource):
         :raise RemoteDataError: if unable to parse version number from file directory
         """
         url = "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/"
-        response = request_get_with_retries(url)
+        response = request_get_with_retries(url, timeout=30)
+        response.raise_for_status()
         text = response.text
         for row in text.split("\n"):
             if "LRG_RefSeqGene" in row:

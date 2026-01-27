@@ -51,10 +51,11 @@ def handle_gzip(dl_path: Path, outfile_path: Path) -> None:
         f.write(gz.read())
 
 
-def request_get_with_retries(url: str) -> requests.Response:
+def request_get_with_retries(url: str, **kwargs) -> requests.Response:
     """Run request calls for a session given a url
 
     :param url: The URL where the data will be downloaded from
+    :param kwargs: Optional arguments to supply to the sesion.get command
     :return: A requests.Response object
     """
     session = Session()
@@ -65,7 +66,7 @@ def request_get_with_retries(url: str) -> requests.Response:
         allowed_methods={"GET"},
     )
     session.mount("https://", HTTPAdapter(max_retries=retries))
-    return session.get(url, timeout=30)
+    return session.get(url, **kwargs)
 
 
 def download_ftp(
