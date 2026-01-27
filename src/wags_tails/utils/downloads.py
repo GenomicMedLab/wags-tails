@@ -11,12 +11,16 @@ from collections.abc import Callable
 from pathlib import Path
 
 import requests
+from requests import Session
+from requests.adapters import HTTPAdapter
 from tqdm import tqdm
+from urllib3.util import Retry
 
 _logger = logging.getLogger(__name__)
 
 
 HTTPS_REQUEST_TIMEOUT = 30
+MAX_RETRIES = 3
 
 
 def handle_zip(dl_path: Path, outfile_path: Path) -> None:
@@ -45,6 +49,24 @@ def handle_gzip(dl_path: Path, outfile_path: Path) -> None:
     """
     with gzip.open(dl_path, "rb") as gz, outfile_path.open("wb") as f:
         f.write(gz.read())
+
+
+def request_get_with_retries(url: str, **kwargs) -> requests.Response:
+    """Run request calls for a session given a url
+
+    :param url: The URL where the data will be downloaded from
+    :param kwargs: Optional arguments to supply to the sesion.get command
+    :return: A requests.Response object
+    """
+    session = Session()
+    retries = Retry(
+        total=MAX_RETRIES,
+        backoff_factor=0.1,
+        status_forcelist=[502, 503, 504],
+        allowed_methods={"GET"},
+    )
+    session.mount("https://", HTTPAdapter(max_retries=retries))
+    return session.get(url, **kwargs)
 
 
 def download_ftp(
