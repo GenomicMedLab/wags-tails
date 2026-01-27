@@ -1,12 +1,13 @@
 """Fetches NCBI LRG_RefSeqGene data."""
 
 import re
+import time
 from pathlib import Path
 
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, MAX_RETRIES, download_http
 
 
 class NcbiLrgRefSeqGeneData(DataSource):
@@ -22,8 +23,17 @@ class NcbiLrgRefSeqGeneData(DataSource):
         :raise RemoteDataError: if unable to parse version number from file directory
         """
         url = "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/"
-        response = requests.get(url, timeout=HTTPS_REQUEST_TIMEOUT)
-        response.raise_for_status()
+        response = None
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                response = requests.get(url, timeout=HTTPS_REQUEST_TIMEOUT)
+                response.raise_for_status()
+                break
+            except RemoteDataError as rde:
+                if attempt == MAX_RETRIES:
+                    msg = f"Unable to fetch LRG_RefSeqGene data after {MAX_RETRIES} attempts"
+                    raise RemoteDataError(msg) from rde
+                time.sleep(1)
         text = response.text
         for row in text.split("\n"):
             if "LRG_RefSeqGene" in row:

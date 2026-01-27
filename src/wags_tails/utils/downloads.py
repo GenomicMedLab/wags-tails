@@ -17,6 +17,7 @@ _logger = logging.getLogger(__name__)
 
 
 HTTPS_REQUEST_TIMEOUT = 30
+MAX_RETRIES = 3
 
 
 def handle_zip(dl_path: Path, outfile_path: Path) -> None:
