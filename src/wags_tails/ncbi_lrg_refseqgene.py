@@ -3,10 +3,12 @@
 import re
 from pathlib import Path
 
-import requests
-
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
+from .utils.downloads import (
+    HTTPS_REQUEST_TIMEOUT,
+    download_http,
+    request_get_with_retries,
+)
 
 
 class NcbiLrgRefSeqGeneData(DataSource):
@@ -22,7 +24,7 @@ class NcbiLrgRefSeqGeneData(DataSource):
         :raise RemoteDataError: if unable to parse version number from file directory
         """
         url = "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/"
-        response = requests.get(url, timeout=HTTPS_REQUEST_TIMEOUT)
+        response = request_get_with_retries(url, timeout=HTTPS_REQUEST_TIMEOUT)
         response.raise_for_status()
         text = response.text
         for row in text.split("\n"):
