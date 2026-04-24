@@ -31,7 +31,7 @@ class DataSource(abc.ABC):
 
     # required attributes
     _src_name: str
-    _filetype: str | None
+    _filetype: str
     _versioned: bool = True
 
     def __init__(self, data_dir: Path | None = None, silent: bool = True) -> None:
