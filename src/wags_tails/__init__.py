@@ -18,6 +18,7 @@ from wags_tails.hpo import HpoData
 from wags_tails.moa import MoaData
 from wags_tails.mondo import MondoData
 from wags_tails.ncbi import NcbiGeneData, NcbiGenomeData
+from wags_tails.ncbi_gene_summary import NcbiGeneSummaryData
 from wags_tails.ncbi_lrg_refseqgene import NcbiLrgRefSeqGeneData
 from wags_tails.ncbi_mane import NcbiManeRefSeqGenomicData, NcbiManeSummaryData
 from wags_tails.ncit import NcitData
@@ -48,6 +49,7 @@ __all__ = [
     "MoaData",
     "MondoData",
     "NcbiGeneData",
+    "NcbiGeneSummaryData",
     "NcbiGenomeData",
     "NcbiLrgRefSeqGeneData",
     "NcbiManeRefSeqGenomicData",
