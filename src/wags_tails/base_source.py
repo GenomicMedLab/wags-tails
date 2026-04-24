@@ -89,16 +89,15 @@ class DataSource(abc.ABC):
             msg = "Cannot set both `force_refresh` and `from_local`"
             raise ValueError(msg)
 
-        filetype_suffix = f".{self._filetype}" if self._filetype else ""
         if from_local:
             file_glob = (
-                f"{self._src_name}_*{filetype_suffix}"
+                f"{self._src_name}_*.{self._filetype}"
                 if self._versioned
-                else f"{self._src_name}{filetype_suffix}"
+                else f"{self._src_name}.{self._filetype}"
             )
             file_path = get_latest_local_file(self.data_dir, file_glob)
             version = (
-                parse_file_version(file_path, f"{self._src_name}_(.+){filetype_suffix}")
+                parse_file_version(file_path, f"{self._src_name}_(.+).{self._filetype}")
                 if self._versioned
                 else ""
             )
@@ -106,16 +105,16 @@ class DataSource(abc.ABC):
 
         latest_version = self._get_latest_version()
         latest_file = (
-            f"{self._src_name}_{latest_version}{filetype_suffix}"
+            f"{self._src_name}_{latest_version}.{self._filetype}"
             if self._versioned
-            else f"{self._src_name}{filetype_suffix}"
+            else f"{self._src_name}.{self._filetype}"
         )
         latest_file_path = self.data_dir / latest_file
         if (not force_refresh) and latest_file_path.exists():
             _logger.debug(
                 "Found existing file, %s, matching latest version %s.",
                 latest_file_path.name,
-                latest_version or "(unversioned)",
+                latest_version if latest_version else "(unversioned)",
             )
             return latest_file_path, latest_version
         self._download_data(latest_version, latest_file_path)
