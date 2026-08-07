@@ -54,7 +54,9 @@ class OncotreeJson(Dataset[OncotreeJsonAssets]):
             raise ReleaseParsingError(msg) from e
         return Version.parse(value=version_raw, scheme=self.version_scheme)
 
-    def stage_release(self, staging_dir: Path, session: OperationConfig) -> Version:
+    def stage_release(
+        self, staging_dir: Path, version: Version, session: OperationConfig
+    ) -> None:
         """Download and prepare a release in a staging directory.
 
         Implementations should download, verify, decompress, extract, and otherwise
@@ -66,15 +68,12 @@ class OncotreeJson(Dataset[OncotreeJsonAssets]):
         or unsuccessful downloads.
 
         :param staging_dir: temporary location within which to stage assets
+        :param version:
         :param session: session-wide configuration
-        :return: version of staged assets
         """
-        version = self.get_latest_version(session)
         url = "https://oncotree.info/api/tumorTypes/tree?version=oncotree_latest_stable"
-        outfile_path = staging_dir / version.raw / f"oncotree_{version.raw}.json"
-        outfile_path.parent.mkdir(exist_ok=True, parents=True)
+        outfile_path = staging_dir / f"oncotree_{version.raw}.json"
         download_http(url, outfile_path, session)
-        return version
 
     def load_release(
         self,

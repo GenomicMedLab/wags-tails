@@ -64,14 +64,14 @@ class LocalStore:
             return latest_local_release
 
         if force_refresh:
-            return self._stash_latest_release(dataset)
+            return self._stash_latest_release(dataset, overwrite_existing=force_refresh)
 
         latest_published_version = dataset.get_latest_version(self._session_config)
         if (
             latest_local_release is None
             or latest_local_release.version < latest_published_version
         ):
-            return self._stash_latest_release(dataset)
+            return self._stash_latest_release(dataset, overwrite_existing=force_refresh)
 
         return latest_local_release
 
@@ -103,7 +103,9 @@ class LocalStore:
 
         return max(releases, key=lambda r: r.version)
 
-    def _stash_latest_release(self, dataset: Dataset) -> Release:
+    def _stash_latest_release(
+        self, dataset: Dataset, overwrite_existing: bool
+    ) -> Release:
         """Download and cache the latest published release of a dataset.
 
         The dataset implementation is responsible for downloading and preparing the
@@ -111,16 +113,21 @@ class LocalStore:
         successfully, the release is atomically installed into the local cache.
 
         :param dataset: Dataset whose latest release should be cached.
+        :param overwrite_existing: whether to force overwrite if release already exists
+            in storage
         :return: The cached release.
         """
         with TemporaryDirectory() as tmp:
-            staging_dir = Path(tmp)
-            version = dataset.stage_release(staging_dir, self._session_config)
-
+            version = dataset.get_latest_version(self._session_config)
             release_dir = dataset.dataset_dir(self.data_dir) / version.raw
-            if release_dir.exists():
+            if overwrite_existing and release_dir.exists():
                 msg = f"Release {version} already exists"
                 raise RuntimeError(msg)
-            shutil.move(staging_dir / version.raw, release_dir)
+
+            staging_dir = Path(tmp) / version.raw
+            staging_dir.mkdir(exist_ok=True, parents=True)
+            dataset.stage_release(staging_dir, version, self._session_config)
+
+            shutil.move(staging_dir, release_dir)
 
         return dataset.load_release(release_dir)

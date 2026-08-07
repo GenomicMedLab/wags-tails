@@ -57,37 +57,35 @@ class GuideToPharmacologyDownloads(Dataset[GuideToPharmacologyAssets]):
         )
         raise ReleaseParsingError(msg)
 
-    def stage_release(self, staging_dir: Path, session: OperationConfig) -> Version:
+    def stage_release(
+        self, staging_dir: Path, version: Version, session: OperationConfig
+    ) -> None:
         """Download and prepare a release in a staging directory.
 
         :param staging_dir: temporary location within which to stage assets
+        :param version:
         :param session: session-wide configuration
-        :return: version of staged assets
         """
-        version = self.get_latest_version(session)
-        version_dir = staging_dir / version.raw
-        version_dir.mkdir(parents=True, exist_ok=True)
         download_http(
             "https://www.guidetopharmacology.org/DATA/ligands.tsv",
-            version_dir / f"gtop_ligands_{version.raw}.tsv",
+            staging_dir / f"gtop_ligands_{version.raw}.tsv",
             session,
         )
         download_http(
             "https://www.guidetopharmacology.org/DATA/ligand_id_mapping.tsv",
-            version_dir / f"gtop_ligand_id_mapping_{version.raw}.tsv",
+            staging_dir / f"gtop_ligand_id_mapping_{version.raw}.tsv",
             session,
         )
         download_http(
             "https://www.guidetopharmacology.org/DATA/targets_and_families.tsv",
-            version_dir / f"gtop_targets_and_families_{version.raw}.tsv",
+            staging_dir / f"gtop_targets_and_families_{version.raw}.tsv",
             session,
         )
         download_http(
             "https://www.guidetopharmacology.org/DATA/interactions.tsv",
-            version_dir / f"gtop_ligand_target_interactions_{version.raw}.tsv",
+            staging_dir / f"gtop_ligand_target_interactions_{version.raw}.tsv",
             session,
         )
-        return version
 
     def load_release(
         self, release_directory: Path

@@ -64,7 +64,9 @@ class Dataset(Generic[AssetsT], ABC):
         """
 
     @abstractmethod
-    def stage_release(self, staging_dir: Path, session: OperationConfig) -> Version:
+    def stage_release(
+        self, staging_dir: Path, version: Version, session: OperationConfig
+    ) -> None:
         """Download and prepare a release in a staging directory.
 
         Implementations should download, verify, decompress, extract, and otherwise
@@ -75,9 +77,9 @@ class Dataset(Generic[AssetsT], ABC):
         Note that we stage in a temporary directory to protect against interrupted
         or unsuccessful downloads.
 
-        :param staging_dir: temporary location within which to stage assets
+        :param staging_dir: temporary release location within which to stage assets
+        :param version: release version value
         :param session: session-wide configuration
-        :return: version of staged assets
         """
 
     def dataset_dir(self, root: Path) -> Path:

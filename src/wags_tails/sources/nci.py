@@ -63,20 +63,20 @@ class Ncit(Dataset[NcitAssets]):
             raise ReleaseParsingError(msg) from e
         return Version.parse(value=version_raw, scheme=self.version_scheme)
 
-    def stage_release(self, staging_dir: Path, session: OperationConfig) -> Version:
+    def stage_release(
+        self, staging_dir: Path, version: Version, session: OperationConfig
+    ) -> None:
         """Download and prepare a release in a staging directory.
 
         NCIt storage protocols are kind of weird, and often the API will tell us a new
         version is up before it's posted to the FTP site, so we have to try some tricks
         to find where it lives
 
-        :param staging_dir: temporary location within which to stage assets
+        :param staging_dir: temporary release location within which to stage assets
+        :param version:
         :param session: session-wide configuration
-        :return: version of staged assets
         """
-        version = self.get_latest_version(session)
-        outfile_path = staging_dir / version.raw / f"nci_thesaurus_{version.raw}.owl"
-        outfile_path.parent.mkdir(exist_ok=True, parents=True)
+        outfile_path = staging_dir / f"nci_thesaurus_{version.raw}.owl"
         base_url = "https://evs.nci.nih.gov/ftp1/NCI_Thesaurus"
         release_fname = f"Thesaurus_{version.raw}.OWL.zip"
         src_url = f"{base_url}/{release_fname}"
@@ -95,7 +95,6 @@ class Ncit(Dataset[NcitAssets]):
                 except DataSourceConnectionError as e:
                     msg = f"Unable to locate URL for NCIt version {version.raw}"
                     raise DataSourceConnectionError(msg) from e
-        return version
 
     def load_release(
         self,
