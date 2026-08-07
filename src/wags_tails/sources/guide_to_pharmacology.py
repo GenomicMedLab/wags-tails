@@ -63,29 +63,20 @@ class GuideToPharmacologyDownloads(Dataset[GuideToPharmacologyAssets]):
         """Download and prepare a release in a staging directory.
 
         :param staging_dir: temporary location within which to stage assets
-        :param version:
+        :param version: release version
         :param session: session-wide configuration
         """
-        download_http(
-            "https://www.guidetopharmacology.org/DATA/ligands.tsv",
-            staging_dir / f"gtop_ligands_{version.raw}.tsv",
-            session,
-        )
-        download_http(
-            "https://www.guidetopharmacology.org/DATA/ligand_id_mapping.tsv",
-            staging_dir / f"gtop_ligand_id_mapping_{version.raw}.tsv",
-            session,
-        )
-        download_http(
-            "https://www.guidetopharmacology.org/DATA/targets_and_families.tsv",
-            staging_dir / f"gtop_targets_and_families_{version.raw}.tsv",
-            session,
-        )
-        download_http(
-            "https://www.guidetopharmacology.org/DATA/interactions.tsv",
-            staging_dir / f"gtop_ligand_target_interactions_{version.raw}.tsv",
-            session,
-        )
+        for url_fname, local_fname in [
+            ("ligands", "ligands"),
+            ("ligand_id_mapping", "ligand_id_mapping"),
+            ("targets_and_families", "targets_and_families"),
+            ("interactions", "ligand_target_interactions"),
+        ]:
+            download_http(
+                f"https://www.guidetopharmacology.org/DATA/{url_fname}.tsv",
+                staging_dir / f"gtop_{local_fname}_{version.raw}.tsv",
+                session,
+            )
 
     def load_release(
         self, release_directory: Path
