@@ -1,22 +1,44 @@
 """Provide Guide to Pharmacology downloads"""
 
 import re
-from dataclasses import dataclass
 from pathlib import Path
 
 from wags_tails.core.exceptions import ReleaseParsingError
 from wags_tails.core.http import download_http, get_text
-from wags_tails.core.models import Asset, Dataset, Release, Source, get_release_file
+from wags_tails.core.models import (
+    Asset,
+    AssetBundle,
+    Dataset,
+    Source,
+)
 from wags_tails.core.operation import OperationConfig
 from wags_tails.core.version import DotSeparatedVersionScheme, Version
 
 gtop_source = Source(name="GuideToPharmacology", id="guide_to_pharmacology")
 
 
-@dataclass(frozen=True)
-class GuideToPharmacologyAssets:
-    """Asset wrapper"""
+class GtoPAsset(Asset):
+    _source = gtop_source
+    _filetype = "tsv"
 
+
+class GtoPLigandsAsset(GtoPAsset):
+    _id = "ligands"
+
+
+class GtoPTargetsAndFamiliesAsset(GtoPAsset):
+    _id = "targets_and_families"
+
+
+class GtoPLigandIdMappingAsset(GtoPAsset):
+    _id = "ligand_id_mapping"
+
+
+class GtoPLigandTargetInteractionsAsset(GtoPAsset):
+    _id = "ligand_target_interactions"
+
+
+class GuideToPharmacologyAssets(AssetBundle):
     ligands: Asset
     targets_and_families: Asset
     ligand_id_mapping: Asset
@@ -36,14 +58,9 @@ class GuideToPharmacologyDownloads(Dataset[GuideToPharmacologyAssets]):
     id = None
     name = None
     version_scheme = DotSeparatedVersionScheme
+    _payload_type = GuideToPharmacologyAssets
 
-    def get_latest_version(self, session: OperationConfig) -> Version:
-        """Look up latest-published release version
-
-        :param session: session-wide configuration
-        :return: full version description
-        :raise ReleaseParsingError: if unable to extract version number from GtoP front page
-        """
+    def _get_latest_version(self, session: OperationConfig) -> Version:
         r_text = get_text("https://www.guidetopharmacology.org/", session).split("\n")
         pattern = re.compile(r"Current Release Version (\d{4}\.\d) \(.*\)")
         for line in r_text:
@@ -57,70 +74,17 @@ class GuideToPharmacologyDownloads(Dataset[GuideToPharmacologyAssets]):
         )
         raise ReleaseParsingError(msg)
 
-    def stage_release(
+    def _stage_release(
         self, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
-        """Download and prepare a release in a staging directory.
-
-        :param staging_dir: temporary location within which to stage assets
-        :param version: release version
-        :param session: session-wide configuration
-        """
-        for url_fname, local_fname in [
-            ("ligands", "ligands"),
-            ("ligand_id_mapping", "ligand_id_mapping"),
-            ("targets_and_families", "targets_and_families"),
-            ("interactions", "ligand_target_interactions"),
+        for url_fname, asset_type in [
+            ("ligands", GtoPLigandsAsset),
+            ("ligand_id_mapping", GtoPLigandIdMappingAsset),
+            ("targets_and_families", GtoPTargetsAndFamiliesAsset),
+            ("interactions", GtoPLigandTargetInteractionsAsset),
         ]:
             download_http(
                 f"https://www.guidetopharmacology.org/DATA/{url_fname}.tsv",
-                staging_dir / f"gtop_{local_fname}_{version.raw}.tsv",
+                staging_dir / asset_type.get_filename(version),
                 session,
             )
-
-    def load_release(
-        self, release_directory: Path
-    ) -> Release[GuideToPharmacologyAssets]:
-        """Load a locally-cached release.
-
-        :param release_directory: Root directory containing a cached release.
-        :return: Loaded release.
-        """
-        version = self.parse_release_directory(release_directory)
-        ligands = Asset(
-            name="ligands",
-            location=get_release_file(
-                release_directory, "gtop_ligands_{version}.tsv", version
-            ),
-        )
-        ligand_id_mapping = Asset(
-            name="ligand_id_mapping",
-            location=get_release_file(
-                release_directory, "gtop_ligand_id_mapping_{version}.tsv", version
-            ),
-        )
-        targets_and_families = Asset(
-            name="targets_and_families",
-            location=get_release_file(
-                release_directory, "gtop_targets_and_families_{version}.tsv", version
-            ),
-        )
-
-        ligand_target_interactions = Asset(
-            name="ligand_target_interactions",
-            location=get_release_file(
-                release_directory,
-                "gtop_ligand_target_interactions_{version}.tsv",
-                version,
-            ),
-        )
-        return Release(
-            dataset=self,
-            version=version,
-            assets=GuideToPharmacologyAssets(
-                ligands=ligands,
-                ligand_id_mapping=ligand_id_mapping,
-                targets_and_families=targets_and_families,
-                ligand_target_interactions=ligand_target_interactions,
-            ),
-        )

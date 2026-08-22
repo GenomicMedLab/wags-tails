@@ -138,6 +138,9 @@ ignore = [
     "INP001",
     "PLR2004",
 ]
+"src/wags_tails/sources/*" = [
+    "D101",
+]
 
 [tool.ruff.lint.flake8-annotations]
 mypy-init-return = true

@@ -1,33 +1,22 @@
 """Provide NCI data releases."""
 
 import re
-from dataclasses import dataclass
 from pathlib import Path
 
 from wags_tails.core.exceptions import DataSourceConnectionError, ReleaseParsingError
 from wags_tails.core.http import download_http, get_json
-from wags_tails.core.models import (
-    Asset,
-    Dataset,
-    Release,
-    Source,
-    load_single_file_release,
-)
+from wags_tails.core.models import Asset, Dataset, Source
 from wags_tails.core.operation import OperationConfig
 from wags_tails.core.version import Version, VersionScheme
 
 nci_source = Source(name="NCI", id="nci")
 
 
-@dataclass(frozen=True)
-class NcitAssets:
-    """Asset wrapper"""
-
-    owl: Asset
-
-
 class NcitVersionScheme(VersionScheme):
-    """NCIt's custom version scheme, consisting of a year, a minor release, and a patch value"""
+    """NCIt's custom version scheme, consisting of a year, a minor release, and a patch value
+
+    e.g. `24.09e`
+    """
 
     @classmethod
     def parse(cls, value: str) -> tuple[str, str, str]:
@@ -38,22 +27,20 @@ class NcitVersionScheme(VersionScheme):
         return match.groups()
 
 
-class Ncit(Dataset[NcitAssets]):
-    """Provide OWL release for NCI thesaurus"""
+class NcitOwlAsset(Asset):
+    source = nci_source
+    _filetype = "owl"
 
+
+class NcitOwl(Dataset[Asset]):
     source = nci_source
     name = "NCIt OWL"
     id = "ncit"
     description = "OWL version of NCIt dataset"
     version_scheme = NcitVersionScheme
+    _payload_type = NcitOwlAsset
 
-    def get_latest_version(self, session: OperationConfig) -> Version:
-        """Look up latest release version
-
-        :param session: session-wide configuration
-        :return: latest version value
-        :raise ReleaseParsingError: if unable to extract version number from response
-        """
+    def _get_latest_version(self, session: OperationConfig) -> Version:
         url = "https://evsexplore.semantics.cancer.gov/evsexplore/api/v1/concept/ncit/roots"
         data = get_json(url, session)
         try:
@@ -63,20 +50,15 @@ class Ncit(Dataset[NcitAssets]):
             raise ReleaseParsingError(msg) from e
         return Version.parse(value=version_raw, scheme=self.version_scheme)
 
-    def stage_release(
+    def _stage_release(
         self, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
-        """Download and prepare a release in a staging directory.
+        """Acquire and prepare NCIt release
 
-        NCIt storage protocols are kind of weird, and often the API will tell us a new
-        version is up before it's posted to the FTP site, so we have to try some tricks
-        to find where it lives
-
-        :param staging_dir: temporary release location within which to stage assets
-        :param version:
-        :param session: session-wide configuration
+        note that some extra trickery is required because they're somewhat inconsistent
+        about where they locate new releases in their file tree
         """
-        outfile_path = staging_dir / f"nci_thesaurus_{version.raw}.owl"
+        outfile_path = staging_dir / self._payload_type.get_filename(version)
         base_url = "https://evs.nci.nih.gov/ftp1/NCI_Thesaurus"
         release_fname = f"Thesaurus_{version.raw}.OWL.zip"
         src_url = f"{base_url}/{release_fname}"
@@ -95,22 +77,3 @@ class Ncit(Dataset[NcitAssets]):
                 except DataSourceConnectionError as e:
                     msg = f"Unable to locate URL for NCIt version {version.raw}"
                     raise DataSourceConnectionError(msg) from e
-
-    def load_release(
-        self,
-        release_directory: Path,
-    ) -> Release[NcitAssets]:
-        """Load a locally cached NCIt release.
-
-        :param release_directory: Root directory containing a cached release.
-        :return: Loaded NCIt release.
-        :raise ReleaseParsingError: If the release directory is invalid or does not
-            contain exactly one expected NCIt owl file.
-        """
-        return load_single_file_release(
-            self,
-            release_directory,
-            file_pattern="nci_thesaurus_{version}.db",
-            asset_name="owl",
-            assets_factory=NcitAssets,
-        )
