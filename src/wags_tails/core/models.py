@@ -20,6 +20,9 @@ if TYPE_CHECKING:
 class Source:
     """Publisher of one or more datasets.
 
+    A Source should represent the recognizable data resource/project that publishes the
+    dataset, not necessarily the legal/organizational institution operating it.
+
     This class is largely an organizational tool for filing related datasets together
     in storage.
     """
@@ -63,7 +66,24 @@ class Asset:
     # TODO consider __init_subclasses__ hook to catch failure to define classvars
 
 
-AssetsT = TypeVar("AssetsT")
+@dataclass(frozen=True)
+class AssetBundle:
+    """A container for a collection of bundled assets"""
+
+    @classmethod
+    def from_release_dir(cls, release_directory: Path, version: Version) -> Self:
+        """Provide pairs of asset names and expected filenames"""
+        return cls(
+            **{
+                n: Asset(
+                    location=get_release_file(release_directory, field.type, version),
+                )
+                for n, field in cls.__dataclass_fields__.values()
+            }
+        )
+
+
+AssetsT = TypeVar("AssetsT", bound=Asset | AssetBundle)
 
 
 class Dataset(Generic[AssetsT], ABC):
@@ -166,28 +186,11 @@ class Dataset(Generic[AssetsT], ABC):
         if issubclass(self._payload_type, Asset):
             file_path = get_release_file(release_directory, self._payload_type, version)
             payload = self._payload_type(location=file_path)
-        if issubclass(self._payload_type, AssetBundle):
+        elif issubclass(self._payload_type, AssetBundle):
             payload = self._payload_type.from_release_dir(release_directory, version)
         else:
             raise TypeError
         return Release(dataset=self, version=version, payload=payload)
-
-
-@dataclass(frozen=True)
-class AssetBundle:
-    """A container for a collection of bundled assets"""
-
-    @classmethod
-    def from_release_dir(cls, release_directory: Path, version: Version) -> Self:
-        """Provide pairs of asset names and expected filenames"""
-        return cls(
-            **{
-                n: Asset(
-                    location=get_release_file(release_directory, field.type, version),
-                )
-                for n, field in cls.__dataclass_fields__.values()
-            }
-        )
 
 
 @dataclass(frozen=True)
