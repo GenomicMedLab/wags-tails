@@ -38,7 +38,11 @@ class Source:
 
 @dataclass(frozen=True)
 class Asset:
-    """A single downloadable artifact."""
+    """A single downloadable artifact.
+
+    Sources should define subclasses to include specific metadata expectations,
+    and then returned instances will contain a path to the asset itself
+    """
 
     location: Path
 
