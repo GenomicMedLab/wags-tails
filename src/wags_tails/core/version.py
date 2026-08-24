@@ -30,12 +30,15 @@ class IntegerVersionScheme(VersionScheme):
 
 
 class DateVersionScheme(VersionScheme):
-    """ISO-8601-style date versioning"""
+    """ISO-8601-style date versioning a la "2026-08-24"
+
+    Also supports leading "v" eg "v2026-08-24"
+    """
 
     @classmethod
     def parse(cls, value: str) -> date:
         """Convert a version string into an internal representation."""
-        return date.fromisoformat(value)
+        return date.fromisoformat(value.removeprefix("v"))
 
 
 class DotSeparatedVersionScheme(VersionScheme):

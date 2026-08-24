@@ -10,6 +10,7 @@ from tqdm import tqdm
 from urllib3.util import Retry
 
 from wags_tails.core.exceptions import DataSourceConnectionError, ReleaseParsingError
+from wags_tails.core.version import Version, VersionScheme
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -91,6 +92,29 @@ def get_json(
     except requests.JSONDecodeError as e:
         msg = f"Response from {url} did not contain valid JSON"
         raise ReleaseParsingError(msg) from e
+
+
+def get_latest_github_release_version(
+    org: str,
+    repo: str,
+    scheme: type[VersionScheme],
+    session: OperationConfig,
+) -> Version:
+    """Get latest release version for a dataset
+
+    :param org: github org name
+    :param repo: github repo name
+    :param scheme: dataset versioning scheme
+    :param session: session configs
+    """
+    url = f"https://api.github.com/repos/{org}/{repo}/releases/latest"
+    data = get_json(url, session)
+    try:
+        version_raw: str = data["tag_name"]
+    except (KeyError, IndexError, ValueError) as e:
+        msg = f"Failed to parse {scheme} version value from raw github API response"
+        raise ReleaseParsingError(msg) from e
+    return Version.parse(value=version_raw, scheme=scheme)
 
 
 def get_text(
