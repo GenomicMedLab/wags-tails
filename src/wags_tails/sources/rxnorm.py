@@ -42,11 +42,7 @@ class RxNormDataset(Dataset[RxNormAsset]):
         url = "https://rxnav.nlm.nih.gov/REST/version.json"
         data = get_json(url, session)
         raw_version: str = data["version"]
-        return Version(
-            raw=raw_version,
-            parsed=RxNormDateVersionScheme.parse(raw_version),
-            scheme=RxNormDateVersionScheme,
-        )
+        return Version.parse(raw_version, self.version_scheme)
 
     def _stage_release(
         self, staging_dir: Path, version: Version, session: OperationConfig

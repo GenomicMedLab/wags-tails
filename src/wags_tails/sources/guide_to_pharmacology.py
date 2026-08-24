@@ -24,25 +24,29 @@ class GtoPAsset(Asset):
 
 class GtoPLigandsAsset(GtoPAsset):
     _id = "ligands"
+    _web_name = "ligands"
 
 
 class GtoPTargetsAndFamiliesAsset(GtoPAsset):
     _id = "targets_and_families"
+    _web_name = "ligand_id_mapping"
 
 
 class GtoPLigandIdMappingAsset(GtoPAsset):
     _id = "ligand_id_mapping"
+    _web_name = "targets_and_families"
 
 
 class GtoPLigandTargetInteractionsAsset(GtoPAsset):
     _id = "ligand_target_interactions"
+    _web_name = "interactions"
 
 
 class GuideToPharmacologyAssets(AssetBundle):
-    ligands: Asset
-    targets_and_families: Asset
-    ligand_id_mapping: Asset
-    ligand_target_interactions: Asset
+    ligands: GtoPLigandsAsset
+    targets_and_families: GtoPTargetsAndFamiliesAsset
+    ligand_id_mapping: GtoPLigandIdMappingAsset
+    ligand_target_interactions: GtoPLigandTargetInteractionsAsset
 
 
 class GuideToPharmacologyDownloads(Dataset[GuideToPharmacologyAssets]):
@@ -77,14 +81,9 @@ class GuideToPharmacologyDownloads(Dataset[GuideToPharmacologyAssets]):
     def _stage_release(
         self, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
-        for url_fname, asset_type in [
-            ("ligands", GtoPLigandsAsset),
-            ("ligand_id_mapping", GtoPLigandIdMappingAsset),
-            ("targets_and_families", GtoPTargetsAndFamiliesAsset),
-            ("interactions", GtoPLigandTargetInteractionsAsset),
-        ]:
+        for asset_type in self._payload_type.__annotations__.values():
             download_http(
-                f"https://www.guidetopharmacology.org/DATA/{url_fname}.tsv",
+                f"https://www.guidetopharmacology.org/DATA/{asset_type._web_name}.tsv",  # noqa: SLF001
                 staging_dir / asset_type.get_filename(version),
                 session,
             )
