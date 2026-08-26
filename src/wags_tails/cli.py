@@ -6,7 +6,6 @@ from wags_tails import __version__
 from wags_tails.core.paths import resolve_data_dir
 from wags_tails.core.store import LocalStore
 from wags_tails.sources.chembl import ChemblSqlite
-from wags_tails.sources.oncotree import OncotreeJson
 
 
 @click.group()
@@ -23,7 +22,6 @@ def path() -> None:
 
 _DATA_SOURCES = {
     f"{ChemblSqlite.source.id}_{ChemblSqlite.id}": ChemblSqlite,
-    "oncotree": OncotreeJson,
 }
 
 

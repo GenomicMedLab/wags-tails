@@ -17,5 +17,9 @@ class ReleaseParsingError(WagsTailsError):
     """Raise for failures in parsing release metadata"""
 
 
+class ReleaseArchiveUnpackingError(WagsTailsError):
+    """Raise for failures in unpacking file(s) from archived releases"""
+
+
 class DuplicateReleaseFilesError(WagsTailsError):
     """Raise for multiple files matching an asset pattern within a release"""

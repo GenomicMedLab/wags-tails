@@ -6,9 +6,14 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import date
 from functools import total_ordering
-from typing import Any, Generic, Self, TypeVar
+from typing import Any, ClassVar, Generic, Self, TypeVar
 
 T = TypeVar("T")
+
+
+def _strip_prefix(version_value: str) -> str:
+    """Optionally strip uninformative prefix characters"""
+    return version_value.removeprefix("v.").removeprefix("v")
 
 
 class VersionScheme(Generic[T], ABC):
@@ -26,28 +31,59 @@ class IntegerVersionScheme(VersionScheme):
     @classmethod
     def parse(cls, value: str) -> int:
         """Convert a version string into an internal representation."""
-        return int(value)
+        return int(_strip_prefix(value))
 
 
 class DateVersionScheme(VersionScheme):
-    """ISO-8601-style date versioning a la "2026-08-24"
-
-    Also supports leading "v" eg "v2026-08-24"
-    """
+    """ISO-8601-style date versioning a la '2026-08-24'"""
 
     @classmethod
     def parse(cls, value: str) -> date:
         """Convert a version string into an internal representation."""
-        return date.fromisoformat(value.removeprefix("v"))
+        return date.fromisoformat(_strip_prefix(value))
 
 
-class DotSeparatedVersionScheme(VersionScheme):
-    """Major/minor/patch-style versioning, eg 4.0.1, 2.3, 1.0"""
+class CharSeparatedVersionScheme(VersionScheme):
+    """Major/minor/patch-style versioning"""
+
+    separator: ClassVar[str]
 
     @classmethod
     def parse(cls, value: str) -> tuple[int, ...]:
         """Convert a version string into an internal representation."""
-        return tuple(int(x) for x in value.split("."))
+        value = _strip_prefix(value)
+        parts = value.split(cls.separator)
+        if not parts or any(not part.isdigit() for part in parts):
+            msg = f"Invalid version: {value!r}"
+            raise ValueError(msg)
+        return tuple(int(part) for part in parts)
+
+
+class DotSeparatedVersionScheme(CharSeparatedVersionScheme):
+    """Major/minor/patch style versioning with '.' separator"""
+
+    separator = "."
+
+
+class DashSeparatedVersionScheme(CharSeparatedVersionScheme):
+    """Major/minor/patch style versioning with '-' separator"""
+
+    separator = "-"
+
+
+UNVERSIONED_VALUE = "unversioned"
+
+
+class UnversionedVersionScheme(VersionScheme[str]):
+    """Version scheme for datasets without distinct releases."""
+
+    @classmethod
+    def parse(cls, value: str) -> str:
+        """Parse the single unversioned release value."""
+        if value != UNVERSIONED_VALUE:
+            msg = f"Invalid unversioned release value: {value!r}"
+            raise ValueError(msg)
+        return value
 
 
 @total_ordering
