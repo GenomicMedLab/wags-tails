@@ -22,7 +22,7 @@ def _get_current_ensembl_release_version(session: OperationConfig) -> Version:
     data = get_json(url, session)
     releases = data["releases"]
     releases.sort()
-    latest_version = releases[-1]
+    latest_version = str(releases[-1])
     return Version.parse(latest_version, ENSEMBL_VERSION_SCHEME)
 
 

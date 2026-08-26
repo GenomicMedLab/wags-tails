@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import inspect
 from abc import ABC, abstractmethod
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, ClassVar, Generic, Self, TypeVar
 
@@ -63,8 +65,6 @@ class Asset:
         """Get file glob pattern"""
         return f"{cls._source.id}{'_' + cls._id if cls._id else ''}_*.{cls._filetype}"
 
-    # TODO consider __init_subclasses__ hook to catch failure to define classvars
-
 
 @dataclass(frozen=True)
 class AssetBundle:
@@ -97,7 +97,13 @@ class Dataset(Generic[AssetsT], ABC):
     2. Whether they are potentially complementary or interdependent. If it's conceivable
        that someone might want to use both assets together, they belong in the same
        dataset. Otherwise, they can be separated into different datasets if practical.
+
+    The class variable `_registry` is used to ensure uniqueness at the level of source id +
+    dataset id.
     """
+
+    _registry: ClassVar[dict[str, list[type[Dataset]]]] = defaultdict(list)
+    """Registry tracking all imported dataset subclasses"""
 
     source: Source
     id: str | None
@@ -107,6 +113,41 @@ class Dataset(Generic[AssetsT], ABC):
     description: str | None = None
     version_scheme: type[VersionScheme]
     _payload_type: type[AssetsT]
+
+    def __init_subclass__(cls, **kwargs) -> None:
+        """Validate correctness of subclass declarations
+
+        * Ensure uniqueness of qualified ID of a dataset by requiring a dataset ID
+        only in cases where the source provides multiple datasets.
+        """
+        super().__init_subclass__(**kwargs)
+
+        if inspect.isabstract(cls):
+            return
+
+        datasets = cls._registry[cls.source.id]
+        datasets.append(cls)
+
+        if len(datasets) <= 1:
+            return
+
+        ids = [dataset.id for dataset in datasets]
+
+        if any(dataset_id is None for dataset_id in ids):
+            msg = (
+                f"Source {cls.source.id!r} provides multiple datasets; "
+                "each dataset must define an id"
+            )
+            raise TypeError(msg)
+
+        if len(ids) != len(set(ids)):
+            msg = f"Dataset ids for source {cls.source.id!r} must be unique"
+            raise TypeError(msg)
+
+    @classmethod
+    def qualified_id(cls) -> str:
+        """Return dataset ID qualified by source"""
+        return f"{cls.source.id}{'_' + cls.id if cls.id else ''}"
 
     @abstractmethod
     def _get_latest_version(self, session: OperationConfig) -> Version: ...
@@ -214,7 +255,7 @@ def get_release_file(
     :raise FileNotFoundError: if no matching files can be found
     :raise DuplicateReleaseFilesError: (probably impossible)
     """
-    filename = asset_type.get_filename(version.raw)
+    filename = asset_type.get_filename(version)
     matching_files = [
         path for path in release_directory.glob(filename) if path.is_file()
     ]

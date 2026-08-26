@@ -28,7 +28,7 @@ class NcitVersionScheme(VersionScheme):
 
 
 class NcitOwlAsset(Asset):
-    source = nci_source
+    _source = nci_source
     _filetype = "owl"
 
 

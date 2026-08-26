@@ -46,7 +46,7 @@ Source = "https://github.com/genomicmedlab/wags_tails"
 "Bug Tracker" = "https://github.com/genomicmedlab/wags_tails/issues"
 
 [project.scripts]
-wags_tails = "wags_tails.cli:cli"
+wags-tails = "wags_tails.cli:cli"
 
 [build-system]
 requires = ["setuptools>=77.0", "setuptools_scm>=8"]

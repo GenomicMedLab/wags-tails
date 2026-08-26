@@ -17,13 +17,14 @@ class DoAsset(Asset):
     _filetype = "owl"
 
 
-class DoOwl(Dataset[Asset]):
+class Do(Dataset[DoAsset]):
     """Provide DO OWL-based release"""
 
     source = do_source
-    name = "owl"
-    id = "owl"
+    name = None
+    id = None
     version_scheme = DateVersionScheme
+    _payload_type = DoAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         return get_latest_github_release_version(
