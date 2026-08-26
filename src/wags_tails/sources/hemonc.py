@@ -19,7 +19,7 @@ from wags_tails.core.version import DateVersionScheme, Version
 hemonc_source = Source(name="HemOnc.org", id="hemonc")
 
 
-class HemOncAsset(Asset):
+class _HemOncAsset(Asset):
     _source = hemonc_source
     _filetype = "tsv"
     _web_filename: str
@@ -30,17 +30,17 @@ class HemOncAsset(Asset):
         return cls._web_filename
 
 
-class HemOncConceptsAsset(HemOncAsset):
+class HemOncConceptsAsset(_HemOncAsset):
     _id = "concepts"
     _web_filename = "concepts"
 
 
-class HemOncRelationsAsset(HemOncAsset):
+class HemOncRelationsAsset(_HemOncAsset):
     _id = "relations"
     _web_filename = "rels"
 
 
-class HemOncSynonymsAsset(HemOncAsset):
+class HemOncSynonymsAsset(_HemOncAsset):
     _id = "synonyms"
     _web_filename = "synonyms"
 

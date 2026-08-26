@@ -26,17 +26,17 @@ def _get_current_ensembl_release_version(session: OperationConfig) -> Version:
     return Version.parse(latest_version, ENSEMBL_VERSION_SCHEME)
 
 
-class EnsemblGeneSetsAsset(Asset):
+class GeneSetsAsset(Asset):
     _source = ensembl_source
     _filetype = "gff"
 
 
-class EnsemblGeneSets(Dataset[EnsemblGeneSetsAsset]):
+class GeneSetsDataset(Dataset[GeneSetsAsset]):
     source = ensembl_source
     name = None
     id = "gene_sets"
     version_scheme = ENSEMBL_VERSION_SCHEME
-    _payload_type = EnsemblGeneSetsAsset
+    _payload_type = GeneSetsAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         return _get_current_ensembl_release_version(session)
@@ -53,17 +53,17 @@ class EnsemblGeneSets(Dataset[EnsemblGeneSetsAsset]):
         gunzip(gz_path, staging_dir / self._payload_type.get_filename(version))
 
 
-class EnsemblTranscriptMappingsAsset(Asset):
+class TranscriptMappingsAsset(Asset):
     _source = ensembl_source
     _filetype = "tsv"
 
 
-class EnsemblTranscriptMappings(Dataset[EnsemblTranscriptMappingsAsset]):
+class TranscriptMappingsDataset(Dataset[TranscriptMappingsAsset]):
     source = ensembl_source
     name = None
     id = "tx_mappings"
     version_scheme = ENSEMBL_VERSION_SCHEME
-    _payload_type = EnsemblTranscriptMappingsAsset
+    _payload_type = TranscriptMappingsAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         return _get_current_ensembl_release_version(session)

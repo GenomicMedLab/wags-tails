@@ -16,8 +16,8 @@ class OncoTreeAsset(Asset):
     _filetype = "json"
 
 
-class OncoTreeJson(Dataset[OncoTreeAsset]):
-    """Provide Oncotree JSON release"""
+class OncoTreeDataset(Dataset[OncoTreeAsset]):
+    """Provide OncoTree JSON release"""
 
     source = oncotree_source
     name = None

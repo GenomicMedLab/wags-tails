@@ -13,17 +13,17 @@ from wags_tails.core.version import DashSeparatedVersionScheme, Version
 drugbank_source = Source(name="DrugBank", id="drugbank")
 
 
-class DrugBankVocabularyAsset(Asset):
+class DrugVocabularyAsset(Asset):
     _source = drugbank_source
     _filetype = "csv"
 
 
-class DrugBankVocabulary(Dataset[DrugBankVocabularyAsset]):
+class DrugVocabulary(Dataset[DrugVocabularyAsset]):
     source = drugbank_source
     name = None
     id = None
     version_scheme = DashSeparatedVersionScheme
-    _payload_type = DrugBankVocabularyAsset
+    _payload_type = DrugVocabularyAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         url = "https://go.drugbank.com/releases/latest.json"

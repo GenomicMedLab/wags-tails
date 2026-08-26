@@ -18,7 +18,7 @@ from wags_tails.core.version import (
 ncbi_source = Source(name="NCBI", id="ncbi")
 
 
-class NcbiManeSummaryAsset(Asset):
+class ManeSummaryAsset(Asset):
     """A summary file with the following tab-delimited fields:
 
     * NCBI_GeneID
@@ -41,7 +41,7 @@ class NcbiManeSummaryAsset(Asset):
     _filetype = "txt"
 
 
-class NcbiManeTranscriptsAsset(Asset):
+class ManeTranscriptsAsset(Asset):
     """From README:
 
     'Transcripts from the MANE Project, with NCBI RefSeq identifiers for nucleotide, protein and genes in GFF3 format'
@@ -51,17 +51,17 @@ class NcbiManeTranscriptsAsset(Asset):
     _filetype = "gff"
 
 
-class NcbiManeAssets(AssetBundle):
-    summary: NcbiManeSummaryAsset
-    transcripts: NcbiManeTranscriptsAsset
+class ManeAssets(AssetBundle):
+    summary: ManeSummaryAsset
+    transcripts: ManeTranscriptsAsset
 
 
-class NcbiManeDataset(Dataset[NcbiManeAssets]):
+class ManeTxAnnotationsDataset(Dataset[ManeAssets]):
     source = ncbi_source
     id = "mane_annotations"
     name = None
     version_scheme = DotSeparatedVersionScheme
-    _payload_type = NcbiManeAssets
+    _payload_type = ManeAssets
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         latest_readme_url = "https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/README_versions.txt"
@@ -79,14 +79,12 @@ class NcbiManeDataset(Dataset[NcbiManeAssets]):
         transcripts_url = f"https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/MANE.GRCh38.v{version.raw}.refseq_genomic.gff.gz"
         transcripts_gz_path = staging_dir / f"mane_transcripts_{version.raw}.gff.gz"
         download_http(transcripts_url, transcripts_gz_path, session)
-        transcripts_file_path = staging_dir / NcbiManeTranscriptsAsset.get_filename(
-            version
-        )
+        transcripts_file_path = staging_dir / ManeTranscriptsAsset.get_filename(version)
         gunzip(transcripts_gz_path, transcripts_file_path)
         summary_url = f"https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/MANE.GRCh38.v{version.raw}.summary.txt.gz"
         summary_gz_path = staging_dir / f"mane_summary_{version.raw}.txt.gz"
         download_http(summary_url, summary_gz_path, session)
-        summary_file_path = staging_dir / NcbiManeSummaryAsset.get_filename(version)
+        summary_file_path = staging_dir / ManeSummaryAsset.get_filename(version)
         gunzip(summary_gz_path, summary_file_path)
 
 
@@ -115,7 +113,7 @@ def _get_directory_file_date_version(
     return Version.parse(version_raw, version_scheme)
 
 
-class LrgRefSeqGeneReport(Dataset[LrgRefSeqGeneReportAsset]):
+class LrgRefSeqGeneReportDataset(Dataset[LrgRefSeqGeneReportAsset]):
     """From README:
 
     'Tab-delimited file reporting, for each Gene, the accession.version of the genomic and RNA and protein RefSeqs the RefSeqGene/LRG project treats as reference standards.'
@@ -149,7 +147,7 @@ class RefSeqGeneSummaryAsset(Asset):
     _filetype = "tsv"
 
 
-class RefseqGeneSummary(Dataset[RefSeqGeneSummaryAsset]):
+class RefseqGeneSummaryDataset(Dataset[RefSeqGeneSummaryAsset]):
     """From README:
 
     'extract of gene summary texts for live genes that have them'

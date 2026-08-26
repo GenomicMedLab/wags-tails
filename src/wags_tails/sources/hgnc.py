@@ -11,17 +11,17 @@ from wags_tails.core.version import DateVersionScheme, Version
 hgnc_source = Source(name="HGNC", id="hgnc")
 
 
-class HgncCompleteSetAsset(Asset):
+class CompleteGeneSetAsset(Asset):
     _source = hgnc_source
     _filetype = "json"
 
 
-class HgncCompleteSet(Dataset[HgncCompleteSetAsset]):
+class CompleteGeneSetDataset(Dataset[CompleteGeneSetAsset]):
     source = hgnc_source
     name = None
     id = None
     version_scheme = DateVersionScheme
-    _payload_type = HgncCompleteSetAsset
+    _payload_type = CompleteGeneSetAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         data = get_json(

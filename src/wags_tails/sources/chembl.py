@@ -13,17 +13,17 @@ from wags_tails.core.version import IntegerVersionScheme, Version
 chembl_source = Source(name="ChEMBL", id="chembl")
 
 
-class ChemblSqliteAsset(Asset):
+class ChemblDbAsset(Asset):
     _source = chembl_source
     _filetype = "db"
 
 
-class ChemblSqlite(Dataset[ChemblSqliteAsset]):
+class ChemblDbDataset(Dataset[ChemblDbAsset]):
     source = chembl_source
     name = None
     id = None
     version_scheme = IntegerVersionScheme
-    _payload_type = ChemblSqliteAsset
+    _payload_type = ChemblDbAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         url = "https://www.ebi.ac.uk/chembl/api/data/chembl_release.json?limit=100"

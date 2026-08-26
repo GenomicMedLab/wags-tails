@@ -27,18 +27,18 @@ class NcitVersionScheme(VersionScheme):
         return match.groups()
 
 
-class NcitOwlAsset(Asset):
+class NcitAsset(Asset):
     _source = nci_source
     _filetype = "owl"
 
 
-class NcitOwl(Dataset[Asset]):
+class NcitDataset(Dataset[Asset]):
     source = nci_source
     name = "NCIt OWL"
     id = "ncit"
     description = "OWL version of NCIt dataset"
     version_scheme = NcitVersionScheme
-    _payload_type = NcitOwlAsset
+    _payload_type = NcitAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         url = "https://evsexplore.semantics.cancer.gov/evsexplore/api/v1/concept/ncit/roots"

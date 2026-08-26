@@ -117,29 +117,48 @@ class Dataset(Generic[AssetsT], ABC):
     def __init_subclass__(cls, **kwargs) -> None:
         """Validate correctness of subclass declarations
 
+        * Ensure required class variables are declared
         * Ensure uniqueness of qualified ID of a dataset by requiring a dataset ID
         only in cases where the source provides multiple datasets.
         """
         super().__init_subclass__(**kwargs)
-
         if inspect.isabstract(cls):
             return
 
+        # ensure required fields are provided
+        required_attributes = (
+            "source",
+            "id",
+            "name",
+            "version_scheme",
+            "_payload_type",
+        )
+
+        missing = [
+            attribute
+            for attribute in required_attributes
+            if attribute not in cls.__dict__
+        ]
+        if missing:
+            msg = (
+                f"{cls.__name__} must declare required class attributes: "
+                f"{', '.join(missing)}"
+            )
+            raise TypeError(msg)
+
+        # ensure source/id uniqueness
         datasets = cls._registry[cls.source.id]
         datasets.append(cls)
-
         if len(datasets) <= 1:
             return
 
         ids = [dataset.id for dataset in datasets]
-
         if any(dataset_id is None for dataset_id in ids):
             msg = (
                 f"Source {cls.source.id!r} provides multiple datasets; "
                 "each dataset must define an id"
             )
             raise TypeError(msg)
-
         if len(ids) != len(set(ids)):
             msg = f"Dataset ids for source {cls.source.id!r} must be unique"
             raise TypeError(msg)

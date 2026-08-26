@@ -10,17 +10,17 @@ from wags_tails.core.version import DateVersionScheme, Version
 mondo_source = Source(name="MONDO", id="mondo")
 
 
-class MondoOboAsset(Asset):
+class MondoAsset(Asset):
     _source = mondo_source
     _filetype = "obo"
 
 
-class MondoOboDataset(Dataset[MondoOboAsset]):
+class MondoDataset(Dataset[MondoAsset]):
     source = mondo_source
     name = None
     id = None
     version_scheme = DateVersionScheme
-    _payload_type = MondoOboAsset
+    _payload_type = MondoAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         return get_latest_github_release_version(

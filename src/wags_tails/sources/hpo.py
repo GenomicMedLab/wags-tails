@@ -10,17 +10,17 @@ from wags_tails.core.version import DateVersionScheme, Version
 hpo_source = Source(name="Human Phenotype Ontology", id="hpo")
 
 
-class HpoOboAsset(Asset):
+class HpoAsset(Asset):
     _source = hpo_source
     _filetype = "obo"
 
 
-class HpoObo(Dataset[HpoOboAsset]):
+class HpoDataset(Dataset[HpoAsset]):
     source = hpo_source
     name = None
     id = None
     version_scheme = DateVersionScheme
-    _payload_type = HpoOboAsset
+    _payload_type = HpoAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         return get_latest_github_release_version(

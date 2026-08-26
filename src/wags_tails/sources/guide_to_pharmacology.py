@@ -17,27 +17,27 @@ from wags_tails.core.version import DotSeparatedVersionScheme, Version
 gtop_source = Source(name="GuideToPharmacology", id="guide_to_pharmacology")
 
 
-class GtoPAsset(Asset):
+class _GtoPAsset(Asset):
     _source = gtop_source
     _filetype = "tsv"
 
 
-class GtoPLigandsAsset(GtoPAsset):
+class GtoPLigandsAsset(_GtoPAsset):
     _id = "ligands"
     _web_name = "ligands"
 
 
-class GtoPTargetsAndFamiliesAsset(GtoPAsset):
+class GtoPTargetsAndFamiliesAsset(_GtoPAsset):
     _id = "targets_and_families"
     _web_name = "ligand_id_mapping"
 
 
-class GtoPLigandIdMappingAsset(GtoPAsset):
+class GtoPLigandIdMappingAsset(_GtoPAsset):
     _id = "ligand_id_mapping"
     _web_name = "targets_and_families"
 
 
-class GtoPLigandTargetInteractionsAsset(GtoPAsset):
+class GtoPLigandTargetInteractionsAsset(_GtoPAsset):
     _id = "ligand_target_interactions"
     _web_name = "interactions"
 
@@ -49,7 +49,7 @@ class GuideToPharmacologyAssets(AssetBundle):
     ligand_target_interactions: GtoPLigandTargetInteractionsAsset
 
 
-class GuideToPharmacologyDownloads(Dataset[GuideToPharmacologyAssets]):
+class GuideToPharmacologyDataset(Dataset[GuideToPharmacologyAssets]):
     """Provide GtoP downloaded data
 
     We want to bundle multiple aspects of a versioned release into one dataset, but

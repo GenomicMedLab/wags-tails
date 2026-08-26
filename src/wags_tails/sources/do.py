@@ -17,7 +17,7 @@ class DoAsset(Asset):
     _filetype = "owl"
 
 
-class Do(Dataset[DoAsset]):
+class DoDataset(Dataset[DoAsset]):
     """Provide DO OWL-based release"""
 
     source = do_source

@@ -10,17 +10,17 @@ from wags_tails.core.version import DateVersionScheme, Version
 drugsatfda_source = Source(name="Drugs@FDA", id="drugsatfda")
 
 
-class DrugsAtFdaJsonAsset(Asset):
+class DrugsAtFdaAsset(Asset):
     _source = drugsatfda_source
     _filetype = "json"
 
 
-class DrugsAtFdaJson(Dataset[DrugsAtFdaJsonAsset]):
+class DrugsAtFdaDataset(Dataset[DrugsAtFdaAsset]):
     source = drugsatfda_source
     name = None
     id = None
     version_scheme = DateVersionScheme
-    _payload_type = DrugsAtFdaJsonAsset
+    _payload_type = DrugsAtFdaAsset
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         data = get_json("https://api.fda.gov/download.json", session)
