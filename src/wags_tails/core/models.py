@@ -78,7 +78,7 @@ class AssetBundle:
                 n: Asset(
                     location=get_release_file(release_directory, field.type, version),
                 )
-                for n, field in cls.__dataclass_fields__.values()
+                for n, field in cls.__dataclass_fields__.items()
             }
         )
 
