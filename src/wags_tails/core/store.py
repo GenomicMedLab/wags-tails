@@ -120,7 +120,7 @@ class LocalStore:
         with TemporaryDirectory() as tmp:
             version = dataset.get_latest_version(self._session_config)
             release_dir = dataset.dataset_dir(self.data_dir) / version.raw
-            if overwrite_existing and release_dir.exists():
+            if not overwrite_existing and release_dir.exists():
                 msg = f"Release {version} already exists"
                 raise RuntimeError(msg)
 
@@ -128,6 +128,7 @@ class LocalStore:
             staging_dir.mkdir(exist_ok=True, parents=True)
             dataset.stage_release(staging_dir, version, self._session_config)
 
+            release_dir.mkdir(exist_ok=True, parents=True)
             shutil.move(staging_dir, release_dir)
 
         return dataset.load_release(release_dir)
