@@ -128,7 +128,7 @@ class LocalStore:
             staging_dir.mkdir(exist_ok=True, parents=True)
             dataset.stage_release(staging_dir, version, self._session_config)
 
-            release_dir.mkdir(exist_ok=True, parents=True)
+            release_dir.parent.mkdir(exist_ok=True, parents=True)
             shutil.move(staging_dir, release_dir)
 
         return dataset.load_release(release_dir)
