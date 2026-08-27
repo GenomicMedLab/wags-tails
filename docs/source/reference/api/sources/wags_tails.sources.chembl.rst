@@ -1,7 +1,7 @@
-﻿wags_tails.guide_to_pharmacology
-================================
+﻿wags_tails.sources.chembl
+=========================
 
-.. automodule:: wags_tails.guide_to_pharmacology
+.. automodule:: wags_tails.sources.chembl
    :members:
    :undoc-members:
    :special-members: __init__

@@ -1,7 +1,7 @@
-﻿wags_tails.ncbi_mane_summary
-============================
+﻿wags_tails.sources.nci
+======================
 
-.. automodule:: wags_tails.ncbi_mane_summary
+.. automodule:: wags_tails.sources.nci
    :members:
    :undoc-members:
    :special-members: __init__

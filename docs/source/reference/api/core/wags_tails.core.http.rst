@@ -1,7 +1,7 @@
-﻿wags_tails.custom
-=================
+﻿wags_tails.core.http
+====================
 
-.. automodule:: wags_tails.custom
+.. automodule:: wags_tails.core.http
    :members:
    :undoc-members:
    :special-members: __init__

@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "wags-tails"
-copyright = "2023-2024, Wagner Lab"
+copyright = "2023-2026, Wagner Lab"
 author = "Wagner Lab"
 html_title = "wags-tails"
 

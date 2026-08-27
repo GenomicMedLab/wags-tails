@@ -1,7 +1,7 @@
-﻿wags_tails.mondo
-================
+﻿wags_tails.sources.rxnorm
+=========================
 
-.. automodule:: wags_tails.mondo
+.. automodule:: wags_tails.sources.rxnorm
    :members:
    :undoc-members:
    :special-members: __init__

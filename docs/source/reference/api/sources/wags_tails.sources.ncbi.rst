@@ -1,7 +1,7 @@
-﻿wags_tails.ncit
-===============
+﻿wags_tails.sources.ncbi
+=======================
 
-.. automodule:: wags_tails.ncit
+.. automodule:: wags_tails.sources.ncbi
    :members:
    :undoc-members:
    :special-members: __init__

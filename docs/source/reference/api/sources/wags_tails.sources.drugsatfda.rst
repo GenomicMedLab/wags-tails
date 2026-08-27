@@ -1,7 +1,7 @@
-﻿wags_tails.ensembl
-==================
+﻿wags_tails.sources.drugsatfda
+=============================
 
-.. automodule:: wags_tails.ensembl
+.. automodule:: wags_tails.sources.drugsatfda
    :members:
    :undoc-members:
    :special-members: __init__

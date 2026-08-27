@@ -1,7 +1,7 @@
-﻿wags_tails.rxnorm
-=================
+﻿wags_tails.sources.oncotree
+===========================
 
-.. automodule:: wags_tails.rxnorm
+.. automodule:: wags_tails.sources.oncotree
    :members:
    :undoc-members:
    :special-members: __init__

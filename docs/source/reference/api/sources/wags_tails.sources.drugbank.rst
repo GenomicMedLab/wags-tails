@@ -1,7 +1,7 @@
-﻿wags_tails.ncbi
-===============
+﻿wags_tails.sources.drugbank
+===========================
 
-.. automodule:: wags_tails.ncbi
+.. automodule:: wags_tails.sources.drugbank
    :members:
    :undoc-members:
    :special-members: __init__

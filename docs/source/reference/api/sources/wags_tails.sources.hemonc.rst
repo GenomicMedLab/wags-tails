@@ -1,7 +1,7 @@
-﻿wags_tails.do
-=============
+﻿wags_tails.sources.hemonc
+=========================
 
-.. automodule:: wags_tails.do
+.. automodule:: wags_tails.sources.hemonc
    :members:
    :undoc-members:
    :special-members: __init__

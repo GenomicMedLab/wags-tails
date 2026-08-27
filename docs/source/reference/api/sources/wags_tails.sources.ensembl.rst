@@ -1,7 +1,7 @@
-﻿wags_tails.chembl
-=================
+﻿wags_tails.sources.ensembl
+==========================
 
-.. automodule:: wags_tails.chembl
+.. automodule:: wags_tails.sources.ensembl
    :members:
    :undoc-members:
    :special-members: __init__

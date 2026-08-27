@@ -1,7 +1,7 @@
-﻿wags_tails.oncotree
-===================
+﻿wags_tails.sources.hgnc
+=======================
 
-.. automodule:: wags_tails.oncotree
+.. automodule:: wags_tails.sources.hgnc
    :members:
    :undoc-members:
    :special-members: __init__

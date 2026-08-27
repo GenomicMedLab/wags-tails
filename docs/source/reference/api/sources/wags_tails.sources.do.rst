@@ -1,7 +1,7 @@
-﻿wags_tails.moa
-==============
+﻿wags_tails.sources.do
+=====================
 
-.. automodule:: wags_tails.moa
+.. automodule:: wags_tails.sources.do
    :members:
    :undoc-members:
    :special-members: __init__

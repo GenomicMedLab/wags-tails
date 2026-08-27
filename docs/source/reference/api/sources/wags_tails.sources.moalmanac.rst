@@ -1,7 +1,7 @@
-﻿wags_tails.ensembl_transcript_mappings
-======================================
+﻿wags_tails.sources.moalmanac
+============================
 
-.. automodule:: wags_tails.ensembl_transcript_mappings
+.. automodule:: wags_tails.sources.moalmanac
    :members:
    :undoc-members:
    :special-members: __init__

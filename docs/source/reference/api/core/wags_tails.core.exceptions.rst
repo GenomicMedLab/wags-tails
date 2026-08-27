@@ -1,7 +1,7 @@
-﻿wags_tails.base_source
-======================
+﻿wags_tails.core.exceptions
+==========================
 
-.. automodule:: wags_tails.base_source
+.. automodule:: wags_tails.core.exceptions
    :members:
    :undoc-members:
    :special-members: __init__
