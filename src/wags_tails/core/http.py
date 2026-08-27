@@ -111,7 +111,7 @@ def get_latest_github_release_version(
     data = get_json(url, session)
     try:
         version_raw: str = data["tag_name"]
-    except (KeyError, IndexError, ValueError) as e:
+    except (KeyError, TypeError) as e:
         msg = f"Failed to parse {scheme} version value from raw github API response"
         raise ReleaseParsingError(msg) from e
     return Version.parse(value=version_raw, scheme=scheme)
@@ -133,7 +133,7 @@ def get_text(
     :param config: Operation-wide configuration controlling timeout and retries.
     :param headers: Optional HTTP request headers.
     :param params: Optional query parameters.
-    :return: Decoded JSON response.
+    :return: Decoded text response.
     :raise DataSourceConnectionError: If the request fails or returns an
         unsuccessful HTTP status after retries are exhausted.
     """
