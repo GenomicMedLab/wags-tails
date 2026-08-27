@@ -66,6 +66,7 @@ branch = true
 
 [tool.ruff]
 src = ["src"]
+exclude = ["docs/source/conf.py"]
 
 [tool.ruff.lint]
 select = ["ALL"]
