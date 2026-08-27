@@ -5,6 +5,10 @@ class WagsTailsError(Exception):
     """Provide root library exception"""
 
 
+class VersionParseError(WagsTailsError, ValueError):
+    """Raise for failures to successfully parse version values"""
+
+
 class DataSourceConnectionError(WagsTailsError):
     """Raise for failures in network calls, during version value lookup or asset retrieval"""
 

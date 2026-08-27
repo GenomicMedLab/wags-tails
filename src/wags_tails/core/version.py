@@ -8,6 +8,8 @@ from datetime import date
 from functools import total_ordering
 from typing import Any, ClassVar, Generic, Self, TypeVar
 
+from wags_tails.core.exceptions import VersionParseError
+
 T = TypeVar("T")
 
 
@@ -20,27 +22,40 @@ class VersionScheme(Generic[T], ABC):
     """Defines how version strings are parsed and compared."""
 
     @classmethod
-    @abstractmethod
     def parse(cls, value: str) -> T:
-        """Convert a version string into an internal representation."""
+        """Convert a version string into an internal representation.
+
+        :param value: raw version value to parse into structured representation
+        :raise VersionParseError: if version parsing fails
+        """
+        try:
+            value = _strip_prefix(value)
+            version = cls._parse(value)
+        except (TypeError, ValueError, AttributeError) as e:
+            raise VersionParseError from e
+        return version
+
+    @classmethod
+    @abstractmethod
+    def _parse(cls, value: str) -> T: ...
 
 
 class IntegerVersionScheme(VersionScheme):
     """Integer-based version scheme, e.g. ChEMBL version 34, 35, 36, etc"""
 
     @classmethod
-    def parse(cls, value: str) -> int:
+    def _parse(cls, value: str) -> int:
         """Convert a version string into an internal representation."""
-        return int(_strip_prefix(value))
+        return int(value)
 
 
 class DateVersionScheme(VersionScheme):
     """ISO-8601-style date versioning a la '2026-08-24'"""
 
     @classmethod
-    def parse(cls, value: str) -> date:
+    def _parse(cls, value: str) -> date:
         """Convert a version string into an internal representation."""
-        return date.fromisoformat(_strip_prefix(value))
+        return date.fromisoformat(value)
 
 
 class CharSeparatedVersionScheme(VersionScheme):
@@ -49,9 +64,8 @@ class CharSeparatedVersionScheme(VersionScheme):
     separator: ClassVar[str]
 
     @classmethod
-    def parse(cls, value: str) -> tuple[int, ...]:
+    def _parse(cls, value: str) -> tuple[int, ...]:
         """Convert a version string into an internal representation."""
-        value = _strip_prefix(value)
         parts = value.split(cls.separator)
         if not parts or any(not part.isdigit() for part in parts):
             msg = f"Invalid version: {value!r}"

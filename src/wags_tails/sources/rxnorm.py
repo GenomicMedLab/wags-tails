@@ -21,7 +21,7 @@ class RxNormDateVersionScheme(VersionScheme):
     """
 
     @classmethod
-    def parse(cls, value: str) -> date:
+    def _parse(cls, value: str) -> date:
         """Convert a version string into an internal representation."""
         return datetime.strptime(value, "%d-%b-%Y").replace(tzinfo=UTC).date()
 

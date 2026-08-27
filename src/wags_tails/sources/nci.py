@@ -19,7 +19,7 @@ class NcitVersionScheme(VersionScheme):
     """
 
     @classmethod
-    def parse(cls, value: str) -> tuple[str, str, str]:
+    def _parse(cls, value: str) -> tuple[str, str, str]:
         """Convert a version string into an internal representation."""
         match = re.match(r"(\d\d)\.(\d\d)(\w)", value)
         if not match:

@@ -2,6 +2,7 @@ from datetime import date
 
 import pytest
 
+from wags_tails.core.exceptions import VersionParseError
 from wags_tails.core.version import (
     DashSeparatedVersionScheme,
     DateVersionScheme,
@@ -23,16 +24,29 @@ def test_int_version_scheme(value, expected):
     assert Version.parse(value, IntegerVersionScheme).parsed == expected
 
 
+@pytest.mark.parametrize("value", ["foo", 36])
+def test_int_version_scheme_rejects_invalid_values(value):
+    with pytest.raises(VersionParseError):
+        Version.parse(value, IntegerVersionScheme)
+
+
 @pytest.mark.parametrize(
     ("value", "expected"),
     [
         ("2026-08-26", date(2026, 8, 26)),
         ("v2026-08-26", date(2026, 8, 26)),
         ("v.2026-08-26", date(2026, 8, 26)),
+        ("20260826", date(2026, 8, 26)),
     ],
 )
 def test_date_version_scheme(value, expected):
     assert Version.parse(value, DateVersionScheme).parsed == expected
+
+
+@pytest.mark.parametrize("value", ["foo", "2026-99-99", ""])
+def test_date_version_scheme_rejects_invalid_values(value):
+    with pytest.raises(VersionParseError):
+        DateVersionScheme.parse(value)
 
 
 @pytest.mark.parametrize(
