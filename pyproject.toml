@@ -36,6 +36,8 @@ tests = [
 dev = [
     "prek>=0.2.23",
     "ruff==0.14.10",
+    "ipython",
+    "ipdb",
 ]
 docs = [
     "sphinx==6.1.3",

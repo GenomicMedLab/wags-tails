@@ -33,6 +33,7 @@ It is currently used in:
 
     Installation<install>
     Usage<usage>
+    Conceptual Model<model>
     CLI Reference<cli_reference>
     API Reference<reference/index>
     Changelog<changelog>
