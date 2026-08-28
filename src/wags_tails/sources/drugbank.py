@@ -30,14 +30,10 @@ class DrugVocabulary(Dataset[DrugVocabularyAsset]):
         data = get_json(url, session)
         try:
             release_vocab_url: str = data[0]["url"]
-            version_raw = (
-                re.match(
-                    r"https:\/\/go.drugbank.com\/releases\/(.*)\/downloads\/all-drugbank-vocabulary",
-                    release_vocab_url,
-                )
-                .groups()[0]
-                .replace("-", ".")
-            )
+            version_raw = re.match(
+                r"https:\/\/go.drugbank.com\/releases\/(.*)\/downloads\/all-drugbank-vocabulary",
+                release_vocab_url,
+            ).groups()[0]
         except (KeyError, IndexError, AttributeError) as e:
             msg = "Unable to parse latest DrugBank version number from releases API endpoint"
             raise ReleaseParsingError(msg) from e

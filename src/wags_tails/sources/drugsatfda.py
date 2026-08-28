@@ -24,7 +24,7 @@ class DrugsAtFdaDataset(Dataset[DrugsAtFdaAsset]):
 
     def _get_latest_version(self, session: OperationConfig) -> Version:
         data = get_json("https://api.fda.gov/download.json", session)
-        version_raw: str = data["results"]["drug"]["drugsatfda"]["export_date"]
+        version_raw: str = data["results"]["drug"]["drugsfda"]["export_date"]
         return Version.parse(version_raw, self.version_scheme)
 
     def _stage_release(

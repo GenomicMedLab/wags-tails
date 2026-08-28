@@ -1,38 +1,13 @@
 """Provide a CLI application for accessing basic wags-tails functions."""
 
-import importlib
-import inspect
-import pkgutil
-
 import click
 
-import wags_tails.sources
 from wags_tails import __version__
-from wags_tails.core.models import Dataset
+from wags_tails.core.discovery import discover_datasets
 from wags_tails.core.paths import resolve_data_dir
 from wags_tails.core.store import LocalStore
 
-
-def _get_datasets() -> dict[str, type[Dataset]]:
-    """Discover supported datasets."""
-    datasets: dict[str, type[Dataset]] = {}
-    for module_info in pkgutil.iter_modules(wags_tails.sources.__path__):
-        module = importlib.import_module(
-            f"{wags_tails.sources.__name__}.{module_info.name}"
-        )
-
-        for _, obj in inspect.getmembers(module, inspect.isclass):
-            if (
-                issubclass(obj, Dataset)
-                and not inspect.isabstract(obj)
-                and obj.__module__ == module.__name__
-            ):
-                datasets[obj.qualified_id()] = obj
-
-    return datasets
-
-
-_datasets = _get_datasets()
+_datasets = discover_datasets()
 
 
 @click.group()
