@@ -5,7 +5,10 @@ import zipfile
 from datetime import UTC, date, datetime
 from pathlib import Path
 
-from wags_tails.core.exceptions import MissingUserConfigurationError, WagsTailsError
+from wags_tails.core.exceptions import (
+    MissingUserConfigurationError,
+    ReleaseArchiveUnpackingError,
+)
 from wags_tails.core.http import download_http, get_json
 from wags_tails.core.models import Asset, Dataset, Source
 from wags_tails.core.operation import OperationConfig
@@ -68,5 +71,5 @@ class RxNormDataset(Dataset[RxNormAsset]):
                     break
             else:
                 msg = "Unable to find RxNorm RRF in downloaded file"
-                raise WagsTailsError(msg)
+                raise ReleaseArchiveUnpackingError(msg)
             zip_ref.extract(target, path=outfile_path.parent)

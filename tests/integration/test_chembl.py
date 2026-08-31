@@ -18,12 +18,6 @@ def test_chembl(fixtures_dir: Path, store: LocalStore, requests_mock: Mocker):
             "chembl_37/chembl_37_sqlite/chembl_37.db": b"test_response",
         }
     )
-
-    mock_download(
-        requests_mock,
-        "https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_37_sqlite.tar.gz",
-        content=mock_tarball,
-    )
     mock_download(
         requests_mock,
         "https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_37_sqlite.tar.gz",

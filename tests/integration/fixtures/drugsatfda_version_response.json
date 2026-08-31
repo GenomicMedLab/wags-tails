@@ -1,0 +1,3898 @@
+{
+  "meta": {
+    "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+    "terms": "https://open.fda.gov/terms/",
+    "license": "https://open.fda.gov/license/",
+    "last_updated": "2026-08-31"
+  },
+  "results": {
+    "food": {
+      "enforcement": {
+        "export_date": "2026-08-27",
+        "partitions": [
+          {
+            "display_name": "/food/enforcement data",
+            "file": "https://download.open.fda.gov/food/enforcement/food-enforcement-0001-of-0001.json.zip",
+            "size_mb": "5.55",
+            "records": 29317
+          }
+        ],
+        "total_records": 29317
+      },
+      "event": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/food/event data",
+            "file": "https://download.open.fda.gov/food/event/food-event-0001-of-0001.json.zip",
+            "size_mb": "8.77",
+            "records": 151589
+          }
+        ],
+        "total_records": 151589
+      }
+    },
+    "animalandveterinary": {
+      "event": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "2004 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2004q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.69",
+            "records": 5996
+          },
+          {
+            "display_name": "1994 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1994q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.06",
+            "records": 552
+          },
+          {
+            "display_name": "1997 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1997q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.12",
+            "records": 1068
+          },
+          {
+            "display_name": "2020 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2020q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.34",
+            "records": 18719
+          },
+          {
+            "display_name": "2010 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2010q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.07",
+            "records": 9641
+          },
+          {
+            "display_name": "2005 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2005q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.63",
+            "records": 5752
+          },
+          {
+            "display_name": "2013 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2013q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.12",
+            "records": 19605
+          },
+          {
+            "display_name": "2003 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2003q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.33",
+            "records": 2906
+          },
+          {
+            "display_name": "2008 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2008q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.90",
+            "records": 7804
+          },
+          {
+            "display_name": "1999 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1999q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.26",
+            "records": 2321
+          },
+          {
+            "display_name": "1992 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1992q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 287
+          },
+          {
+            "display_name": "2014 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2014q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.46",
+            "records": 13822
+          },
+          {
+            "display_name": "2025 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2025q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.70",
+            "records": 17945
+          },
+          {
+            "display_name": "2018 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2018q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.92",
+            "records": 15767
+          },
+          {
+            "display_name": "2013 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2013q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.46",
+            "records": 14845
+          },
+          {
+            "display_name": "2009 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2009q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.97",
+            "records": 9021
+          },
+          {
+            "display_name": "2011 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2011q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.88",
+            "records": 14122
+          },
+          {
+            "display_name": "1995 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1995q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.10",
+            "records": 1281
+          },
+          {
+            "display_name": "2009 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2009q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.17",
+            "records": 11199
+          },
+          {
+            "display_name": "2000 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2000q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.38",
+            "records": 3653
+          },
+          {
+            "display_name": "2023 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2023q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.21",
+            "records": 17074
+          },
+          {
+            "display_name": "2007 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2007q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.71",
+            "records": 6001
+          },
+          {
+            "display_name": "1993 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1993q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 301
+          },
+          {
+            "display_name": "1997 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1997q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.12",
+            "records": 1206
+          },
+          {
+            "display_name": "1998 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1998q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.26",
+            "records": 2335
+          },
+          {
+            "display_name": "2020 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2020q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.75",
+            "records": 14999
+          },
+          {
+            "display_name": "1996 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1996q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.08",
+            "records": 812
+          },
+          {
+            "display_name": "2025 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2025q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "4.13",
+            "records": 20720
+          },
+          {
+            "display_name": "2024 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2024q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "4.28",
+            "records": 22534
+          },
+          {
+            "display_name": "2005 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2005q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.56",
+            "records": 4357
+          },
+          {
+            "display_name": "1987 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1987q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 211
+          },
+          {
+            "display_name": "2011 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2011q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.07",
+            "records": 9258
+          },
+          {
+            "display_name": "2014 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2014q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.45",
+            "records": 20055
+          },
+          {
+            "display_name": "1988 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1988q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.04",
+            "records": 299
+          },
+          {
+            "display_name": "2022 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2022q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.67",
+            "records": 15148
+          },
+          {
+            "display_name": "1990 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1990q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 220
+          },
+          {
+            "display_name": "2012 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2012q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.89",
+            "records": 19044
+          },
+          {
+            "display_name": "2002 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2002q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.33",
+            "records": 2858
+          },
+          {
+            "display_name": "2021 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2021q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.37",
+            "records": 13188
+          },
+          {
+            "display_name": "1995 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1995q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.06",
+            "records": 609
+          },
+          {
+            "display_name": "2006 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2006q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.61",
+            "records": 4939
+          },
+          {
+            "display_name": "2020 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2020q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.42",
+            "records": 19298
+          },
+          {
+            "display_name": "2021 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2021q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.02",
+            "records": 17205
+          },
+          {
+            "display_name": "2024 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2024q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "4.27",
+            "records": 21782
+          },
+          {
+            "display_name": "2002 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2002q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.38",
+            "records": 3488
+          },
+          {
+            "display_name": "1995 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1995q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.06",
+            "records": 616
+          },
+          {
+            "display_name": "2007 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2007q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.80",
+            "records": 6654
+          },
+          {
+            "display_name": "1993 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1993q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.04",
+            "records": 338
+          },
+          {
+            "display_name": "2006 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2006q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.68",
+            "records": 5755
+          },
+          {
+            "display_name": "2001 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2001q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.34",
+            "records": 3185
+          },
+          {
+            "display_name": "2000 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2000q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.38",
+            "records": 3401
+          },
+          {
+            "display_name": "1988 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1988q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 215
+          },
+          {
+            "display_name": "2023 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2023q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.62",
+            "records": 13879
+          },
+          {
+            "display_name": "1994 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1994q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.05",
+            "records": 458
+          },
+          {
+            "display_name": "1990 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1990q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 235
+          },
+          {
+            "display_name": "2009 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2009q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.12",
+            "records": 10608
+          },
+          {
+            "display_name": "1997 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1997q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.09",
+            "records": 888
+          },
+          {
+            "display_name": "2004 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2004q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.61",
+            "records": 5177
+          },
+          {
+            "display_name": "2001 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2001q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.38",
+            "records": 3637
+          },
+          {
+            "display_name": "2003 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2003q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.45",
+            "records": 3797
+          },
+          {
+            "display_name": "1992 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1992q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 186
+          },
+          {
+            "display_name": "2012 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2012q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.47",
+            "records": 15232
+          },
+          {
+            "display_name": "2014 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2014q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.73",
+            "records": 15302
+          },
+          {
+            "display_name": "2021 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2021q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.13",
+            "records": 18021
+          },
+          {
+            "display_name": "2017 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2017q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.94",
+            "records": 15957
+          },
+          {
+            "display_name": "2003 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2003q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.41",
+            "records": 3329
+          },
+          {
+            "display_name": "2003 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2003q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.44",
+            "records": 3644
+          },
+          {
+            "display_name": "2000 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2000q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.45",
+            "records": 4519
+          },
+          {
+            "display_name": "1994 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1994q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.04",
+            "records": 363
+          },
+          {
+            "display_name": "1987 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1987q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 323
+          },
+          {
+            "display_name": "2000 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2000q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.63",
+            "records": 6575
+          },
+          {
+            "display_name": "2007 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2007q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.83",
+            "records": 7419
+          },
+          {
+            "display_name": "2012 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2012q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.09",
+            "records": 13539
+          },
+          {
+            "display_name": "1990 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1990q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 238
+          },
+          {
+            "display_name": "1996 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1996q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.08",
+            "records": 845
+          },
+          {
+            "display_name": "2015 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2015q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.58",
+            "records": 20037
+          },
+          {
+            "display_name": "2004 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2004q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.52",
+            "records": 4303
+          },
+          {
+            "display_name": "1989 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1989q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 265
+          },
+          {
+            "display_name": "2010 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2010q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.01",
+            "records": 9195
+          },
+          {
+            "display_name": "1999 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1999q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.47",
+            "records": 4368
+          },
+          {
+            "display_name": "2004 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2004q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.59",
+            "records": 4989
+          },
+          {
+            "display_name": "2009 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2009q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.99",
+            "records": 9160
+          },
+          {
+            "display_name": "1991 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1991q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 215
+          },
+          {
+            "display_name": "2014 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2014q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.22",
+            "records": 18686
+          },
+          {
+            "display_name": "2010 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2010q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.22",
+            "records": 11841
+          },
+          {
+            "display_name": "1989 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1989q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.05",
+            "records": 444
+          },
+          {
+            "display_name": "1989 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1989q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.04",
+            "records": 432
+          },
+          {
+            "display_name": "1996 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1996q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.09",
+            "records": 900
+          },
+          {
+            "display_name": "2016 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2016q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.87",
+            "records": 15767
+          },
+          {
+            "display_name": "2005 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2005q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.62",
+            "records": 5337
+          },
+          {
+            "display_name": "2011 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2011q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.75",
+            "records": 11674
+          },
+          {
+            "display_name": "2011 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2011q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.48",
+            "records": 13931
+          },
+          {
+            "display_name": "2007 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2007q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.85",
+            "records": 7608
+          },
+          {
+            "display_name": "2008 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2008q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.05",
+            "records": 9444
+          },
+          {
+            "display_name": "All other data (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/all_other/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.01",
+            "records": 82
+          },
+          {
+            "display_name": "2024 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2024q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.76",
+            "records": 18550
+          },
+          {
+            "display_name": "2018 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2018q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.55",
+            "records": 19644
+          },
+          {
+            "display_name": "2024 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2024q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.57",
+            "records": 18343
+          },
+          {
+            "display_name": "1992 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1992q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 287
+          },
+          {
+            "display_name": "2008 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2008q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.15",
+            "records": 9619
+          },
+          {
+            "display_name": "2012 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2012q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.91",
+            "records": 18621
+          },
+          {
+            "display_name": "2016 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2016q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.06",
+            "records": 16399
+          },
+          {
+            "display_name": "2022 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2022q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.57",
+            "records": 13699
+          },
+          {
+            "display_name": "1991 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1991q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 267
+          },
+          {
+            "display_name": "1993 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1993q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 298
+          },
+          {
+            "display_name": "2019 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2019q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.83",
+            "records": 15717
+          },
+          {
+            "display_name": "1987 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1987q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 260
+          },
+          {
+            "display_name": "1994 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1994q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.04",
+            "records": 369
+          },
+          {
+            "display_name": "2017 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2017q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.14",
+            "records": 16965
+          },
+          {
+            "display_name": "2019 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2019q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.69",
+            "records": 21401
+          },
+          {
+            "display_name": "2006 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2006q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.67",
+            "records": 5596
+          },
+          {
+            "display_name": "2025 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2025q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "4.27",
+            "records": 21651
+          },
+          {
+            "display_name": "2016 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2016q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.64",
+            "records": 20791
+          },
+          {
+            "display_name": "1997 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1997q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.18",
+            "records": 1815
+          },
+          {
+            "display_name": "2006 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2006q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.75",
+            "records": 6441
+          },
+          {
+            "display_name": "1998 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1998q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.39",
+            "records": 4169
+          },
+          {
+            "display_name": "1998 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1998q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.20",
+            "records": 1989
+          },
+          {
+            "display_name": "1991 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1991q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 231
+          },
+          {
+            "display_name": "2023 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2023q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.23",
+            "records": 17694
+          },
+          {
+            "display_name": "2022 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2022q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.03",
+            "records": 16780
+          },
+          {
+            "display_name": "1989 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1989q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 199
+          },
+          {
+            "display_name": "2001 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2001q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.42",
+            "records": 4246
+          },
+          {
+            "display_name": "1991 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1991q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 230
+          },
+          {
+            "display_name": "2013 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2013q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.55",
+            "records": 15348
+          },
+          {
+            "display_name": "2026 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2026q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.03",
+            "records": 14826
+          },
+          {
+            "display_name": "2021 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2021q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.69",
+            "records": 14746
+          },
+          {
+            "display_name": "2018 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2018q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.86",
+            "records": 15017
+          },
+          {
+            "display_name": "1999 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1999q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.32",
+            "records": 2880
+          },
+          {
+            "display_name": "2013 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2013q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.07",
+            "records": 19539
+          },
+          {
+            "display_name": "1995 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1995q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.07",
+            "records": 672
+          },
+          {
+            "display_name": "1992 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1992q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 263
+          },
+          {
+            "display_name": "2005 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2005q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.60",
+            "records": 5157
+          },
+          {
+            "display_name": "2023 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2023q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.20",
+            "records": 16724
+          },
+          {
+            "display_name": "1990 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1990q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.02",
+            "records": 188
+          },
+          {
+            "display_name": "2002 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2002q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.45",
+            "records": 4083
+          },
+          {
+            "display_name": "1998 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1998q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.12",
+            "records": 1140
+          },
+          {
+            "display_name": "2015 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2015q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.64",
+            "records": 14355
+          },
+          {
+            "display_name": "2016 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2016q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.69",
+            "records": 20948
+          },
+          {
+            "display_name": "1988 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1988q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 277
+          },
+          {
+            "display_name": "2018 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2018q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.71",
+            "records": 20675
+          },
+          {
+            "display_name": "2017 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2017q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "4.05",
+            "records": 23030
+          },
+          {
+            "display_name": "1987 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1987q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 299
+          },
+          {
+            "display_name": "2017 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2017q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.71",
+            "records": 21129
+          },
+          {
+            "display_name": "2008 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2008q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.84",
+            "records": 7402
+          },
+          {
+            "display_name": "2001 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2001q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.42",
+            "records": 4135
+          },
+          {
+            "display_name": "2025 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2025q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.41",
+            "records": 16435
+          },
+          {
+            "display_name": "2020 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2020q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.81",
+            "records": 15351
+          },
+          {
+            "display_name": "2015 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2015q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.96",
+            "records": 16303
+          },
+          {
+            "display_name": "1999 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1999q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.22",
+            "records": 1920
+          },
+          {
+            "display_name": "2015 Q2 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2015q2/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.65",
+            "records": 20514
+          },
+          {
+            "display_name": "2022 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2022q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.44",
+            "records": 13064
+          },
+          {
+            "display_name": "1996 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1996q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.06",
+            "records": 618
+          },
+          {
+            "display_name": "1988 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1988q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 241
+          },
+          {
+            "display_name": "2002 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2002q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.33",
+            "records": 2795
+          },
+          {
+            "display_name": "2019 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2019q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "3.48",
+            "records": 19878
+          },
+          {
+            "display_name": "2019 Q4 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2019q4/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "2.82",
+            "records": 15497
+          },
+          {
+            "display_name": "2010 Q3 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/2010q3/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "1.26",
+            "records": 12037
+          },
+          {
+            "display_name": "1993 Q1 (all)",
+            "file": "https://download.open.fda.gov/animalandveterinary/event/1993q1/animalandveterinary-event-0001-of-0001.json.zip",
+            "size_mb": "0.03",
+            "records": 320
+          }
+        ],
+        "total_records": 1357337
+      }
+    },
+    "research": {
+      "covidmirnaandproteomics": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/research/covidmirnaandproteomics data",
+            "file": "https://download.open.fda.gov/research/covidmirnaandproteomics/research-covidmirnaandproteomics-0001-of-0001.json.zip",
+            "size_mb": "14.98",
+            "records": 416
+          }
+        ],
+        "total_records": 416
+      }
+    },
+    "transparency": {
+      "crl": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/transparency/crl data",
+            "file": "https://download.open.fda.gov/transparency/crl/transparency-crl-0001-of-0001.json.zip",
+            "size_mb": "1.02",
+            "records": 458
+          }
+        ],
+        "total_records": 458
+      }
+    },
+    "tobacco": {
+      "researchpreventionads": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/tobacco/researchpreventionads data",
+            "file": "https://download.open.fda.gov/tobacco/researchpreventionads/tobacco-researchpreventionads-0001-of-0001.json.zip",
+            "size_mb": "0.06",
+            "records": 42
+          }
+        ],
+        "total_records": 42
+      },
+      "researchsmokefree": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/tobacco/researchsmokefree data",
+            "file": "https://download.open.fda.gov/tobacco/researchsmokefree/tobacco-researchsmokefree-0001-of-0001.json.zip",
+            "size_mb": "0.00",
+            "records": 22
+          }
+        ],
+        "total_records": 22
+      },
+      "researchdigitalads": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/tobacco/researchdigitalads data",
+            "file": "https://download.open.fda.gov/tobacco/researchdigitalads/tobacco-researchdigitalads-0001-of-0001.json.zip",
+            "size_mb": "0.00",
+            "records": 12
+          }
+        ],
+        "total_records": 12
+      },
+      "problem": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/tobacco/problem data",
+            "file": "https://download.open.fda.gov/tobacco/problem/tobacco-problem-0001-of-0001.json.zip",
+            "size_mb": "0.05",
+            "records": 1383
+          }
+        ],
+        "total_records": 1383
+      }
+    },
+    "other": {
+      "historicaldocument": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/other/historicaldocument data",
+            "file": "https://download.open.fda.gov/other/historicaldocument/other-historicaldocument-0001-of-0001.json.zip",
+            "size_mb": "13.23",
+            "records": 8858
+          }
+        ],
+        "total_records": 8858
+      },
+      "unii": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/other/unii data",
+            "file": "https://download.open.fda.gov/other/unii/other-unii-0001-of-0001.json.zip",
+            "size_mb": "3.48",
+            "records": 175987
+          }
+        ],
+        "total_records": 175987
+      },
+      "nsde": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/other/nsde (part 1 of 3)",
+            "file": "https://download.open.fda.gov/other/nsde/other-nsde-0001-of-0003.json.zip",
+            "size_mb": "11.42",
+            "records": 250000
+          },
+          {
+            "display_name": "/other/nsde (part 2 of 3)",
+            "file": "https://download.open.fda.gov/other/nsde/other-nsde-0002-of-0003.json.zip",
+            "size_mb": "11.43",
+            "records": 250000
+          },
+          {
+            "display_name": "/other/nsde (part 3 of 3)",
+            "file": "https://download.open.fda.gov/other/nsde/other-nsde-0003-of-0003.json.zip",
+            "size_mb": "7.63",
+            "records": 166787
+          }
+        ],
+        "total_records": 666787
+      },
+      "substance": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/other/substance data",
+            "file": "https://download.open.fda.gov/other/substance/other-substance-0001-of-0001.json.zip",
+            "size_mb": "316.93",
+            "records": 167385
+          }
+        ],
+        "total_records": 167385
+      }
+    },
+    "device": {
+      "classification": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/device/classification data",
+            "file": "https://download.open.fda.gov/device/classification/device-classification-0001-of-0001.json.zip",
+            "size_mb": "3.11",
+            "records": 7088
+          }
+        ],
+        "total_records": 7088
+      },
+      "510k": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/device/510k data",
+            "file": "https://download.open.fda.gov/device/510k/device-510k-0001-of-0001.json.zip",
+            "size_mb": "235.63",
+            "records": 175879
+          }
+        ],
+        "total_records": 175879
+      },
+      "covid19serology": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/device/covid19serology data",
+            "file": "https://download.open.fda.gov/device/covid19serology/device-covid19serology-0001-of-0001.json.zip",
+            "size_mb": "0.33",
+            "records": 13420
+          }
+        ],
+        "total_records": 13420
+      },
+      "registrationlisting": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/device/registrationlisting (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/registrationlisting/device-registrationlisting-0001-of-0002.json.zip",
+            "size_mb": "61.43",
+            "records": 250000
+          },
+          {
+            "display_name": "/device/registrationlisting (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/registrationlisting/device-registrationlisting-0002-of-0002.json.zip",
+            "size_mb": "20.64",
+            "records": 84091
+          }
+        ],
+        "total_records": 334091
+      },
+      "enforcement": {
+        "export_date": "2026-08-27",
+        "partitions": [
+          {
+            "display_name": "/device/enforcement data",
+            "file": "https://download.open.fda.gov/device/enforcement/device-enforcement-0001-of-0001.json.zip",
+            "size_mb": "90.07",
+            "records": 39794
+          }
+        ],
+        "total_records": 39794
+      },
+      "udi": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/device/udi (part 1 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0001-of-0051.json.zip",
+            "size_mb": "35.35",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 2 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0002-of-0051.json.zip",
+            "size_mb": "35.57",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 3 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0003-of-0051.json.zip",
+            "size_mb": "35.55",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 4 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0004-of-0051.json.zip",
+            "size_mb": "35.51",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 5 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0005-of-0051.json.zip",
+            "size_mb": "34.72",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 6 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0006-of-0051.json.zip",
+            "size_mb": "35.62",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 7 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0007-of-0051.json.zip",
+            "size_mb": "35.53",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 8 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0008-of-0051.json.zip",
+            "size_mb": "35.11",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 9 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0009-of-0051.json.zip",
+            "size_mb": "35.13",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 10 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0010-of-0051.json.zip",
+            "size_mb": "35.18",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 11 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0011-of-0051.json.zip",
+            "size_mb": "35.61",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 12 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0012-of-0051.json.zip",
+            "size_mb": "35.36",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 13 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0013-of-0051.json.zip",
+            "size_mb": "35.05",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 14 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0014-of-0051.json.zip",
+            "size_mb": "35.47",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 15 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0015-of-0051.json.zip",
+            "size_mb": "35.24",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 16 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0016-of-0051.json.zip",
+            "size_mb": "35.49",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 17 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0017-of-0051.json.zip",
+            "size_mb": "35.44",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 18 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0018-of-0051.json.zip",
+            "size_mb": "35.46",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 19 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0019-of-0051.json.zip",
+            "size_mb": "35.57",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 20 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0020-of-0051.json.zip",
+            "size_mb": "34.86",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 21 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0021-of-0051.json.zip",
+            "size_mb": "35.33",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 22 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0022-of-0051.json.zip",
+            "size_mb": "35.42",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 23 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0023-of-0051.json.zip",
+            "size_mb": "35.47",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 24 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0024-of-0051.json.zip",
+            "size_mb": "35.46",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 25 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0025-of-0051.json.zip",
+            "size_mb": "35.16",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 26 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0026-of-0051.json.zip",
+            "size_mb": "35.20",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 27 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0027-of-0051.json.zip",
+            "size_mb": "35.42",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 28 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0028-of-0051.json.zip",
+            "size_mb": "35.56",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 29 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0029-of-0051.json.zip",
+            "size_mb": "35.64",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 30 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0030-of-0051.json.zip",
+            "size_mb": "34.79",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 31 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0031-of-0051.json.zip",
+            "size_mb": "35.06",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 32 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0032-of-0051.json.zip",
+            "size_mb": "35.80",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 33 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0033-of-0051.json.zip",
+            "size_mb": "35.55",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 34 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0034-of-0051.json.zip",
+            "size_mb": "35.11",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 35 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0035-of-0051.json.zip",
+            "size_mb": "34.99",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 36 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0036-of-0051.json.zip",
+            "size_mb": "35.32",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 37 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0037-of-0051.json.zip",
+            "size_mb": "35.56",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 38 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0038-of-0051.json.zip",
+            "size_mb": "35.40",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 39 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0039-of-0051.json.zip",
+            "size_mb": "34.92",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 40 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0040-of-0051.json.zip",
+            "size_mb": "35.44",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 41 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0041-of-0051.json.zip",
+            "size_mb": "35.20",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 42 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0042-of-0051.json.zip",
+            "size_mb": "35.69",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 43 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0043-of-0051.json.zip",
+            "size_mb": "35.51",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 44 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0044-of-0051.json.zip",
+            "size_mb": "34.65",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 45 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0045-of-0051.json.zip",
+            "size_mb": "35.16",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 46 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0046-of-0051.json.zip",
+            "size_mb": "35.58",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 47 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0047-of-0051.json.zip",
+            "size_mb": "35.39",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 48 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0048-of-0051.json.zip",
+            "size_mb": "35.63",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 49 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0049-of-0051.json.zip",
+            "size_mb": "35.56",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 50 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0050-of-0051.json.zip",
+            "size_mb": "34.66",
+            "records": 100000
+          },
+          {
+            "display_name": "/device/udi (part 51 of 51)",
+            "file": "https://download.open.fda.gov/device/udi/device-udi-0051-of-0051.json.zip",
+            "size_mb": "29.91",
+            "records": 83948
+          }
+        ],
+        "total_records": 5083948
+      },
+      "event": {
+        "export_date": "2026-08-27",
+        "partitions": [
+          {
+            "display_name": "2004 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2004q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "10.15",
+            "records": 21108
+          },
+          {
+            "display_name": "1994 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1994q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.91",
+            "records": 2079
+          },
+          {
+            "display_name": "1997 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1997q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.84",
+            "records": 19917
+          },
+          {
+            "display_name": "2020 Q3 (part 1 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2020q3/device-event-0001-of-0005.json.zip",
+            "size_mb": "70.51",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q3 (part 2 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2020q3/device-event-0002-of-0005.json.zip",
+            "size_mb": "69.82",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q3 (part 3 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2020q3/device-event-0003-of-0005.json.zip",
+            "size_mb": "70.15",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q3 (part 4 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2020q3/device-event-0004-of-0005.json.zip",
+            "size_mb": "72.72",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q3 (part 5 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2020q3/device-event-0005-of-0005.json.zip",
+            "size_mb": "15.25",
+            "records": 14710
+          },
+          {
+            "display_name": "2010 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2010q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "59.72",
+            "records": 90981
+          },
+          {
+            "display_name": "2005 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2005q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "11.60",
+            "records": 23790
+          },
+          {
+            "display_name": "2013 Q2 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2013q2/device-event-0001-of-0002.json.zip",
+            "size_mb": "62.22",
+            "records": 95000
+          },
+          {
+            "display_name": "2013 Q2 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2013q2/device-event-0002-of-0002.json.zip",
+            "size_mb": "51.68",
+            "records": 70253
+          },
+          {
+            "display_name": "2003 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2003q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.94",
+            "records": 19305
+          },
+          {
+            "display_name": "2008 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2008q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "31.42",
+            "records": 54565
+          },
+          {
+            "display_name": "1999 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1999q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.43",
+            "records": 13534
+          },
+          {
+            "display_name": "1992 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1992q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.21",
+            "records": 438
+          },
+          {
+            "display_name": "2014 Q1 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q1/device-event-0001-of-0003.json.zip",
+            "size_mb": "55.56",
+            "records": 95000
+          },
+          {
+            "display_name": "2014 Q1 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q1/device-event-0002-of-0003.json.zip",
+            "size_mb": "57.92",
+            "records": 95000
+          },
+          {
+            "display_name": "2014 Q1 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q1/device-event-0003-of-0003.json.zip",
+            "size_mb": "2.19",
+            "records": 2333
+          },
+          {
+            "display_name": "2025 Q4 (part 1 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0001-of-0008.json.zip",
+            "size_mb": "73.81",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q4 (part 2 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0002-of-0008.json.zip",
+            "size_mb": "73.22",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q4 (part 3 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0003-of-0008.json.zip",
+            "size_mb": "72.61",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q4 (part 4 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0004-of-0008.json.zip",
+            "size_mb": "72.33",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q4 (part 5 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0005-of-0008.json.zip",
+            "size_mb": "73.32",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q4 (part 6 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0006-of-0008.json.zip",
+            "size_mb": "73.18",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q4 (part 7 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0007-of-0008.json.zip",
+            "size_mb": "72.61",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q4 (part 8 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q4/device-event-0008-of-0008.json.zip",
+            "size_mb": "72.34",
+            "records": 86012
+          },
+          {
+            "display_name": "2018 Q4 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q4/device-event-0001-of-0003.json.zip",
+            "size_mb": "70.70",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q4 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q4/device-event-0002-of-0003.json.zip",
+            "size_mb": "69.83",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q4 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q4/device-event-0003-of-0003.json.zip",
+            "size_mb": "79.15",
+            "records": 94830
+          },
+          {
+            "display_name": "2013 Q1 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2013q1/device-event-0001-of-0002.json.zip",
+            "size_mb": "63.32",
+            "records": 95000
+          },
+          {
+            "display_name": "2013 Q1 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2013q1/device-event-0002-of-0002.json.zip",
+            "size_mb": "27.58",
+            "records": 35483
+          },
+          {
+            "display_name": "2009 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2009q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "37.38",
+            "records": 62125
+          },
+          {
+            "display_name": "2011 Q3 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q3/device-event-0001-of-0002.json.zip",
+            "size_mb": "62.63",
+            "records": 95000
+          },
+          {
+            "display_name": "2011 Q3 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q3/device-event-0002-of-0002.json.zip",
+            "size_mb": "18.15",
+            "records": 25337
+          },
+          {
+            "display_name": "1995 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1995q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "1.10",
+            "records": 2526
+          },
+          {
+            "display_name": "2009 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2009q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "32.90",
+            "records": 54891
+          },
+          {
+            "display_name": "2000 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2000q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "5.74",
+            "records": 12706
+          },
+          {
+            "display_name": "2023 Q3 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q3/device-event-0001-of-0007.json.zip",
+            "size_mb": "73.90",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q3 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q3/device-event-0002-of-0007.json.zip",
+            "size_mb": "73.59",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q3 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q3/device-event-0003-of-0007.json.zip",
+            "size_mb": "73.43",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q3 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q3/device-event-0004-of-0007.json.zip",
+            "size_mb": "74.07",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q3 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q3/device-event-0005-of-0007.json.zip",
+            "size_mb": "73.34",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q3 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q3/device-event-0006-of-0007.json.zip",
+            "size_mb": "73.89",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q3 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q3/device-event-0007-of-0007.json.zip",
+            "size_mb": "29.80",
+            "records": 33602
+          },
+          {
+            "display_name": "2007 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2007q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "20.45",
+            "records": 35817
+          },
+          {
+            "display_name": "1993 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1993q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.31",
+            "records": 802
+          },
+          {
+            "display_name": "1997 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1997q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.61",
+            "records": 19464
+          },
+          {
+            "display_name": "1998 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1998q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.63",
+            "records": 14585
+          },
+          {
+            "display_name": "2026 Q2 (part 1 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0001-of-0010.json.zip",
+            "size_mb": "65.55",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 2 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0002-of-0010.json.zip",
+            "size_mb": "65.02",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 3 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0003-of-0010.json.zip",
+            "size_mb": "65.17",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 4 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0004-of-0010.json.zip",
+            "size_mb": "65.84",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 5 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0005-of-0010.json.zip",
+            "size_mb": "65.52",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 6 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0006-of-0010.json.zip",
+            "size_mb": "65.26",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 7 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0007-of-0010.json.zip",
+            "size_mb": "65.59",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 8 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0008-of-0010.json.zip",
+            "size_mb": "65.20",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 9 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0009-of-0010.json.zip",
+            "size_mb": "68.30",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q2 (part 10 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2026q2/device-event-0010-of-0010.json.zip",
+            "size_mb": "61.35",
+            "records": 68529
+          },
+          {
+            "display_name": "2020 Q4 (part 1 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2020q4/device-event-0001-of-0006.json.zip",
+            "size_mb": "66.34",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q4 (part 2 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2020q4/device-event-0002-of-0006.json.zip",
+            "size_mb": "66.51",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q4 (part 3 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2020q4/device-event-0003-of-0006.json.zip",
+            "size_mb": "66.33",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q4 (part 4 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2020q4/device-event-0004-of-0006.json.zip",
+            "size_mb": "66.56",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q4 (part 5 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2020q4/device-event-0005-of-0006.json.zip",
+            "size_mb": "67.02",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q4 (part 6 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2020q4/device-event-0006-of-0006.json.zip",
+            "size_mb": "14.98",
+            "records": 16509
+          },
+          {
+            "display_name": "1996 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1996q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.84",
+            "records": 17896
+          },
+          {
+            "display_name": "2025 Q3 (part 1 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0001-of-0009.json.zip",
+            "size_mb": "70.75",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 2 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0002-of-0009.json.zip",
+            "size_mb": "71.58",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 3 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0003-of-0009.json.zip",
+            "size_mb": "70.54",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 4 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0004-of-0009.json.zip",
+            "size_mb": "69.92",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 5 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0005-of-0009.json.zip",
+            "size_mb": "70.31",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 6 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0006-of-0009.json.zip",
+            "size_mb": "70.88",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 7 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0007-of-0009.json.zip",
+            "size_mb": "70.31",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 8 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0008-of-0009.json.zip",
+            "size_mb": "70.38",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q3 (part 9 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2025q3/device-event-0009-of-0009.json.zip",
+            "size_mb": "49.53",
+            "records": 59444
+          },
+          {
+            "display_name": "2024 Q2 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q2/device-event-0001-of-0007.json.zip",
+            "size_mb": "72.66",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q2 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q2/device-event-0002-of-0007.json.zip",
+            "size_mb": "72.52",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q2 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q2/device-event-0003-of-0007.json.zip",
+            "size_mb": "72.63",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q2 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q2/device-event-0004-of-0007.json.zip",
+            "size_mb": "72.77",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q2 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q2/device-event-0005-of-0007.json.zip",
+            "size_mb": "72.57",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q2 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q2/device-event-0006-of-0007.json.zip",
+            "size_mb": "72.45",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q2 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q2/device-event-0007-of-0007.json.zip",
+            "size_mb": "54.13",
+            "records": 61546
+          },
+          {
+            "display_name": "2005 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2005q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "13.57",
+            "records": 28201
+          },
+          {
+            "display_name": "2011 Q1 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q1/device-event-0001-of-0002.json.zip",
+            "size_mb": "60.61",
+            "records": 95000
+          },
+          {
+            "display_name": "2011 Q1 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q1/device-event-0002-of-0002.json.zip",
+            "size_mb": "0.26",
+            "records": 281
+          },
+          {
+            "display_name": "2014 Q3 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q3/device-event-0001-of-0003.json.zip",
+            "size_mb": "56.55",
+            "records": 95000
+          },
+          {
+            "display_name": "2014 Q3 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q3/device-event-0002-of-0003.json.zip",
+            "size_mb": "56.90",
+            "records": 95000
+          },
+          {
+            "display_name": "2014 Q3 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q3/device-event-0003-of-0003.json.zip",
+            "size_mb": "25.65",
+            "records": 38084
+          },
+          {
+            "display_name": "2022 Q2 (part 1 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0001-of-0010.json.zip",
+            "size_mb": "53.67",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 2 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0002-of-0010.json.zip",
+            "size_mb": "53.21",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 3 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0003-of-0010.json.zip",
+            "size_mb": "53.67",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 4 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0004-of-0010.json.zip",
+            "size_mb": "53.97",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 5 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0005-of-0010.json.zip",
+            "size_mb": "53.76",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 6 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0006-of-0010.json.zip",
+            "size_mb": "53.58",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 7 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0007-of-0010.json.zip",
+            "size_mb": "54.01",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 8 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0008-of-0010.json.zip",
+            "size_mb": "53.85",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 9 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0009-of-0010.json.zip",
+            "size_mb": "53.79",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q2 (part 10 of 10)",
+            "file": "https://download.open.fda.gov/device/event/2022q2/device-event-0010-of-0010.json.zip",
+            "size_mb": "28.96",
+            "records": 54431
+          },
+          {
+            "display_name": "2012 Q2 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q2/device-event-0001-of-0002.json.zip",
+            "size_mb": "63.27",
+            "records": 95000
+          },
+          {
+            "display_name": "2012 Q2 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q2/device-event-0002-of-0002.json.zip",
+            "size_mb": "17.83",
+            "records": 24425
+          },
+          {
+            "display_name": "2002 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2002q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.29",
+            "records": 16487
+          },
+          {
+            "display_name": "2021 Q4 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2021q4/device-event-0001-of-0007.json.zip",
+            "size_mb": "63.80",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q4 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2021q4/device-event-0002-of-0007.json.zip",
+            "size_mb": "64.09",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q4 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2021q4/device-event-0003-of-0007.json.zip",
+            "size_mb": "63.91",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q4 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2021q4/device-event-0004-of-0007.json.zip",
+            "size_mb": "64.10",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q4 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2021q4/device-event-0005-of-0007.json.zip",
+            "size_mb": "63.33",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q4 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2021q4/device-event-0006-of-0007.json.zip",
+            "size_mb": "66.87",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q4 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2021q4/device-event-0007-of-0007.json.zip",
+            "size_mb": "5.70",
+            "records": 4695
+          },
+          {
+            "display_name": "1995 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1995q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.81",
+            "records": 1992
+          },
+          {
+            "display_name": "2006 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2006q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "13.38",
+            "records": 28434
+          },
+          {
+            "display_name": "2020 Q2 (part 1 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q2/device-event-0001-of-0004.json.zip",
+            "size_mb": "72.42",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q2 (part 2 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q2/device-event-0002-of-0004.json.zip",
+            "size_mb": "72.00",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q2 (part 3 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q2/device-event-0003-of-0004.json.zip",
+            "size_mb": "72.99",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q2 (part 4 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q2/device-event-0004-of-0004.json.zip",
+            "size_mb": "21.07",
+            "records": 22150
+          },
+          {
+            "display_name": "2021 Q3 (part 1 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2021q3/device-event-0001-of-0005.json.zip",
+            "size_mb": "68.73",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q3 (part 2 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2021q3/device-event-0002-of-0005.json.zip",
+            "size_mb": "68.73",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q3 (part 3 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2021q3/device-event-0003-of-0005.json.zip",
+            "size_mb": "68.83",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q3 (part 4 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2021q3/device-event-0004-of-0005.json.zip",
+            "size_mb": "69.07",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q3 (part 5 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2021q3/device-event-0005-of-0005.json.zip",
+            "size_mb": "62.10",
+            "records": 81115
+          },
+          {
+            "display_name": "2024 Q3 (part 1 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0001-of-0008.json.zip",
+            "size_mb": "72.15",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q3 (part 2 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0002-of-0008.json.zip",
+            "size_mb": "71.64",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q3 (part 3 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0003-of-0008.json.zip",
+            "size_mb": "72.01",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q3 (part 4 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0004-of-0008.json.zip",
+            "size_mb": "71.76",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q3 (part 5 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0005-of-0008.json.zip",
+            "size_mb": "71.70",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q3 (part 6 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0006-of-0008.json.zip",
+            "size_mb": "72.16",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q3 (part 7 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0007-of-0008.json.zip",
+            "size_mb": "71.51",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q3 (part 8 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q3/device-event-0008-of-0008.json.zip",
+            "size_mb": "36.70",
+            "records": 34798
+          },
+          {
+            "display_name": "2002 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2002q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.32",
+            "records": 18819
+          },
+          {
+            "display_name": "1995 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1995q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.99",
+            "records": 2176
+          },
+          {
+            "display_name": "2007 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2007q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "24.71",
+            "records": 46800
+          },
+          {
+            "display_name": "1993 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1993q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.49",
+            "records": 1135
+          },
+          {
+            "display_name": "2006 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2006q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "15.34",
+            "records": 29243
+          },
+          {
+            "display_name": "2001 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2001q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.98",
+            "records": 14742
+          },
+          {
+            "display_name": "2000 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2000q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.37",
+            "records": 13611
+          },
+          {
+            "display_name": "2023 Q1 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q1/device-event-0001-of-0007.json.zip",
+            "size_mb": "71.84",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q1 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q1/device-event-0002-of-0007.json.zip",
+            "size_mb": "71.47",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q1 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q1/device-event-0003-of-0007.json.zip",
+            "size_mb": "71.66",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q1 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q1/device-event-0004-of-0007.json.zip",
+            "size_mb": "71.73",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q1 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q1/device-event-0005-of-0007.json.zip",
+            "size_mb": "71.40",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q1 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q1/device-event-0006-of-0007.json.zip",
+            "size_mb": "71.30",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q1 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q1/device-event-0007-of-0007.json.zip",
+            "size_mb": "9.68",
+            "records": 9290
+          },
+          {
+            "display_name": "1994 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1994q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "1.40",
+            "records": 3230
+          },
+          {
+            "display_name": "2009 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2009q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "36.13",
+            "records": 63342
+          },
+          {
+            "display_name": "1997 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1997q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "9.38",
+            "records": 21755
+          },
+          {
+            "display_name": "2004 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2004q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "9.40",
+            "records": 20105
+          },
+          {
+            "display_name": "2001 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2001q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.63",
+            "records": 14159
+          },
+          {
+            "display_name": "2003 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2003q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.33",
+            "records": 19377
+          },
+          {
+            "display_name": "1992 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1992q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.18",
+            "records": 362
+          },
+          {
+            "display_name": "2012 Q4 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q4/device-event-0001-of-0002.json.zip",
+            "size_mb": "63.08",
+            "records": 95000
+          },
+          {
+            "display_name": "2012 Q4 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q4/device-event-0002-of-0002.json.zip",
+            "size_mb": "25.03",
+            "records": 34821
+          },
+          {
+            "display_name": "2014 Q4 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q4/device-event-0001-of-0003.json.zip",
+            "size_mb": "56.90",
+            "records": 95000
+          },
+          {
+            "display_name": "2014 Q4 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q4/device-event-0002-of-0003.json.zip",
+            "size_mb": "57.42",
+            "records": 95000
+          },
+          {
+            "display_name": "2014 Q4 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2014q4/device-event-0003-of-0003.json.zip",
+            "size_mb": "41.45",
+            "records": 63449
+          },
+          {
+            "display_name": "2021 Q2 (part 1 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q2/device-event-0001-of-0006.json.zip",
+            "size_mb": "65.23",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q2 (part 2 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q2/device-event-0002-of-0006.json.zip",
+            "size_mb": "64.98",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q2 (part 3 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q2/device-event-0003-of-0006.json.zip",
+            "size_mb": "64.86",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q2 (part 4 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q2/device-event-0004-of-0006.json.zip",
+            "size_mb": "65.03",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q2 (part 5 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q2/device-event-0005-of-0006.json.zip",
+            "size_mb": "65.13",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q2 (part 6 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q2/device-event-0006-of-0006.json.zip",
+            "size_mb": "17.40",
+            "records": 20580
+          },
+          {
+            "display_name": "2017 Q4 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q4/device-event-0001-of-0003.json.zip",
+            "size_mb": "69.21",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q4 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q4/device-event-0002-of-0003.json.zip",
+            "size_mb": "69.89",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q4 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q4/device-event-0003-of-0003.json.zip",
+            "size_mb": "54.45",
+            "records": 59411
+          },
+          {
+            "display_name": "2003 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2003q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.28",
+            "records": 19549
+          },
+          {
+            "display_name": "2003 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2003q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.38",
+            "records": 18782
+          },
+          {
+            "display_name": "2000 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2000q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.19",
+            "records": 13129
+          },
+          {
+            "display_name": "1994 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1994q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "1.53",
+            "records": 3576
+          },
+          {
+            "display_name": "2000 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2000q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.17",
+            "records": 13123
+          },
+          {
+            "display_name": "2007 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2007q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "23.09",
+            "records": 43088
+          },
+          {
+            "display_name": "2012 Q1 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q1/device-event-0001-of-0002.json.zip",
+            "size_mb": "62.20",
+            "records": 95000
+          },
+          {
+            "display_name": "2012 Q1 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q1/device-event-0002-of-0002.json.zip",
+            "size_mb": "12.30",
+            "records": 15808
+          },
+          {
+            "display_name": "1996 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1996q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "1.28",
+            "records": 3742
+          },
+          {
+            "display_name": "2015 Q3 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q3/device-event-0001-of-0003.json.zip",
+            "size_mb": "63.71",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q3 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q3/device-event-0002-of-0003.json.zip",
+            "size_mb": "63.39",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q3 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q3/device-event-0003-of-0003.json.zip",
+            "size_mb": "25.13",
+            "records": 32657
+          },
+          {
+            "display_name": "2004 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2004q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.94",
+            "records": 19643
+          },
+          {
+            "display_name": "2010 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2010q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "39.23",
+            "records": 64517
+          },
+          {
+            "display_name": "1999 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1999q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "5.84",
+            "records": 12577
+          },
+          {
+            "display_name": "2004 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2004q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "10.81",
+            "records": 20961
+          },
+          {
+            "display_name": "2009 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2009q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "34.63",
+            "records": 61618
+          },
+          {
+            "display_name": "2014 Q2 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2014q2/device-event-0001-of-0002.json.zip",
+            "size_mb": "58.17",
+            "records": 95000
+          },
+          {
+            "display_name": "2014 Q2 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2014q2/device-event-0002-of-0002.json.zip",
+            "size_mb": "60.75",
+            "records": 93250
+          },
+          {
+            "display_name": "2010 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2010q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "45.26",
+            "records": 73187
+          },
+          {
+            "display_name": "1996 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1996q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "3.67",
+            "records": 8494
+          },
+          {
+            "display_name": "2016 Q4 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q4/device-event-0001-of-0003.json.zip",
+            "size_mb": "63.05",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q4 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q4/device-event-0002-of-0003.json.zip",
+            "size_mb": "64.00",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q4 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q4/device-event-0003-of-0003.json.zip",
+            "size_mb": "27.48",
+            "records": 33129
+          },
+          {
+            "display_name": "2005 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2005q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "9.95",
+            "records": 21218
+          },
+          {
+            "display_name": "2011 Q4 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q4/device-event-0001-of-0002.json.zip",
+            "size_mb": "61.65",
+            "records": 95000
+          },
+          {
+            "display_name": "2011 Q4 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q4/device-event-0002-of-0002.json.zip",
+            "size_mb": "20.12",
+            "records": 27011
+          },
+          {
+            "display_name": "2011 Q2 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q2/device-event-0001-of-0002.json.zip",
+            "size_mb": "62.58",
+            "records": 95000
+          },
+          {
+            "display_name": "2011 Q2 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2011q2/device-event-0002-of-0002.json.zip",
+            "size_mb": "9.27",
+            "records": 12756
+          },
+          {
+            "display_name": "2007 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2007q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "23.32",
+            "records": 45668
+          },
+          {
+            "display_name": "2008 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2008q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "25.39",
+            "records": 42572
+          },
+          {
+            "display_name": "All other data (part 1 of 4)",
+            "file": "https://download.open.fda.gov/device/event/all_other/device-event-0001-of-0004.json.zip",
+            "size_mb": "50.07",
+            "records": 95000
+          },
+          {
+            "display_name": "All other data (part 2 of 4)",
+            "file": "https://download.open.fda.gov/device/event/all_other/device-event-0002-of-0004.json.zip",
+            "size_mb": "49.54",
+            "records": 95000
+          },
+          {
+            "display_name": "All other data (part 3 of 4)",
+            "file": "https://download.open.fda.gov/device/event/all_other/device-event-0003-of-0004.json.zip",
+            "size_mb": "51.26",
+            "records": 95000
+          },
+          {
+            "display_name": "All other data (part 4 of 4)",
+            "file": "https://download.open.fda.gov/device/event/all_other/device-event-0004-of-0004.json.zip",
+            "size_mb": "34.58",
+            "records": 58173
+          },
+          {
+            "display_name": "2024 Q4 (part 1 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0001-of-0008.json.zip",
+            "size_mb": "71.33",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q4 (part 2 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0002-of-0008.json.zip",
+            "size_mb": "70.88",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q4 (part 3 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0003-of-0008.json.zip",
+            "size_mb": "70.98",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q4 (part 4 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0004-of-0008.json.zip",
+            "size_mb": "71.10",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q4 (part 5 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0005-of-0008.json.zip",
+            "size_mb": "71.51",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q4 (part 6 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0006-of-0008.json.zip",
+            "size_mb": "71.26",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q4 (part 7 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0007-of-0008.json.zip",
+            "size_mb": "71.12",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q4 (part 8 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2024q4/device-event-0008-of-0008.json.zip",
+            "size_mb": "43.11",
+            "records": 44497
+          },
+          {
+            "display_name": "2018 Q3 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q3/device-event-0001-of-0003.json.zip",
+            "size_mb": "69.67",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q3 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q3/device-event-0002-of-0003.json.zip",
+            "size_mb": "68.77",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q3 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q3/device-event-0003-of-0003.json.zip",
+            "size_mb": "66.70",
+            "records": 77011
+          },
+          {
+            "display_name": "2024 Q1 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q1/device-event-0001-of-0007.json.zip",
+            "size_mb": "76.43",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q1 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q1/device-event-0002-of-0007.json.zip",
+            "size_mb": "76.06",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q1 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q1/device-event-0003-of-0007.json.zip",
+            "size_mb": "76.07",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q1 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q1/device-event-0004-of-0007.json.zip",
+            "size_mb": "76.33",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q1 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q1/device-event-0005-of-0007.json.zip",
+            "size_mb": "76.16",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q1 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q1/device-event-0006-of-0007.json.zip",
+            "size_mb": "76.76",
+            "records": 95000
+          },
+          {
+            "display_name": "2024 Q1 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2024q1/device-event-0007-of-0007.json.zip",
+            "size_mb": "18.73",
+            "records": 16309
+          },
+          {
+            "display_name": "1992 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1992q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.24",
+            "records": 528
+          },
+          {
+            "display_name": "2008 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2008q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "30.76",
+            "records": 54918
+          },
+          {
+            "display_name": "2012 Q3 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q3/device-event-0001-of-0002.json.zip",
+            "size_mb": "63.32",
+            "records": 95000
+          },
+          {
+            "display_name": "2012 Q3 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2012q3/device-event-0002-of-0002.json.zip",
+            "size_mb": "22.48",
+            "records": 31270
+          },
+          {
+            "display_name": "2016 Q1 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q1/device-event-0001-of-0003.json.zip",
+            "size_mb": "67.86",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q1 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q1/device-event-0002-of-0003.json.zip",
+            "size_mb": "64.25",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q1 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q1/device-event-0003-of-0003.json.zip",
+            "size_mb": "5.86",
+            "records": 6449
+          },
+          {
+            "display_name": "2022 Q4 (part 1 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2022q4/device-event-0001-of-0006.json.zip",
+            "size_mb": "73.30",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q4 (part 2 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2022q4/device-event-0002-of-0006.json.zip",
+            "size_mb": "73.19",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q4 (part 3 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2022q4/device-event-0003-of-0006.json.zip",
+            "size_mb": "73.39",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q4 (part 4 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2022q4/device-event-0004-of-0006.json.zip",
+            "size_mb": "73.14",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q4 (part 5 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2022q4/device-event-0005-of-0006.json.zip",
+            "size_mb": "73.18",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q4 (part 6 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2022q4/device-event-0006-of-0006.json.zip",
+            "size_mb": "68.74",
+            "records": 83725
+          },
+          {
+            "display_name": "1993 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1993q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.59",
+            "records": 1384
+          },
+          {
+            "display_name": "2019 Q1 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2019q1/device-event-0001-of-0003.json.zip",
+            "size_mb": "73.68",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q1 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2019q1/device-event-0002-of-0003.json.zip",
+            "size_mb": "73.12",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q1 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2019q1/device-event-0003-of-0003.json.zip",
+            "size_mb": "61.34",
+            "records": 70830
+          },
+          {
+            "display_name": "1994 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1994q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "1.05",
+            "records": 2387
+          },
+          {
+            "display_name": "2017 Q1 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q1/device-event-0001-of-0003.json.zip",
+            "size_mb": "65.18",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q1 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q1/device-event-0002-of-0003.json.zip",
+            "size_mb": "64.13",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q1 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q1/device-event-0003-of-0003.json.zip",
+            "size_mb": "33.10",
+            "records": 44169
+          },
+          {
+            "display_name": "2019 Q2 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2019q2/device-event-0001-of-0003.json.zip",
+            "size_mb": "76.96",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q2 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2019q2/device-event-0002-of-0003.json.zip",
+            "size_mb": "76.31",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q2 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2019q2/device-event-0003-of-0003.json.zip",
+            "size_mb": "77.93",
+            "records": 88676
+          },
+          {
+            "display_name": "2006 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2006q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "18.52",
+            "records": 31174
+          },
+          {
+            "display_name": "2025 Q2 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2025q2/device-event-0001-of-0007.json.zip",
+            "size_mb": "76.69",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q2 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2025q2/device-event-0002-of-0007.json.zip",
+            "size_mb": "76.65",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q2 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2025q2/device-event-0003-of-0007.json.zip",
+            "size_mb": "75.93",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q2 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2025q2/device-event-0004-of-0007.json.zip",
+            "size_mb": "75.90",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q2 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2025q2/device-event-0005-of-0007.json.zip",
+            "size_mb": "75.77",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q2 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2025q2/device-event-0006-of-0007.json.zip",
+            "size_mb": "76.07",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q2 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2025q2/device-event-0007-of-0007.json.zip",
+            "size_mb": "52.97",
+            "records": 62296
+          },
+          {
+            "display_name": "2016 Q3 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q3/device-event-0001-of-0003.json.zip",
+            "size_mb": "64.01",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q3 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q3/device-event-0002-of-0003.json.zip",
+            "size_mb": "63.75",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q3 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q3/device-event-0003-of-0003.json.zip",
+            "size_mb": "28.21",
+            "records": 35377
+          },
+          {
+            "display_name": "1997 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1997q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.75",
+            "records": 16555
+          },
+          {
+            "display_name": "2006 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2006q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "18.12",
+            "records": 30819
+          },
+          {
+            "display_name": "1998 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1998q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.82",
+            "records": 14768
+          },
+          {
+            "display_name": "1998 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/1998q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.20",
+            "records": 14493
+          },
+          {
+            "display_name": "2023 Q2 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q2/device-event-0001-of-0007.json.zip",
+            "size_mb": "74.28",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q2 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q2/device-event-0002-of-0007.json.zip",
+            "size_mb": "74.47",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q2 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q2/device-event-0003-of-0007.json.zip",
+            "size_mb": "74.46",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q2 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q2/device-event-0004-of-0007.json.zip",
+            "size_mb": "74.84",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q2 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q2/device-event-0005-of-0007.json.zip",
+            "size_mb": "74.46",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q2 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q2/device-event-0006-of-0007.json.zip",
+            "size_mb": "74.65",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q2 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q2/device-event-0007-of-0007.json.zip",
+            "size_mb": "13.08",
+            "records": 13295
+          },
+          {
+            "display_name": "2022 Q3 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2022q3/device-event-0001-of-0007.json.zip",
+            "size_mb": "69.60",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q3 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2022q3/device-event-0002-of-0007.json.zip",
+            "size_mb": "69.87",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q3 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2022q3/device-event-0003-of-0007.json.zip",
+            "size_mb": "70.24",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q3 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2022q3/device-event-0004-of-0007.json.zip",
+            "size_mb": "70.10",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q3 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2022q3/device-event-0005-of-0007.json.zip",
+            "size_mb": "70.26",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q3 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2022q3/device-event-0006-of-0007.json.zip",
+            "size_mb": "70.50",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q3 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2022q3/device-event-0007-of-0007.json.zip",
+            "size_mb": "47.28",
+            "records": 70052
+          },
+          {
+            "display_name": "2001 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2001q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.04",
+            "records": 15293
+          },
+          {
+            "display_name": "1991 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/1991q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.01",
+            "records": 15
+          },
+          {
+            "display_name": "2013 Q4 (part 1 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2013q4/device-event-0001-of-0002.json.zip",
+            "size_mb": "58.88",
+            "records": 95000
+          },
+          {
+            "display_name": "2013 Q4 (part 2 of 2)",
+            "file": "https://download.open.fda.gov/device/event/2013q4/device-event-0002-of-0002.json.zip",
+            "size_mb": "62.76",
+            "records": 93652
+          },
+          {
+            "display_name": "2026 Q1 (part 1 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0001-of-0009.json.zip",
+            "size_mb": "60.59",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 2 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0002-of-0009.json.zip",
+            "size_mb": "58.48",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 3 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0003-of-0009.json.zip",
+            "size_mb": "61.60",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 4 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0004-of-0009.json.zip",
+            "size_mb": "71.34",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 5 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0005-of-0009.json.zip",
+            "size_mb": "69.31",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 6 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0006-of-0009.json.zip",
+            "size_mb": "69.45",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 7 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0007-of-0009.json.zip",
+            "size_mb": "69.22",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 8 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0008-of-0009.json.zip",
+            "size_mb": "73.24",
+            "records": 95000
+          },
+          {
+            "display_name": "2026 Q1 (part 9 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2026q1/device-event-0009-of-0009.json.zip",
+            "size_mb": "60.48",
+            "records": 51618
+          },
+          {
+            "display_name": "2021 Q1 (part 1 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q1/device-event-0001-of-0006.json.zip",
+            "size_mb": "62.27",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q1 (part 2 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q1/device-event-0002-of-0006.json.zip",
+            "size_mb": "61.27",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q1 (part 3 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q1/device-event-0003-of-0006.json.zip",
+            "size_mb": "61.93",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q1 (part 4 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q1/device-event-0004-of-0006.json.zip",
+            "size_mb": "61.87",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q1 (part 5 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q1/device-event-0005-of-0006.json.zip",
+            "size_mb": "62.86",
+            "records": 95000
+          },
+          {
+            "display_name": "2021 Q1 (part 6 of 6)",
+            "file": "https://download.open.fda.gov/device/event/2021q1/device-event-0006-of-0006.json.zip",
+            "size_mb": "18.67",
+            "records": 21919
+          },
+          {
+            "display_name": "2018 Q1 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q1/device-event-0001-of-0003.json.zip",
+            "size_mb": "74.14",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q1 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q1/device-event-0002-of-0003.json.zip",
+            "size_mb": "72.01",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q1 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q1/device-event-0003-of-0003.json.zip",
+            "size_mb": "32.10",
+            "records": 40552
+          },
+          {
+            "display_name": "1999 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1999q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.33",
+            "records": 13694
+          },
+          {
+            "display_name": "2013 Q3 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2013q3/device-event-0001-of-0003.json.zip",
+            "size_mb": "58.54",
+            "records": 95000
+          },
+          {
+            "display_name": "2013 Q3 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2013q3/device-event-0002-of-0003.json.zip",
+            "size_mb": "63.47",
+            "records": 95000
+          },
+          {
+            "display_name": "2013 Q3 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2013q3/device-event-0003-of-0003.json.zip",
+            "size_mb": "4.36",
+            "records": 5352
+          },
+          {
+            "display_name": "1995 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1995q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "1.31",
+            "records": 3064
+          },
+          {
+            "display_name": "1992 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/1992q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.81",
+            "records": 1771
+          },
+          {
+            "display_name": "2005 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2005q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "12.21",
+            "records": 25742
+          },
+          {
+            "display_name": "2023 Q4 (part 1 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q4/device-event-0001-of-0007.json.zip",
+            "size_mb": "77.26",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q4 (part 2 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q4/device-event-0002-of-0007.json.zip",
+            "size_mb": "76.90",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q4 (part 3 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q4/device-event-0003-of-0007.json.zip",
+            "size_mb": "77.12",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q4 (part 4 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q4/device-event-0004-of-0007.json.zip",
+            "size_mb": "76.87",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q4 (part 5 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q4/device-event-0005-of-0007.json.zip",
+            "size_mb": "77.38",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q4 (part 6 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q4/device-event-0006-of-0007.json.zip",
+            "size_mb": "80.67",
+            "records": 95000
+          },
+          {
+            "display_name": "2023 Q4 (part 7 of 7)",
+            "file": "https://download.open.fda.gov/device/event/2023q4/device-event-0007-of-0007.json.zip",
+            "size_mb": "4.65",
+            "records": 3619
+          },
+          {
+            "display_name": "2002 Q2 (all)",
+            "file": "https://download.open.fda.gov/device/event/2002q2/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.46",
+            "records": 15981
+          },
+          {
+            "display_name": "1998 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1998q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "8.22",
+            "records": 17806
+          },
+          {
+            "display_name": "2015 Q1 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q1/device-event-0001-of-0003.json.zip",
+            "size_mb": "58.92",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q1 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q1/device-event-0002-of-0003.json.zip",
+            "size_mb": "58.64",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q1 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q1/device-event-0003-of-0003.json.zip",
+            "size_mb": "17.93",
+            "records": 22962
+          },
+          {
+            "display_name": "2016 Q2 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q2/device-event-0001-of-0003.json.zip",
+            "size_mb": "64.95",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q2 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q2/device-event-0002-of-0003.json.zip",
+            "size_mb": "63.30",
+            "records": 95000
+          },
+          {
+            "display_name": "2016 Q2 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2016q2/device-event-0003-of-0003.json.zip",
+            "size_mb": "24.36",
+            "records": 32492
+          },
+          {
+            "display_name": "2018 Q2 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q2/device-event-0001-of-0003.json.zip",
+            "size_mb": "72.62",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q2 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q2/device-event-0002-of-0003.json.zip",
+            "size_mb": "71.70",
+            "records": 95000
+          },
+          {
+            "display_name": "2018 Q2 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2018q2/device-event-0003-of-0003.json.zip",
+            "size_mb": "57.69",
+            "records": 75689
+          },
+          {
+            "display_name": "2017 Q2 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q2/device-event-0001-of-0003.json.zip",
+            "size_mb": "67.14",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q2 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q2/device-event-0002-of-0003.json.zip",
+            "size_mb": "66.42",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q2 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q2/device-event-0003-of-0003.json.zip",
+            "size_mb": "30.25",
+            "records": 40604
+          },
+          {
+            "display_name": "2017 Q3 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q3/device-event-0001-of-0003.json.zip",
+            "size_mb": "69.82",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q3 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q3/device-event-0002-of-0003.json.zip",
+            "size_mb": "70.54",
+            "records": 95000
+          },
+          {
+            "display_name": "2017 Q3 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2017q3/device-event-0003-of-0003.json.zip",
+            "size_mb": "27.51",
+            "records": 32717
+          },
+          {
+            "display_name": "2008 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/2008q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "24.69",
+            "records": 42426
+          },
+          {
+            "display_name": "2001 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2001q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.74",
+            "records": 14197
+          },
+          {
+            "display_name": "2025 Q1 (part 1 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0001-of-0008.json.zip",
+            "size_mb": "73.34",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q1 (part 2 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0002-of-0008.json.zip",
+            "size_mb": "73.30",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q1 (part 3 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0003-of-0008.json.zip",
+            "size_mb": "73.30",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q1 (part 4 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0004-of-0008.json.zip",
+            "size_mb": "73.24",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q1 (part 5 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0005-of-0008.json.zip",
+            "size_mb": "73.10",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q1 (part 6 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0006-of-0008.json.zip",
+            "size_mb": "72.76",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q1 (part 7 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0007-of-0008.json.zip",
+            "size_mb": "73.10",
+            "records": 95000
+          },
+          {
+            "display_name": "2025 Q1 (part 8 of 8)",
+            "file": "https://download.open.fda.gov/device/event/2025q1/device-event-0008-of-0008.json.zip",
+            "size_mb": "18.15",
+            "records": 20251
+          },
+          {
+            "display_name": "2020 Q1 (part 1 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q1/device-event-0001-of-0004.json.zip",
+            "size_mb": "70.79",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q1 (part 2 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q1/device-event-0002-of-0004.json.zip",
+            "size_mb": "70.15",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q1 (part 3 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q1/device-event-0003-of-0004.json.zip",
+            "size_mb": "70.28",
+            "records": 95000
+          },
+          {
+            "display_name": "2020 Q1 (part 4 of 4)",
+            "file": "https://download.open.fda.gov/device/event/2020q1/device-event-0004-of-0004.json.zip",
+            "size_mb": "70.25",
+            "records": 86630
+          },
+          {
+            "display_name": "2015 Q4 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q4/device-event-0001-of-0003.json.zip",
+            "size_mb": "63.89",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q4 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q4/device-event-0002-of-0003.json.zip",
+            "size_mb": "63.92",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q4 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q4/device-event-0003-of-0003.json.zip",
+            "size_mb": "20.01",
+            "records": 25645
+          },
+          {
+            "display_name": "1999 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1999q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "6.16",
+            "records": 13104
+          },
+          {
+            "display_name": "2015 Q2 (part 1 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q2/device-event-0001-of-0003.json.zip",
+            "size_mb": "62.82",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q2 (part 2 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q2/device-event-0002-of-0003.json.zip",
+            "size_mb": "63.42",
+            "records": 95000
+          },
+          {
+            "display_name": "2015 Q2 (part 3 of 3)",
+            "file": "https://download.open.fda.gov/device/event/2015q2/device-event-0003-of-0003.json.zip",
+            "size_mb": "16.66",
+            "records": 20536
+          },
+          {
+            "display_name": "2022 Q1 (part 1 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0001-of-0009.json.zip",
+            "size_mb": "52.93",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 2 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0002-of-0009.json.zip",
+            "size_mb": "52.15",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 3 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0003-of-0009.json.zip",
+            "size_mb": "52.51",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 4 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0004-of-0009.json.zip",
+            "size_mb": "52.32",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 5 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0005-of-0009.json.zip",
+            "size_mb": "52.42",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 6 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0006-of-0009.json.zip",
+            "size_mb": "52.41",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 7 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0007-of-0009.json.zip",
+            "size_mb": "52.35",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 8 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0008-of-0009.json.zip",
+            "size_mb": "52.36",
+            "records": 95000
+          },
+          {
+            "display_name": "2022 Q1 (part 9 of 9)",
+            "file": "https://download.open.fda.gov/device/event/2022q1/device-event-0009-of-0009.json.zip",
+            "size_mb": "48.43",
+            "records": 77177
+          },
+          {
+            "display_name": "1996 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1996q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "1.20",
+            "records": 2657
+          },
+          {
+            "display_name": "2002 Q4 (all)",
+            "file": "https://download.open.fda.gov/device/event/2002q4/device-event-0001-of-0001.json.zip",
+            "size_mb": "7.84",
+            "records": 18311
+          },
+          {
+            "display_name": "2019 Q3 (part 1 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q3/device-event-0001-of-0005.json.zip",
+            "size_mb": "68.04",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q3 (part 2 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q3/device-event-0002-of-0005.json.zip",
+            "size_mb": "67.93",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q3 (part 3 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q3/device-event-0003-of-0005.json.zip",
+            "size_mb": "68.15",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q3 (part 4 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q3/device-event-0004-of-0005.json.zip",
+            "size_mb": "70.98",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q3 (part 5 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q3/device-event-0005-of-0005.json.zip",
+            "size_mb": "12.73",
+            "records": 10389
+          },
+          {
+            "display_name": "2019 Q4 (part 1 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q4/device-event-0001-of-0005.json.zip",
+            "size_mb": "70.02",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q4 (part 2 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q4/device-event-0002-of-0005.json.zip",
+            "size_mb": "69.32",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q4 (part 3 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q4/device-event-0003-of-0005.json.zip",
+            "size_mb": "69.49",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q4 (part 4 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q4/device-event-0004-of-0005.json.zip",
+            "size_mb": "73.01",
+            "records": 95000
+          },
+          {
+            "display_name": "2019 Q4 (part 5 of 5)",
+            "file": "https://download.open.fda.gov/device/event/2019q4/device-event-0005-of-0005.json.zip",
+            "size_mb": "19.96",
+            "records": 19060
+          },
+          {
+            "display_name": "2010 Q3 (all)",
+            "file": "https://download.open.fda.gov/device/event/2010q3/device-event-0001-of-0001.json.zip",
+            "size_mb": "49.27",
+            "records": 74628
+          },
+          {
+            "display_name": "1993 Q1 (all)",
+            "file": "https://download.open.fda.gov/device/event/1993q1/device-event-0001-of-0001.json.zip",
+            "size_mb": "0.48",
+            "records": 1089
+          }
+        ],
+        "total_records": 25711469
+      },
+      "recall": {
+        "export_date": "2026-08-28",
+        "partitions": [
+          {
+            "display_name": "/device/recall data",
+            "file": "https://download.open.fda.gov/device/recall/device-recall-0001-of-0001.json.zip",
+            "size_mb": "273.16",
+            "records": 59049
+          }
+        ],
+        "total_records": 59049
+      },
+      "pma": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/device/pma data",
+            "file": "https://download.open.fda.gov/device/pma/device-pma-0001-of-0001.json.zip",
+            "size_mb": "21.07",
+            "records": 56995
+          }
+        ],
+        "total_records": 56995
+      }
+    },
+    "cosmetic": {
+      "event": {
+        "export_date": "2026-08-26",
+        "partitions": [
+          {
+            "display_name": "/cosmetic/event data",
+            "file": "https://download.open.fda.gov/cosmetic/event/cosmetic-event-0001-of-0001.json.zip",
+            "size_mb": "3.58",
+            "records": 85511
+          }
+        ],
+        "total_records": 85511
+      }
+    },
+    "drug": {
+      "drugsfda": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/drug/drugsfda data",
+            "file": "https://download.open.fda.gov/drug/drugsfda/drug-drugsfda-0001-of-0001.json.zip",
+            "size_mb": "8.97",
+            "records": 29298
+          }
+        ],
+        "total_records": 29298
+      },
+      "orangebook": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/drug/orangebook data",
+            "file": "https://download.open.fda.gov/drug/orangebook/drug-orangebook-0001-of-0001.json.zip",
+            "size_mb": "2.34",
+            "records": 48664
+          }
+        ],
+        "total_records": 48664
+      },
+      "label": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/drug/label (part 1 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0001-of-0014.json.zip",
+            "size_mb": "130.73",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 2 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0002-of-0014.json.zip",
+            "size_mb": "142.67",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 3 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0003-of-0014.json.zip",
+            "size_mb": "137.70",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 4 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0004-of-0014.json.zip",
+            "size_mb": "137.19",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 5 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0005-of-0014.json.zip",
+            "size_mb": "125.31",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 6 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0006-of-0014.json.zip",
+            "size_mb": "135.70",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 7 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0007-of-0014.json.zip",
+            "size_mb": "142.50",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 8 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0008-of-0014.json.zip",
+            "size_mb": "137.22",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 9 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0009-of-0014.json.zip",
+            "size_mb": "125.44",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 10 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0010-of-0014.json.zip",
+            "size_mb": "129.13",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 11 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0011-of-0014.json.zip",
+            "size_mb": "145.96",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 12 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0012-of-0014.json.zip",
+            "size_mb": "131.44",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 13 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0013-of-0014.json.zip",
+            "size_mb": "132.71",
+            "records": 20000
+          },
+          {
+            "display_name": "/drug/label (part 14 of 14)",
+            "file": "https://download.open.fda.gov/drug/label/drug-label-0014-of-0014.json.zip",
+            "size_mb": "17.56",
+            "records": 2325
+          }
+        ],
+        "total_records": 262325
+      },
+      "enforcement": {
+        "export_date": "2026-08-27",
+        "partitions": [
+          {
+            "display_name": "/drug/enforcement data",
+            "file": "https://download.open.fda.gov/drug/enforcement/drug-enforcement-0001-of-0001.json.zip",
+            "size_mb": "3.79",
+            "records": 17899
+          }
+        ],
+        "total_records": 17899
+      },
+      "shortages": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/drug/shortages data",
+            "file": "https://download.open.fda.gov/drug/shortages/drug-shortages-0001-of-0001.json.zip",
+            "size_mb": "0.42",
+            "records": 1623
+          }
+        ],
+        "total_records": 1623
+      },
+      "ndc": {
+        "export_date": "2026-08-31",
+        "partitions": [
+          {
+            "display_name": "/drug/ndc data",
+            "file": "https://download.open.fda.gov/drug/ndc/drug-ndc-0001-of-0001.json.zip",
+            "size_mb": "26.86",
+            "records": 137590
+          }
+        ],
+        "total_records": 137590
+      }
+    }
+  }
+}

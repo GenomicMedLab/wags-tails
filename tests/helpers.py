@@ -1,6 +1,7 @@
 import io
 import json
 import tarfile
+import zipfile
 from pathlib import Path
 
 from requests_mock import Mocker
@@ -29,6 +30,21 @@ def mock_download(
 ) -> None:
     """Mock a file download response."""
     requests_mock.get(url, content=content)
+
+
+def make_zipfile(files: dict[str, bytes]) -> bytes:
+    """Build a ZIP archive for use as a mocked download.
+
+    :param files: Mapping of archive member names to their contents.
+    :return: ZIP archive contents.
+    """
+    buffer = io.BytesIO()
+
+    with zipfile.ZipFile(buffer, mode="w") as archive:
+        for filename, content in files.items():
+            archive.writestr(filename, content)
+
+    return buffer.getvalue()
 
 
 def make_tarball(files: dict[str, bytes]) -> bytes:
