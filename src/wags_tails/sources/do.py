@@ -4,6 +4,7 @@ import fnmatch
 import tarfile
 from pathlib import Path
 
+from wags_tails.core.exceptions import ReleaseArchiveUnpackingError
 from wags_tails.core.http import download_http, get_latest_github_release_version
 from wags_tails.core.models import Asset, Dataset, Source
 from wags_tails.core.operation import OperationConfig
@@ -40,8 +41,11 @@ class DoDataset(Dataset[DoAsset]):
         tarball_path = staging_dir / f"do_{version.raw}.tar.gz"
         download_http(data_url, tarball_path, session)
         outfile_path = staging_dir / cls._payload_type.get_filename(version)
+        pattern = "*releases/doid.owl"
         with tarfile.open(tarball_path, "r:gz") as tar:
             for file in tar.getmembers():
-                if fnmatch.fnmatch(file.name, "*releases/doid.owl"):
+                if fnmatch.fnmatch(file.name, pattern):
                     file.name = outfile_path.name
                     tar.extract(file, path=outfile_path.parent)
+        msg = f"Unable to locate file matching {pattern=}"
+        raise ReleaseArchiveUnpackingError(msg)

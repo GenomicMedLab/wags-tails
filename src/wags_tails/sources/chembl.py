@@ -4,7 +4,7 @@ import fnmatch
 import tarfile
 from pathlib import Path
 
-from wags_tails.core.exceptions import ReleaseParsingError
+from wags_tails.core.exceptions import ReleaseArchiveUnpackingError, ReleaseParsingError
 from wags_tails.core.http import download_http, get_json
 from wags_tails.core.models import Asset, Dataset, Source
 from wags_tails.core.operation import OperationConfig
@@ -44,8 +44,12 @@ class ChemblDbDataset(Dataset[ChemblDbAsset]):
         tarball_path = staging_dir / f"chembl_{version.raw}_sqlite.tar.gz"
         download_http(url, tarball_path, session)
         outfile_path = staging_dir / cls._payload_type.get_filename(version)
+        pattern = "chembl_*.db"
         with tarfile.open(tarball_path, "r:gz") as tar:
             for file in tar.getmembers():
-                if fnmatch.fnmatch(file.name, "chembl_*.db"):
+                if fnmatch.fnmatch(file.name, pattern):
                     file.name = outfile_path.name
                     tar.extract(file, path=outfile_path.parent)
+
+        msg = f"Unable to locate file matching {pattern=}"
+        raise ReleaseArchiveUnpackingError(msg)
