@@ -3,13 +3,11 @@
 from pathlib import Path
 
 from wags_tails.core.archive import gunzip
+from wags_tails.core.exceptions import ReleaseParsingError
 from wags_tails.core.http import download_http, get_json
 from wags_tails.core.models import Asset, Dataset, Source
 from wags_tails.core.operation import OperationConfig
-from wags_tails.core.version import (
-    IntegerVersionScheme,
-    Version,
-)
+from wags_tails.core.version import IntegerVersionScheme, Version
 
 ensembl_source = Source(name="Ensembl", id="ensembl")
 
@@ -20,9 +18,12 @@ ENSEMBL_VERSION_SCHEME = IntegerVersionScheme
 def _get_current_ensembl_release_version(session: OperationConfig) -> Version:
     url = "https://rest.ensembl.org/info/data/?content-type=application/json"
     data = get_json(url, session)
-    releases = data["releases"]
-    releases.sort()
-    latest_version = str(releases[-1])
+    try:
+        releases = data["releases"]
+        releases.sort()
+        latest_version = str(releases[-1])
+    except (KeyError, IndexError) as e:
+        raise ReleaseParsingError from e
     return Version.parse(latest_version, ENSEMBL_VERSION_SCHEME)
 
 

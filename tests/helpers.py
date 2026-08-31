@@ -1,3 +1,4 @@
+import gzip
 import io
 import json
 import tarfile
@@ -43,6 +44,20 @@ def make_zipfile(files: dict[str, bytes]) -> bytes:
     with zipfile.ZipFile(buffer, mode="w") as archive:
         for filename, content in files.items():
             archive.writestr(filename, content)
+
+    return buffer.getvalue()
+
+
+def make_gzip(content: bytes = b"test_response") -> bytes:
+    """Build a gzip-compressed file for use as a mocked download.
+
+    :param content: Uncompressed file contents.
+    :return: Gzip-compressed contents.
+    """
+    buffer = io.BytesIO()
+
+    with gzip.GzipFile(fileobj=buffer, mode="wb") as archive:
+        archive.write(content)
 
     return buffer.getvalue()
 
