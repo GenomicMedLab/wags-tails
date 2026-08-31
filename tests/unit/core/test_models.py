@@ -109,7 +109,7 @@ def make_dataset_type(
     name="Test Dataset",
     version_scheme=DotSeparatedVersionScheme,
     class_name="TestDataset",
-):
+) -> Dataset:
     """Create a minimal concrete Dataset subclass for use in tests.
 
     Dataset subclasses must declare several class attributes and implement the
@@ -303,7 +303,6 @@ def test_load_release_with_single_asset(source, asset_type, tmp_path):
         asset_type=asset_type,
         version_scheme=DotSeparatedVersionScheme,
     )
-    dataset = dataset_type()
 
     release_directory = tmp_path / "v1.2.3"
     release_directory.mkdir()
@@ -312,9 +311,9 @@ def test_load_release_with_single_asset(source, asset_type, tmp_path):
     asset_path = release_directory / asset_type.get_filename(version)
     asset_path.write_text("contents")
 
-    release = dataset.load_release(release_directory)
+    release = dataset_type.load_release(release_directory)
 
-    assert release.dataset is dataset
+    assert release.dataset is dataset_type
     assert release.version == version
     assert isinstance(release.payload, asset_type)
     assert release.payload.location == asset_path
@@ -341,7 +340,6 @@ def test_load_release_with_asset_bundle(source, tmp_path):
         asset_type=TestAssetBundle,
         version_scheme=DotSeparatedVersionScheme,
     )
-    dataset = dataset_type()
 
     release_directory = tmp_path / "v1.2.3"
     release_directory.mkdir()
@@ -354,9 +352,9 @@ def test_load_release_with_asset_bundle(source, tmp_path):
     first_path.write_text("first")
     second_path.write_text("second")
 
-    release = dataset.load_release(release_directory)
+    release = dataset_type.load_release(release_directory)
 
-    assert release.dataset is dataset
+    assert release.dataset is dataset_type
     assert release.version == version
     assert isinstance(release.payload, TestAssetBundle)
     assert release.payload.first.location == first_path
