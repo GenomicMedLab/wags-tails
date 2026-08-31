@@ -170,7 +170,10 @@ class Dataset(Generic[AssetsT], ABC):
     @classmethod
     def qualified_id(cls) -> str:
         """Return dataset ID qualified by source"""
-        return f"{cls.source.id}{'_' + cls.id if cls.id else ''}"
+        parts = [cls.source.id]
+        if cls.id:
+            parts.append(cls.id)
+        return "_".join(parts)
 
     @classmethod
     @abstractmethod

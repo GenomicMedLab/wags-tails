@@ -25,7 +25,7 @@ def test_ensembl_geneset(fixtures_dir: Path, store: LocalStore, requests_mock: M
     assert release.version.raw == "116"
     assert release.version.parsed == 116
 
-    assert release.payload.location.name == "ensembl_geneset_116.gff"
+    assert release.payload.location.name == "ensembl_gene_sets_116.gff"
     assert release.payload.location.read_bytes() == b"test_response"
 
 
@@ -49,5 +49,5 @@ def test_ensembl_tx_mappings(
     assert release.version.raw == "116"
     assert release.version.parsed == 116
 
-    assert release.payload.location.name == "ensembl_transcript_mappings_116.tsv"
+    assert release.payload.location.name == "ensembl_tx_mappings_116.tsv"
     assert release.payload.location.read_bytes() == b"test_response"

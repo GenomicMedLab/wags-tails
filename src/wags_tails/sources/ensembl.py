@@ -29,13 +29,14 @@ def _get_current_ensembl_release_version(session: OperationConfig) -> Version:
 
 class GeneSetsAsset(Asset):
     _source = ensembl_source
+    _id = "gene_sets"
     _filetype = "gff"
 
 
 class GeneSetsDataset(Dataset[GeneSetsAsset]):
     source = ensembl_source
     name = None
-    id = "gene_sets"
+    id = GeneSetsAsset._id  # noqa: SLF001
     version_scheme = ENSEMBL_VERSION_SCHEME
     _payload_type = GeneSetsAsset
 
@@ -58,13 +59,14 @@ class GeneSetsDataset(Dataset[GeneSetsAsset]):
 
 class TranscriptMappingsAsset(Asset):
     _source = ensembl_source
+    _id = "tx_mappings"
     _filetype = "tsv"
 
 
 class TranscriptMappingsDataset(Dataset[TranscriptMappingsAsset]):
     source = ensembl_source
     name = None
-    id = "tx_mappings"
+    id = TranscriptMappingsAsset._id  # noqa: SLF001
     version_scheme = ENSEMBL_VERSION_SCHEME
     _payload_type = TranscriptMappingsAsset
 

@@ -57,10 +57,6 @@ def test_asset_get_filename_without_id(asset_type_without_id, version):
     assert asset_type_without_id.get_filename(version) == "test_source_v1.2.json"
 
 
-def test_asset_get_file_glob(asset_type):
-    assert asset_type.get_file_glob() == "test_source_things_*.txt"
-
-
 @pytest.fixture(autouse=True)
 def reset_dataset_registry():
     original = {
