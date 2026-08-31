@@ -38,14 +38,16 @@ class RxNormDataset(Dataset[RxNormAsset]):
     version_scheme = RxNormDateVersionScheme
     _payload_type = RxNormAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         url = "https://rxnav.nlm.nih.gov/REST/version.json"
         data = get_json(url, session)
         raw_version: str = data["version"]
-        return Version.parse(raw_version, self.version_scheme)
+        return Version.parse(raw_version, cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         api_key = os.environ.get("UMLS_API_KEY")
         if not api_key:
@@ -57,7 +59,7 @@ class RxNormDataset(Dataset[RxNormAsset]):
         zipfile_path = staging_dir / "rxnorm.zip"
         download_http(url, zipfile_path, session)
 
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         with zipfile.ZipFile(zipfile_path, "r") as zip_ref:
             for file in zip_ref.filelist:
                 if file.filename == "rrf/RXNCONSO.RRF":

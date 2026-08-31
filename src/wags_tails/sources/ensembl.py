@@ -38,11 +38,13 @@ class GeneSetsDataset(Dataset[GeneSetsAsset]):
     version_scheme = ENSEMBL_VERSION_SCHEME
     _payload_type = GeneSetsAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         return _get_current_ensembl_release_version(session)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         gz_path = staging_dir / f"ensembl_gene_set_{version.raw}.gff.gz"
         download_http(
@@ -50,7 +52,7 @@ class GeneSetsDataset(Dataset[GeneSetsAsset]):
             gz_path,
             session,
         )
-        gunzip(gz_path, staging_dir / self._payload_type.get_filename(version))
+        gunzip(gz_path, staging_dir / cls._payload_type.get_filename(version))
 
 
 class TranscriptMappingsAsset(Asset):
@@ -65,15 +67,17 @@ class TranscriptMappingsDataset(Dataset[TranscriptMappingsAsset]):
     version_scheme = ENSEMBL_VERSION_SCHEME
     _payload_type = TranscriptMappingsAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         return _get_current_ensembl_release_version(session)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         query = '<Query virtualSchemaName="default" formatter="TSV" header="1" datasetConfigVersion="0.6"><Dataset name="hsapiens_gene_ensembl" interface="default"><Attribute name="ensembl_gene_id" /><Attribute name="ensembl_gene_id_version" /><Attribute name="ensembl_transcript_id" /><Attribute name="ensembl_transcript_id_version" /><Attribute name="ensembl_peptide_id" /><Attribute name="ensembl_peptide_id_version" /><Attribute name="transcript_mane_select" /><Attribute name="external_gene_name" /></Dataset></Query>'
         download_http(
             f"http://ensembl.org/biomart/martservice?query={query}",
-            staging_dir / self._payload_type.get_filename(version),
+            staging_dir / cls._payload_type.get_filename(version),
             session,
         )

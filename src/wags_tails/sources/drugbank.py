@@ -25,7 +25,8 @@ class DrugVocabulary(Dataset[DrugVocabularyAsset]):
     version_scheme = DashSeparatedVersionScheme
     _payload_type = DrugVocabularyAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         url = "https://go.drugbank.com/releases/latest.json"
         data = get_json(url, session)
         try:
@@ -37,13 +38,14 @@ class DrugVocabulary(Dataset[DrugVocabularyAsset]):
         except (KeyError, IndexError, AttributeError) as e:
             msg = "Unable to parse latest DrugBank version number from releases API endpoint"
             raise ReleaseParsingError(msg) from e
-        return Version.parse(value=version_raw, scheme=self.version_scheme)
+        return Version.parse(value=version_raw, scheme=cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         url = f"https://go.drugbank.com/releases/{version.raw}/downloads/all-drugbank-vocabulary"
         zip_path = staging_dir / f"drugbank_vocabulary_{version.raw}.zip"
         download_http(url, zip_path, session)
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         unzip_largest(zip_path, outfile_path)

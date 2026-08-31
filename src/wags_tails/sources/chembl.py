@@ -25,7 +25,8 @@ class ChemblDbDataset(Dataset[ChemblDbAsset]):
     version_scheme = IntegerVersionScheme
     _payload_type = ChemblDbAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         url = "https://www.ebi.ac.uk/chembl/api/data/chembl_release.json?limit=100"
         data = get_json(url, session)
         try:
@@ -33,15 +34,16 @@ class ChemblDbDataset(Dataset[ChemblDbAsset]):
         except (KeyError, IndexError, ValueError) as e:
             msg = "Failed to parse ChEMBL version value from raw API response"
             raise ReleaseParsingError(msg) from e
-        return Version.parse(value=version_raw, scheme=self.version_scheme)
+        return Version.parse(value=version_raw, scheme=cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         url = f"https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_{version.raw}_sqlite.tar.gz"
         tarball_path = staging_dir / f"chembl_{version.raw}_sqlite.tar.gz"
         download_http(url, tarball_path, session)
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         with tarfile.open(tarball_path, "r:gz") as tar:
             for file in tar.getmembers():
                 if fnmatch.fnmatch(file.name, "chembl_*.db"):

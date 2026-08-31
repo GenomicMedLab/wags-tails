@@ -98,8 +98,12 @@ class Dataset(Generic[AssetsT], ABC):
        that someone might want to use both assets together, they belong in the same
        dataset. Otherwise, they can be separated into different datasets if practical.
 
-    The class variable `_registry` is used to ensure uniqueness at the level of source id +
+    The class variable ``_registry`` is used to ensure uniqueness at the level of source id +
     dataset id.
+
+    Note that Dataset implementations shouldn't ever be initialized; they are intended
+    to gather scope and static variables, but not contain any runtime state for individual
+    instances.
     """
 
     _registry: ClassVar[dict[str, list[type[Dataset]]]] = defaultdict(list)
@@ -109,7 +113,7 @@ class Dataset(Generic[AssetsT], ABC):
     id: str | None
     """Unique key for storage organization. Leave null ONLY if dataset is the sole published product of the source."""
     name: str | None
-    """User-facing name for the dataset. Generally should be the same as `cls.id` but can use different capitalization"""
+    """User-facing name for the dataset"""
     description: str | None = None
     version_scheme: type[VersionScheme]
     _payload_type: type[AssetsT]
@@ -168,24 +172,28 @@ class Dataset(Generic[AssetsT], ABC):
         """Return dataset ID qualified by source"""
         return f"{cls.source.id}{'_' + cls.id if cls.id else ''}"
 
+    @classmethod
     @abstractmethod
-    def _get_latest_version(self, session: OperationConfig) -> Version: ...
+    def _get_latest_version(cls, session: OperationConfig) -> Version: ...
 
-    def get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def get_latest_version(cls, session: OperationConfig) -> Version:
         """Look up latest-published release version
 
         :param session: session-wide configuration
         :return: full version description
         """
-        return self._get_latest_version(session)
+        return cls._get_latest_version(session)
 
+    @classmethod
     @abstractmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None: ...
 
+    @classmethod
     def stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         """Download and prepare a release in a staging directory.
 
@@ -201,15 +209,17 @@ class Dataset(Generic[AssetsT], ABC):
         :param version: release version value
         :param session: session-wide configuration
         """
-        self._stage_release(staging_dir, version, session)
+        cls._stage_release(staging_dir, version, session)
 
-    def dataset_dir(self, root: Path) -> Path:
+    @classmethod
+    def dataset_dir(cls, root: Path) -> Path:
         """Generate directory for the dataset"""
-        if self.id:
-            return root / self.source.id / self.id
-        return root / self.source.id
+        if cls.id:
+            return root / cls.source.id / cls.id
+        return root / cls.source.id
 
-    def parse_release_directory(self, release_directory: Path) -> Version:
+    @classmethod
+    def parse_release_directory(cls, release_directory: Path) -> Version:
         """Extract version from release directory layout
 
         Employ dataset version schema + directory name to reconstruct structured version definition
@@ -218,20 +228,21 @@ class Dataset(Generic[AssetsT], ABC):
         :return: reconstructed version definition
         """
         if not release_directory.is_dir():
-            msg = f"{self.source.name} {self.name} release directory does not exist: {release_directory}"
+            msg = f"{cls.source.name} {cls.name} release directory does not exist: {release_directory}"
             raise ReleaseParsingError(msg)
 
         try:
             version = Version.parse(
                 value=release_directory.name,
-                scheme=self.version_scheme,
+                scheme=cls.version_scheme,
             )
         except (TypeError, ValueError) as e:
             msg = "Failed to parse release version from directory name {release_directory.name!r}"
             raise ReleaseParsingError(msg) from e
         return version
 
-    def load_release(self, release_directory: Path) -> Release[AssetsT]:
+    @classmethod
+    def load_release(cls, release_directory: Path) -> Release[AssetsT]:
         """Load a locally-cached release.
 
         Construct and return a :class:`Release` by interpreting the contents of an
@@ -242,22 +253,22 @@ class Dataset(Generic[AssetsT], ABC):
         :param release_directory: Root directory containing a cached release.
         :return: Loaded release.
         """
-        version = self.parse_release_directory(release_directory)
-        if issubclass(self._payload_type, Asset):
-            file_path = get_release_file(release_directory, self._payload_type, version)
-            payload = self._payload_type(location=file_path)
-        elif issubclass(self._payload_type, AssetBundle):
-            payload = self._payload_type.from_release_dir(release_directory, version)
+        version = cls.parse_release_directory(release_directory)
+        if issubclass(cls._payload_type, Asset):
+            file_path = get_release_file(release_directory, cls._payload_type, version)
+            payload = cls._payload_type(location=file_path)
+        elif issubclass(cls._payload_type, AssetBundle):
+            payload = cls._payload_type.from_release_dir(release_directory, version)
         else:
             raise TypeError
-        return Release(dataset=self, version=version, payload=payload)
+        return Release(dataset=cls, version=version, payload=payload)
 
 
 @dataclass(frozen=True)
 class Release(Generic[AssetsT]):
     """A published snapshot of a dataset."""
 
-    dataset: Dataset
+    dataset: type[Dataset]
     version: Version
     payload: AssetsT
 

@@ -64,7 +64,8 @@ class GuideToPharmacologyDataset(Dataset[GuideToPharmacologyAssets]):
     version_scheme = DotSeparatedVersionScheme
     _payload_type = GuideToPharmacologyAssets
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         r_text = get_text("https://www.guidetopharmacology.org/", session).split("\n")
         pattern = re.compile(r"Current Release Version (\d{4}\.\d) \(.*\)")
         for line in r_text:
@@ -72,16 +73,17 @@ class GuideToPharmacologyDataset(Dataset[GuideToPharmacologyAssets]):
                 matches = re.findall(pattern, line.strip())
                 if matches:
                     raw_version = matches[0]
-                    return Version.parse(raw_version, self.version_scheme)
+                    return Version.parse(raw_version, cls.version_scheme)
         msg = (
             "Unable to parse latest Guide to Pharmacology version number homepage HTML."
         )
         raise ReleaseParsingError(msg)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
-        for asset_type in self._payload_type.__annotations__.values():
+        for asset_type in cls._payload_type.__annotations__.values():
             download_http(
                 f"https://www.guidetopharmacology.org/DATA/{asset_type._web_name}.tsv",  # noqa: SLF001
                 staging_dir / asset_type.get_filename(version),

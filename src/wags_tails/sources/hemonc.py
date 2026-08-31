@@ -58,7 +58,8 @@ class HemOncDataset(Dataset[HemOncAssets]):
     version_scheme = DateVersionScheme
     _payload_type = HemOncAssets
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         data_url = "https://dataverse.harvard.edu/api/datasets/export?persistentId=doi:10.7910/DVN/9CY9C6&exporter=dataverse_json"
         data = get_json(data_url, session)
         try:
@@ -69,10 +70,11 @@ class HemOncDataset(Dataset[HemOncAssets]):
         except (KeyError, IndexError, AttributeError) as e:
             msg = "Unable to parse latest HemOnc version number from release API"
             raise ReleaseParsingError(msg) from e
-        return Version.parse(date, self.version_scheme)
+        return Version.parse(date, cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         api_key = os.environ.get("HARVARD_DATAVERSE_API_KEY")
         if not api_key:

@@ -63,7 +63,8 @@ class ManeTxAnnotationsDataset(Dataset[ManeAssets]):
     version_scheme = DotSeparatedVersionScheme
     _payload_type = ManeAssets
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         latest_readme_url = "https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/README_versions.txt"
         text = get_text(latest_readme_url, session)
         try:
@@ -71,10 +72,11 @@ class ManeTxAnnotationsDataset(Dataset[ManeAssets]):
         except IndexError as e:
             msg = f"Unable to parse latest NCBI MANE version number from README at {latest_readme_url}"
             raise ReleaseParsingError(msg) from e
-        return Version.parse(version_raw, self.version_scheme)
+        return Version.parse(version_raw, cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         transcripts_url = f"https://ftp.ncbi.nlm.nih.gov/refseq/MANE/MANE_human/current/MANE.GRCh38.v{version.raw}.refseq_genomic.gff.gz"
         transcripts_gz_path = staging_dir / f"mane_transcripts_{version.raw}.gff.gz"
@@ -125,19 +127,21 @@ class LrgRefSeqGeneReportDataset(Dataset[LrgRefSeqGeneReportAsset]):
     version_scheme = DateVersionScheme
     _payload_type = LrgRefSeqGeneReportAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         index_url = "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/"
         text = get_text(index_url, session)
         return _get_directory_file_date_version(
-            text, "LRG_RefSeqGene", self.version_scheme
+            text, "LRG_RefSeqGene", cls.version_scheme
         )
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         download_http(
             "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/LRG_RefSeqGene",
-            staging_dir / self._payload_type.get_filename(version),
+            staging_dir / cls._payload_type.get_filename(version),
             session,
         )
 
@@ -161,19 +165,21 @@ class RefseqGeneSummaryDataset(Dataset[RefSeqGeneSummaryAsset]):
     version_scheme = DateVersionScheme
     _payload_type = RefSeqGeneSummaryAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         index_url = "https://ftp.ncbi.nlm.nih.gov/gene/DATA/"
         text = get_text(index_url, session)
         return _get_directory_file_date_version(
-            text, "gene_summary.gz", self.version_scheme
+            text, "gene_summary.gz", cls.version_scheme
         )
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         download_http(
             "https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_summary.gz",
-            staging_dir / self._payload_type.get_filename(version),
+            staging_dir / cls._payload_type.get_filename(version),
             session,
         )
 
@@ -190,19 +196,21 @@ class RefSeqGeneInfoDataset(Dataset[RefSeqGeneInfoAsset]):
     version_scheme = DateVersionScheme
     _payload_type = RefSeqGeneInfoAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         index_url = "https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/"
         text = get_text(index_url, session)
         return _get_directory_file_date_version(
-            text, "Homo_sapiens.gene_info.gz", self.version_scheme
+            text, "Homo_sapiens.gene_info.gz", cls.version_scheme
         )
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         download_http(
             "https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz",
-            staging_dir / self._payload_type.get_filename(version),
+            staging_dir / cls._payload_type.get_filename(version),
             session,
         )
 
@@ -219,18 +227,20 @@ class RefSeqGeneHistoryDataset(Dataset[RefSeqGeneHistoryAsset]):
     version_scheme = DateVersionScheme
     _payload_type = RefSeqGeneHistoryAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         index_url = "https://ftp.ncbi.nlm.nih.gov/gene/DATA/"
         text = get_text(index_url, session)
         return _get_directory_file_date_version(
-            text, "gene_history.gz", self.version_scheme
+            text, "gene_history.gz", cls.version_scheme
         )
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         download_http(
             "https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_history.gz",
-            staging_dir / self._payload_type.get_filename(version),
+            staging_dir / cls._payload_type.get_filename(version),
             session,
         )

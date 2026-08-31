@@ -23,16 +23,18 @@ class MoalmanacDataset(Dataset[MoalmanacAsset]):
     version_scheme = DateVersionScheme
     _payload_type = MoalmanacAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         return get_latest_github_release_version(
-            "vanallenlab", "moalmanac-db", self.version_scheme, session
+            "vanallenlab", "moalmanac-db", cls.version_scheme, session
         )
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         url = f"https://github.com/vanallenlab/moalmanac-db/archive/refs/tags/{version.raw}.zip"
         zip_path = staging_dir / f"moalmanac_{version.raw}.zip"
         download_http(url, zip_path, session)
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         unzip_largest(zip_path, outfile_path)

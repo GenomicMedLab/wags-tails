@@ -25,7 +25,8 @@ class OncoTreeDataset(Dataset[OncoTreeAsset]):
     version_scheme = DateVersionScheme
     _payload_type = OncoTreeAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         url = "http://oncotree.info/api/versions"
         data = get_json(url, session)
         try:
@@ -37,11 +38,12 @@ class OncoTreeDataset(Dataset[OncoTreeAsset]):
         except StopIteration as e:
             msg = "Unable to locate latest stable Oncotree version"
             raise ReleaseParsingError(msg) from e
-        return Version.parse(value=version_raw, scheme=self.version_scheme)
+        return Version.parse(value=version_raw, scheme=cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         url = "https://oncotree.info/api/tumorTypes/tree?version=oncotree_latest_stable"
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         download_http(url, outfile_path, session)

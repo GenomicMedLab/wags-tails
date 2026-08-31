@@ -23,7 +23,8 @@ class CompleteGeneSetDataset(Dataset[CompleteGeneSetAsset]):
     version_scheme = DateVersionScheme
     _payload_type = CompleteGeneSetAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         data = get_json(
             "https://rest.genenames.org/info",
             session,
@@ -34,12 +35,13 @@ class CompleteGeneSetDataset(Dataset[CompleteGeneSetAsset]):
         except KeyError as e:
             msg = "Unable to parse latest HGNC version number from info API endpoint"
             raise ReleaseParsingError(msg) from e
-        return Version.parse(value=version_raw, scheme=self.version_scheme)
+        return Version.parse(value=version_raw, scheme=cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         download_http(
             "https://storage.googleapis.com/public-download-files/hgnc/json/json/hgnc_complete_set.json",
             outfile_path,

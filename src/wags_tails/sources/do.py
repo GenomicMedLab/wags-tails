@@ -26,18 +26,20 @@ class DoDataset(Dataset[DoAsset]):
     version_scheme = DateVersionScheme
     _payload_type = DoAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         return get_latest_github_release_version(
-            "DiseaseOntology", "HumanDiseaseOntology", self.version_scheme, session
+            "DiseaseOntology", "HumanDiseaseOntology", cls.version_scheme, session
         )
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         data_url = f"https://api.github.com/repos/DiseaseOntology/HumanDiseaseOntology/tarball/{version.raw}"
         tarball_path = staging_dir / f"do_{version.raw}.tar.gz"
         download_http(data_url, tarball_path, session)
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         with tarfile.open(tarball_path, "r:gz") as tar:
             for file in tar.getmembers():
                 if fnmatch.fnmatch(file.name, "doid.owl"):

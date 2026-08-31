@@ -33,7 +33,7 @@ class LocalStore:
 
     def get_latest(
         self,
-        dataset: Dataset,
+        dataset: type[Dataset],
         *,
         offline: bool | None = None,
         force_refresh: bool = False,
@@ -75,7 +75,7 @@ class LocalStore:
 
         return latest_local_release
 
-    def _find_latest_local_release(self, dataset: Dataset) -> Release | None:
+    def _find_latest_local_release(self, dataset: type[Dataset]) -> Release | None:
         """Return the newest cached release of a dataset.
 
         :param dataset: Dataset to inspect.
@@ -104,7 +104,7 @@ class LocalStore:
         return max(releases, key=lambda r: r.version)
 
     def _stash_latest_release(
-        self, dataset: Dataset, overwrite_existing: bool
+        self, dataset: type[Dataset], overwrite_existing: bool
     ) -> Release:
         """Download and cache the latest published release of a dataset.
 

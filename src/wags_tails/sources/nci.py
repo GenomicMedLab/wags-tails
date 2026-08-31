@@ -40,7 +40,8 @@ class NcitDataset(Dataset[Asset]):
     version_scheme = NcitVersionScheme
     _payload_type = NcitAsset
 
-    def _get_latest_version(self, session: OperationConfig) -> Version:
+    @classmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version:
         url = "https://evsexplore.semantics.cancer.gov/evsexplore/api/v1/concept/ncit/roots"
         data = get_json(url, session)
         try:
@@ -48,17 +49,18 @@ class NcitDataset(Dataset[Asset]):
         except (KeyError, IndexError, ValueError) as e:
             msg = "Failed to parse NCIt version value from raw API response"
             raise ReleaseParsingError(msg) from e
-        return Version.parse(value=version_raw, scheme=self.version_scheme)
+        return Version.parse(value=version_raw, scheme=cls.version_scheme)
 
+    @classmethod
     def _stage_release(
-        self, staging_dir: Path, version: Version, session: OperationConfig
+        cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
         """Acquire and prepare NCIt release
 
         note that some extra trickery is required because they're somewhat inconsistent
         about where they locate new releases in their file tree
         """
-        outfile_path = staging_dir / self._payload_type.get_filename(version)
+        outfile_path = staging_dir / cls._payload_type.get_filename(version)
         base_url = "https://evs.nci.nih.gov/ftp1/NCI_Thesaurus"
         release_fname = f"Thesaurus_{version.raw}.OWL.zip"
         src_url = f"{base_url}/{release_fname}"
