@@ -47,5 +47,6 @@ class DoDataset(Dataset[DoAsset]):
                 if fnmatch.fnmatch(file.name, pattern):
                     file.name = outfile_path.name
                     tar.extract(file, path=outfile_path.parent)
+                    return
         msg = f"Unable to locate file matching {pattern=}"
         raise ReleaseArchiveUnpackingError(msg)
