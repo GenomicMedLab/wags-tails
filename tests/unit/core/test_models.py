@@ -209,7 +209,6 @@ def test_dataset_qualified_id_without_dataset_id(source, asset_type):
         asset_type=asset_type,
         dataset_id=None,
     )
-
     assert dataset_type.qualified_id() == "test_source"
 
 
@@ -219,7 +218,6 @@ def test_dataset_qualified_id_with_dataset_id(source, asset_type):
         asset_type=asset_type,
         dataset_id="test_dataset",
     )
-
     assert dataset_type.qualified_id() == "test_source_test_dataset"
 
 
@@ -229,10 +227,7 @@ def test_dataset_dir_without_dataset_id(source, asset_type, tmp_path):
         asset_type=asset_type,
         dataset_id=None,
     )
-
-    dataset = dataset_type()
-
-    assert dataset.dataset_dir(tmp_path) == tmp_path / "test_source"
+    assert dataset_type.dataset_dir(tmp_path) == tmp_path / "test_source"
 
 
 def test_dataset_dir_with_dataset_id(source, asset_type, tmp_path):
@@ -241,10 +236,9 @@ def test_dataset_dir_with_dataset_id(source, asset_type, tmp_path):
         asset_type=asset_type,
         dataset_id="test_dataset",
     )
-
-    dataset = dataset_type()
-
-    assert dataset.dataset_dir(tmp_path) == tmp_path / "test_source" / "test_dataset"
+    assert (
+        dataset_type.dataset_dir(tmp_path) == tmp_path / "test_source" / "test_dataset"
+    )
 
 
 def test_parse_release_directory(source, asset_type, tmp_path):
@@ -253,12 +247,10 @@ def test_parse_release_directory(source, asset_type, tmp_path):
         asset_type=asset_type,
         version_scheme=DotSeparatedVersionScheme,
     )
-    dataset = dataset_type()
-
     release_directory = tmp_path / "v1.2.3"
     release_directory.mkdir()
 
-    version = dataset.parse_release_directory(release_directory)
+    version = dataset_type.parse_release_directory(release_directory)
 
     assert version.raw == "v1.2.3"
     assert version.parsed == (1, 2, 3)
@@ -271,12 +263,10 @@ def test_parse_release_directory_missing_directory(source, asset_type, tmp_path)
         asset_type=asset_type,
         version_scheme=DotSeparatedVersionScheme,
     )
-    dataset = dataset_type()
-
     release_directory = tmp_path / "v1.2.3"
 
     with pytest.raises(ReleaseParsingError, match="release directory does not exist"):
-        dataset.parse_release_directory(release_directory)
+        dataset_type.parse_release_directory(release_directory)
 
 
 def test_parse_release_directory_invalid_version(source, asset_type, tmp_path):
@@ -285,7 +275,6 @@ def test_parse_release_directory_invalid_version(source, asset_type, tmp_path):
         asset_type=asset_type,
         version_scheme=DotSeparatedVersionScheme,
     )
-    dataset = dataset_type()
 
     release_directory = tmp_path / "not-a-version"
     release_directory.mkdir()
@@ -294,7 +283,7 @@ def test_parse_release_directory_invalid_version(source, asset_type, tmp_path):
         ReleaseParsingError,
         match="Failed to parse release version",
     ):
-        dataset.parse_release_directory(release_directory)
+        dataset_type.parse_release_directory(release_directory)
 
 
 def test_load_release_with_single_asset(source, asset_type, tmp_path):
@@ -367,10 +356,8 @@ def test_load_release_missing_asset(source, asset_type, tmp_path):
         asset_type=asset_type,
         version_scheme=DotSeparatedVersionScheme,
     )
-    dataset = dataset_type()
-
     release_directory = tmp_path / "v1.2.3"
     release_directory.mkdir()
 
     with pytest.raises(FileNotFoundError):
-        dataset.load_release(release_directory)
+        dataset_type.load_release(release_directory)

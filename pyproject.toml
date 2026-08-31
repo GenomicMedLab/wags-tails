@@ -32,6 +32,7 @@ cli = [
 tests = [
     "pytest",
     "pytest-cov",
+    "requests-mock",
 ]
 dev = [
     "prek>=0.2.23",
