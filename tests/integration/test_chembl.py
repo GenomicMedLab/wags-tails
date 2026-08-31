@@ -7,7 +7,7 @@ from wags_tails.core.store import LocalStore
 from wags_tails.sources.chembl import ChemblDbDataset
 
 
-def test_mondo(fixtures_dir: Path, store: LocalStore, requests_mock: Mocker):
+def test_chembl(fixtures_dir: Path, store: LocalStore, requests_mock: Mocker):
     mock_json_response(
         requests_mock,
         "https://www.ebi.ac.uk/chembl/api/data/chembl_release.json?limit=100",

@@ -42,6 +42,6 @@ class DoDataset(Dataset[DoAsset]):
         outfile_path = staging_dir / cls._payload_type.get_filename(version)
         with tarfile.open(tarball_path, "r:gz") as tar:
             for file in tar.getmembers():
-                if fnmatch.fnmatch(file.name, "doid.owl"):
+                if fnmatch.fnmatch(file.name, "*releases/doid.owl"):
                     file.name = outfile_path.name
                     tar.extract(file, path=outfile_path.parent)
