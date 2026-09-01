@@ -49,12 +49,26 @@ def test_guidetopharmacology(
     assert release.version.parsed == (2026, 2)
 
     payload: GuideToPharmacologyAssets = release.payload
-    assert payload.ligands.location.name == "gtop"
+    assert payload.ligands.location.name == "guide_to_pharmacology_ligands_2026.2.tsv"
     assert payload.ligands.location.read_bytes() == ligands_content
+    assert (
+        payload.ligand_id_mapping.location.name
+        == "guide_to_pharmacology_ligand_id_mapping_2026.2.tsv"
+    )
     assert payload.ligand_id_mapping.location.read_bytes() == ligand_id_mapping_content
+    assert (
+        payload.ligand_target_interactions.location.name
+        == "guide_to_pharmacology_ligand_target_interactions_2026.2.tsv"
+    )
+
     assert (
         payload.ligand_target_interactions.location.read_bytes() == interaction_content
     )
+    assert (
+        payload.targets_and_families.location.name
+        == "guide_to_pharmacology_targets_and_families_2026.2.tsv"
+    )
+
     assert (
         payload.targets_and_families.location.read_bytes()
         == targets_and_families_content
