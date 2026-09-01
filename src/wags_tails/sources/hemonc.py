@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 import zipfile
+from dataclasses import dataclass
 from pathlib import Path
 
 from wags_tails.core.exceptions import (
@@ -45,6 +46,7 @@ class HemOncSynonymsAsset(_HemOncAsset):
     _web_filename = "synonyms"
 
 
+@dataclass(frozen=True)
 class HemOncAssets(AssetBundle):
     concepts: HemOncConceptsAsset
     relations: HemOncRelationsAsset

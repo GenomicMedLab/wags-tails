@@ -1,6 +1,7 @@
 """Provide datasets vended by NCBI"""
 
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from wags_tails.core.archive import gunzip
@@ -51,6 +52,7 @@ class ManeTranscriptsAsset(Asset):
     _filetype = "gff"
 
 
+@dataclass(frozen=True)
 class ManeAssets(AssetBundle):
     summary: ManeSummaryAsset
     transcripts: ManeTranscriptsAsset

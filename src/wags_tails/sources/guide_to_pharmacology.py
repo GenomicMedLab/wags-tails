@@ -1,6 +1,7 @@
 """Provide Guide to Pharmacology downloads"""
 
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from wags_tails.core.exceptions import ReleaseParsingError
@@ -29,12 +30,12 @@ class GtoPLigandsAsset(_GtoPAsset):
 
 class GtoPTargetsAndFamiliesAsset(_GtoPAsset):
     _id = "targets_and_families"
-    _web_name = "ligand_id_mapping"
+    _web_name = "targets_and_families"
 
 
 class GtoPLigandIdMappingAsset(_GtoPAsset):
     _id = "ligand_id_mapping"
-    _web_name = "targets_and_families"
+    _web_name = "ligand_id_mapping"
 
 
 class GtoPLigandTargetInteractionsAsset(_GtoPAsset):
@@ -42,6 +43,7 @@ class GtoPLigandTargetInteractionsAsset(_GtoPAsset):
     _web_name = "interactions"
 
 
+@dataclass(frozen=True)
 class GuideToPharmacologyAssets(AssetBundle):
     ligands: GtoPLigandsAsset
     targets_and_families: GtoPTargetsAndFamiliesAsset

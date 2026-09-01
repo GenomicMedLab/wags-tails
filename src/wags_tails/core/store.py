@@ -128,7 +128,10 @@ class LocalStore:
             staging_dir.mkdir(exist_ok=True, parents=True)
             dataset.stage_release(staging_dir, version, self._session_config)
 
-            release_dir.parent.mkdir(exist_ok=True, parents=True)
-            shutil.move(staging_dir, release_dir)
+            staged_release = dataset.load_release(staging_dir)
 
+            release_dir.mkdir(parents=True)
+
+            for staged_file in staged_release.payload.get_files():
+                shutil.move(staged_file, release_dir / staged_file.name)
         return dataset.load_release(release_dir)

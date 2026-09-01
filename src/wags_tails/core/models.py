@@ -5,8 +5,8 @@ from __future__ import annotations
 import inspect
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar, Generic, Self, TypeVar
+from dataclasses import dataclass, fields
+from typing import TYPE_CHECKING, ClassVar, Generic, Self, TypeVar, get_type_hints
 
 from wags_tails.core.exceptions import DuplicateReleaseFilesError, ReleaseParsingError
 from wags_tails.core.version import Version
@@ -65,22 +65,36 @@ class Asset:
         """Get file glob pattern"""
         return f"{cls._source.id}{'_' + cls._id if cls._id else ''}_*.{cls._filetype}"
 
+    def get_files(self) -> tuple[Path, ...]:
+        """Return files comprising this payload"""
+        return (self.location,)
+
 
 @dataclass(frozen=True)
 class AssetBundle:
-    """A container for a collection of bundled assets"""
+    """A container for a collection of bundled assets."""
 
     @classmethod
     def from_release_dir(cls, release_directory: Path, version: Version) -> Self:
-        """Provide pairs of asset names and expected filenames"""
-        return cls(
-            **{
-                n: Asset(
-                    location=get_release_file(release_directory, field.type, version),
+        """Construct an asset bundle from a release directory."""
+        type_hints = get_type_hints(cls)
+        assets = {}
+
+        for field in fields(cls):
+            asset_type = type_hints[field.name]
+            assets[field.name] = asset_type(
+                location=get_release_file(
+                    release_directory,
+                    asset_type,
+                    version,
                 )
-                for n, field in cls.__dataclass_fields__.items()
-            }
-        )
+            )
+
+        return cls(**assets)
+
+    def get_files(self) -> tuple[Path, ...]:
+        """Return files comprising this payload"""
+        return tuple(getattr(self, field.name).location for field in fields(self))
 
 
 AssetsT = TypeVar("AssetsT", bound=Asset | AssetBundle)
@@ -245,6 +259,42 @@ class Dataset(Generic[AssetsT], ABC):
         return version
 
     @classmethod
+    def get_staged_assets(cls, staging_dir: Path, version: Version) -> list[Path]:
+        """Get staged files that comprise the release payload"""
+        if issubclass(cls._payload_type, Asset):
+            return [get_release_file(staging_dir, cls._payload_type, version)]
+        if issubclass(cls._payload_type, AssetBundle):
+            return list(
+                cls._payload_type.from_release_dir(
+                    staging_dir, version
+                ).__dataclass_fields__.values()
+            )
+        raise TypeError
+
+    @classmethod
+    def _load_payload(
+        cls,
+        release_directory: Path,
+        version: Version,
+    ) -> AssetsT:
+        """Construct the dataset payload from files in a release directory."""
+        if issubclass(cls._payload_type, Asset):
+            file_path = get_release_file(
+                release_directory,
+                cls._payload_type,
+                version,
+            )
+            return cls._payload_type(location=file_path)
+
+        if issubclass(cls._payload_type, AssetBundle):
+            return cls._payload_type.from_release_dir(
+                release_directory,
+                version,
+            )
+
+        raise TypeError
+
+    @classmethod
     def load_release(cls, release_directory: Path) -> Release[AssetsT]:
         """Load a locally-cached release.
 
@@ -257,14 +307,12 @@ class Dataset(Generic[AssetsT], ABC):
         :return: Loaded release.
         """
         version = cls.parse_release_directory(release_directory)
-        if issubclass(cls._payload_type, Asset):
-            file_path = get_release_file(release_directory, cls._payload_type, version)
-            payload = cls._payload_type(location=file_path)
-        elif issubclass(cls._payload_type, AssetBundle):
-            payload = cls._payload_type.from_release_dir(release_directory, version)
-        else:
-            raise TypeError
-        return Release(dataset=cls, version=version, payload=payload)
+
+        return Release(
+            dataset=cls,
+            version=version,
+            payload=cls._load_payload(release_directory, version),
+        )
 
 
 @dataclass(frozen=True)
