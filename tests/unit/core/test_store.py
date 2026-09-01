@@ -1,4 +1,4 @@
-# ruff: noqa: SLF001
+# ruff: noqa: SLF001 ARG001
 
 from unittest.mock import MagicMock
 
@@ -114,3 +114,44 @@ def test_get_latest_returns_local_release_when_current(tmp_path):
 
     assert result is local_release
     store._stash_latest_release.assert_not_called()
+
+
+def test_stash_latest_release_only_installs_payload_files(tmp_path):
+    store = LocalStore(tmp_path)
+
+    version = Version.parse("1.2.3", DotSeparatedVersionScheme)
+
+    dataset = MagicMock()
+    dataset.get_latest_version.return_value = version
+    dataset.dataset_dir.return_value = tmp_path / "source" / "dataset"
+
+    def stage_release(staging_dir, version, session):
+        (staging_dir / "expected_asset.txt").write_bytes(b"payload")
+        (staging_dir / "intermediate.zip").write_bytes(b"temporary")
+
+    dataset.stage_release.side_effect = stage_release
+
+    staged_payload = MagicMock()
+    staged_payload.get_files.return_value = (
+        tmp_path / "unused",  # replaced below once staging path is known
+    )
+
+    def load_release(release_dir):
+        payload_path = release_dir / "expected_asset.txt"
+
+        payload = MagicMock()
+        payload.get_files.return_value = (payload_path,)
+
+        release = MagicMock(spec=Release)
+        release.version = version
+        release.payload = payload
+        return release
+
+    dataset.load_release.side_effect = load_release
+
+    store._stash_latest_release(dataset, overwrite_existing=False)
+
+    release_dir = tmp_path / "source" / "dataset" / "1.2.3"
+
+    assert (release_dir / "expected_asset.txt").read_bytes() == b"payload"
+    assert not (release_dir / "intermediate.zip").exists()
