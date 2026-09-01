@@ -29,6 +29,7 @@ class NcitVersionScheme(VersionScheme):
 
 class NcitAsset(Asset):
     _source = nci_source
+    _id = "thesaurus"
     _filetype = "owl"
 
 
