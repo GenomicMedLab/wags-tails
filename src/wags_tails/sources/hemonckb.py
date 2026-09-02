@@ -17,11 +17,11 @@ from wags_tails.core.models import Asset, AssetBundle, Dataset, Source
 from wags_tails.core.operation import OperationConfig
 from wags_tails.core.version import DateVersionScheme, Version
 
-hemonc_source = Source(name="HemOnc.org", id="hemonc")
+hemonckb_source = Source(name="HemOncKB", id="hemonckb")
 
 
-class _HemOncAsset(Asset):
-    _source = hemonc_source
+class _HemOncKbAsset(Asset):
+    _source = hemonckb_source
     _filetype = "tsv"
     _web_filename: str
 
@@ -31,34 +31,34 @@ class _HemOncAsset(Asset):
         return cls._web_filename
 
 
-class HemOncConceptsAsset(_HemOncAsset):
+class HemOncKbConceptsAsset(_HemOncKbAsset):
     _id = "concepts"
     _web_filename = "concepts"
 
 
-class HemOncRelationsAsset(_HemOncAsset):
+class HemOncKbRelationsAsset(_HemOncKbAsset):
     _id = "relations"
     _web_filename = "rels"
 
 
-class HemOncSynonymsAsset(_HemOncAsset):
+class HemOncKbSynonymsAsset(_HemOncKbAsset):
     _id = "synonyms"
     _web_filename = "synonyms"
 
 
 @dataclass(frozen=True)
-class HemOncAssets(AssetBundle):
-    concepts: HemOncConceptsAsset
-    relations: HemOncRelationsAsset
-    synonyms: HemOncSynonymsAsset
+class HemOncKbAssets(AssetBundle):
+    concepts: HemOncKbConceptsAsset
+    relations: HemOncKbRelationsAsset
+    synonyms: HemOncKbSynonymsAsset
 
 
-class HemOncDataset(Dataset[HemOncAssets]):
-    source = hemonc_source
+class HemOncKbDataset(Dataset[HemOncKbAssets]):
+    source = hemonckb_source
     id = None
     name = None
     version_scheme = DateVersionScheme
-    _payload_type = HemOncAssets
+    _payload_type = HemOncKbAssets
 
     @classmethod
     def _get_latest_version(cls, session: OperationConfig) -> Version:
@@ -70,7 +70,7 @@ class HemOncDataset(Dataset[HemOncAssets]):
                 r"(\d\d\d\d-\d\d-\d\d)\.ccby_.*\.tab", first_file_name
             ).groups()[0]
         except (KeyError, IndexError, AttributeError) as e:
-            msg = "Unable to parse latest HemOnc version number from release API"
+            msg = "Unable to parse latest HemOncKB version number from release API"
             raise ReleaseParsingError(msg) from e
         return Version.parse(date, cls.version_scheme)
 
@@ -82,7 +82,7 @@ class HemOncDataset(Dataset[HemOncAssets]):
         if not api_key:
             msg = "Must provide Harvard Dataverse API key in environment variable HARVARD_DATAVERSE_API_KEY. See: https://guides.dataverse.org/en/latest/user/account.html"
             raise MissingUserConfigurationError(msg)
-        zip_path = staging_dir / f"hemonc_{version.raw}.zip"
+        zip_path = staging_dir / f"hemonckb_{version.raw}.zip"
         download_http(
             "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
             zip_path,
@@ -92,7 +92,7 @@ class HemOncDataset(Dataset[HemOncAssets]):
 
         with zipfile.ZipFile(zip_path) as archive:
             files = [info for info in archive.infolist() if not info.is_dir()]
-            for asset in HemOncAssets.__annotations__.values():
+            for asset in HemOncKbAssets.__annotations__.values():
                 file = [f for f in files if f.filename == asset.get_web_filename()]
                 if not file:
                     msg = f"Unable to unpack {asset} from files in {zip_path}. Included files: {files}"
