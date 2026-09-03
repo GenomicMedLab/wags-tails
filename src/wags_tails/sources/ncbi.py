@@ -39,6 +39,7 @@ class ManeSummaryAsset(Asset):
     """
 
     _source = ncbi_source
+    _id = "mane_summary"
     _filetype = "txt"
 
 
@@ -49,6 +50,7 @@ class ManeTranscriptsAsset(Asset):
     """
 
     _source = ncbi_source
+    _id = "mane_transcripts"
     _filetype = "gff"
 
 
@@ -60,7 +62,7 @@ class ManeAssets(AssetBundle):
 
 class ManeTxAnnotationsDataset(Dataset[ManeAssets]):
     source = ncbi_source
-    id = "mane_annotations"
+    id = "mane_tx_annotations"
     name = None
     version_scheme = DotSeparatedVersionScheme
     _payload_type = ManeAssets
@@ -94,6 +96,7 @@ class ManeTxAnnotationsDataset(Dataset[ManeAssets]):
 
 class LrgRefSeqGeneReportAsset(Asset):
     _source = ncbi_source
+    _id = "lrg_refseqgene_report"
     _filetype = "tsv"
 
 
@@ -124,7 +127,7 @@ class LrgRefSeqGeneReportDataset(Dataset[LrgRefSeqGeneReportAsset]):
     """
 
     source = ncbi_source
-    id = "lrg_refseqgene_report"
+    id = LrgRefSeqGeneReportAsset._id  # noqa: SLF001
     name = None
     version_scheme = DateVersionScheme
     _payload_type = LrgRefSeqGeneReportAsset
@@ -150,6 +153,7 @@ class LrgRefSeqGeneReportDataset(Dataset[LrgRefSeqGeneReportAsset]):
 
 class RefSeqGeneSummaryAsset(Asset):
     _source = ncbi_source
+    _id = "refseq_gene_summary"
     _filetype = "tsv"
 
 
@@ -162,7 +166,7 @@ class RefseqGeneSummaryDataset(Dataset[RefSeqGeneSummaryAsset]):
     """
 
     source = ncbi_source
-    id = "refseq_gene_summary"
+    id = RefSeqGeneSummaryAsset._id  # noqa: SLF001
     name = None
     version_scheme = DateVersionScheme
     _payload_type = RefSeqGeneSummaryAsset
@@ -179,21 +183,24 @@ class RefseqGeneSummaryDataset(Dataset[RefSeqGeneSummaryAsset]):
     def _stage_release(
         cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
+        gz_path = staging_dir / f"ncbi_refseq_gene_summary_{version.raw}.gz"
         download_http(
             "https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_summary.gz",
-            staging_dir / cls._payload_type.get_filename(version),
+            gz_path,
             session,
         )
+        gunzip(gz_path, staging_dir / cls._payload_type.get_filename(version))
 
 
 class RefSeqGeneInfoAsset(Asset):
     _source = ncbi_source
     _filetype = "tsv"
+    _id = "refseq_gene_info"
 
 
 class RefSeqGeneInfoDataset(Dataset[RefSeqGeneInfoAsset]):
     source = ncbi_source
-    id = "refseq_gene_info"
+    id = RefSeqGeneInfoAsset._id  # noqa: SLF001
     name = None
     version_scheme = DateVersionScheme
     _payload_type = RefSeqGeneInfoAsset
@@ -220,11 +227,12 @@ class RefSeqGeneInfoDataset(Dataset[RefSeqGeneInfoAsset]):
 class RefSeqGeneHistoryAsset(Asset):
     _source = ncbi_source
     _filetype = "tsv"
+    _id = "refseq_gene_history"
 
 
 class RefSeqGeneHistoryDataset(Dataset[RefSeqGeneHistoryAsset]):
     source = ncbi_source
-    id = "refseq_gene_history"
+    id = RefSeqGeneHistoryAsset._id  # noqa: SLF001
     name = None
     version_scheme = DateVersionScheme
     _payload_type = RefSeqGeneHistoryAsset
