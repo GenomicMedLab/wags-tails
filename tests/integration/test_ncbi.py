@@ -53,46 +53,21 @@ def test_lrg_refseq_gene_report(
 ):
     mock_text_response(
         requests_mock,
-        "todo",
-        fixtures_dir / "todo",
+        "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/",
+        fixtures_dir / "ncbi_lrg_refseqgene_version_response.html",
     )
     file_content = b"test_response"
-    gz_content = make_gzip(file_content)
     mock_download(
         requests_mock,
-        "todo",
-        content=gz_content,
+        "https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/LRG_RefSeqGene",
+        content=file_content,
     )
 
     release = store.get_latest(LrgRefSeqGeneReportDataset)
     assert release is not None
-    assert release.version.raw == "2026-09-02"
-    assert release.version.parsed == date(2026, 9, 2)
-    assert release.payload.location.name == "todo"
-    assert release.payload.location.read_bytes() == file_content
-
-
-def test_refseq_gene_history(
-    fixtures_dir: Path, store: LocalStore, requests_mock: Mocker
-):
-    mock_text_response(
-        requests_mock,
-        "todo",
-        fixtures_dir / "todo",
-    )
-    file_content = b"test_response"
-    gz_content = make_gzip(file_content)
-    mock_download(
-        requests_mock,
-        "todo",
-        content=gz_content,
-    )
-
-    release = store.get_latest(RefSeqGeneHistoryDataset)
-    assert release is not None
-    assert release.version.raw == "2026-09-02"
-    assert release.version.parsed == date(2026, 9, 2)
-    assert release.payload.location.name == "todo"
+    assert release.version.raw == "2026-09-03"
+    assert release.version.parsed == date(2026, 9, 3)
+    assert release.payload.location.name == "ncbi_lrg_refseqgene_report_2026-09-03.tsv"
     assert release.payload.location.read_bytes() == file_content
 
 
@@ -117,4 +92,28 @@ def test_refseq_gene_summary(
     assert release.version.raw == "2026-09-02"
     assert release.version.parsed == date(2026, 9, 2)
     assert release.payload.location.name == "ncbi_refseq_gene_summary_2026-09-02.tsv"
+    assert release.payload.location.read_bytes() == file_content
+
+
+def test_refseq_gene_history(
+    fixtures_dir: Path, store: LocalStore, requests_mock: Mocker
+):
+    mock_text_response(
+        requests_mock,
+        "https://ftp.ncbi.nlm.nih.gov/gene/DATA/",
+        fixtures_dir / "ncbi_gene_data_response.html",
+    )
+    file_content = b"test_response"
+    gz_content = make_gzip(file_content)
+    mock_download(
+        requests_mock,
+        "https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_history.gz",
+        content=gz_content,
+    )
+
+    release = store.get_latest(RefSeqGeneHistoryDataset)
+    assert release is not None
+    assert release.version.raw == "2026-09-02"
+    assert release.version.parsed == date(2026, 9, 2)
+    assert release.payload.location.name == "ncbi_refseq_gene_history_2026-09-02.tsv"
     assert release.payload.location.read_bytes() == file_content

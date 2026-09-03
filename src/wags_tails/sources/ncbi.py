@@ -249,8 +249,10 @@ class RefSeqGeneHistoryDataset(Dataset[RefSeqGeneHistoryAsset]):
     def _stage_release(
         cls, staging_dir: Path, version: Version, session: OperationConfig
     ) -> None:
+        gz_path = staging_dir / f"ncbi_refseq_gene_history_{version.raw}.gz"
         download_http(
             "https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_history.gz",
-            staging_dir / cls._payload_type.get_filename(version),
+            gz_path,
             session,
         )
+        gunzip(gz_path, staging_dir / cls._payload_type.get_filename(version))
