@@ -18,7 +18,9 @@ class DrugVocabularyAsset(Asset):
     _filetype = "csv"
 
 
-class DrugVocabulary(Dataset[DrugVocabularyAsset]):
+class DrugVocabularyDataset(Dataset[DrugVocabularyAsset]):
+    """CC0-licensed Drug Vocabulary provided by DrugBank"""
+
     source = drugbank_source
     name = None
     id = None
