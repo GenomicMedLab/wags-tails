@@ -7,11 +7,6 @@ Initialize a :py:class:`~wags_tails.core.store.LocalStore` instance to manage da
 
 .. code-block:: pycon
 
-   >>> from wags_tails.mondo import MondoData
-   >>> m = MondoData(silent=False)
-   >>> m.get_latest(force_refresh=True)
-   Downloading mondo.obo: 100%|█████████████████| 171M/171M [00:28<00:00, 6.23MB/s]
-   PosixPath('/Users/genomicmedlab/.local/share/wags_tails/mondo/mondo_20241105.obo'), '20241105'
    >>> from wags_tails.core.store import LocalStore
    >>> store = LocalStore()
    >>> from wags_tails.sources.mondo import MondoDataset
