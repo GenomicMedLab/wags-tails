@@ -1,0 +1,353 @@
+"""Provide models for core data abstractions."""
+
+from __future__ import annotations
+
+import inspect
+from abc import ABC, abstractmethod
+from collections import defaultdict
+from dataclasses import dataclass, fields
+from typing import TYPE_CHECKING, ClassVar, Generic, Self, TypeVar, get_type_hints
+
+from wags_tails.core.exceptions import DuplicateReleaseFilesError, ReleaseParsingError
+from wags_tails.core.version import Version
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from wags_tails.core.operation import OperationConfig
+    from wags_tails.core.version import VersionScheme
+
+
+@dataclass(frozen=True)
+class Source:
+    """Publisher of one or more datasets.
+
+    A Source should represent the recognizable data resource/project that publishes the
+    dataset, not necessarily the legal/organizational institution operating it.
+
+    This class is largely an organizational tool for filing related datasets together
+    in storage.
+    """
+
+    id: str
+    """Unique key used for storage organization"""
+    name: str | None
+    """User-facing name"""
+
+    def get_name(self) -> str:
+        """Get printable name for the source"""
+        if self.name:
+            return self.name
+        return self.id
+
+
+@dataclass(frozen=True)
+class Asset:
+    """A single downloadable artifact.
+
+    Sources should define subclasses to include specific metadata expectations,
+    and then returned instances will contain a path to the asset itself
+    """
+
+    location: Path
+
+    _id: ClassVar[str | None] = None
+    _filetype: ClassVar[str]
+    _source: ClassVar[Source]
+
+    @classmethod
+    def get_filename(cls, version: Version) -> str:
+        """Get expected asset filename"""
+        return f"{cls._source.id}{'_' + cls._id if cls._id else ''}_{version.raw}.{cls._filetype}"
+
+    @classmethod
+    def get_file_glob(cls) -> str:
+        """Get file glob pattern"""
+        return f"{cls._source.id}{'_' + cls._id if cls._id else ''}_*.{cls._filetype}"
+
+    def get_files(self) -> tuple[Path, ...]:
+        """Return files comprising this payload"""
+        return (self.location,)
+
+
+@dataclass(frozen=True)
+class AssetBundle:
+    """A container for a collection of bundled assets."""
+
+    @classmethod
+    def from_release_dir(cls, release_directory: Path, version: Version) -> Self:
+        """Construct an asset bundle from a release directory."""
+        type_hints = get_type_hints(cls)
+        assets = {}
+
+        for field in fields(cls):
+            asset_type = type_hints[field.name]
+            assets[field.name] = asset_type(
+                location=get_release_file(
+                    release_directory,
+                    asset_type,
+                    version,
+                )
+            )
+
+        return cls(**assets)
+
+    def get_files(self) -> tuple[Path, ...]:
+        """Return files comprising this payload"""
+        return tuple(getattr(self, field.name).location for field in fields(self))
+
+
+AssetsT = TypeVar("AssetsT", bound=Asset | AssetBundle)
+
+
+class Dataset(Generic[AssetsT], ABC):
+    """An independently consumable collection of data.
+
+    Sources may provide multiple distinct datasets. Dataset releases may include
+    multiple assets. The criteria distinguishing whether multiple assets belong in the
+    same dataset or not are:
+
+    1. Whether they are versioned together. If not, they are distinct datasets.
+    2. Whether they are potentially complementary or interdependent. If it's conceivable
+       that someone might want to use both assets together, they belong in the same
+       dataset. Otherwise, they can be separated into different datasets if practical.
+
+    The class variable ``_registry`` is used to ensure uniqueness at the level of source id +
+    dataset id.
+
+    Note that Dataset implementations shouldn't ever be initialized; they are intended
+    to gather scope and static variables, but not contain any runtime state for individual
+    instances.
+    """
+
+    _registry: ClassVar[dict[str, list[type[Dataset]]]] = defaultdict(list)
+    """Registry tracking all imported dataset subclasses"""
+
+    source: Source
+    id: str | None
+    """Unique key for storage organization. Leave null ONLY if dataset is the sole published product of the source."""
+    name: str | None
+    """User-facing name for the dataset"""
+    description: str | None = None
+    version_scheme: type[VersionScheme]
+    _payload_type: type[AssetsT]
+
+    def __init_subclass__(cls, **kwargs) -> None:
+        """Validate correctness of subclass declarations
+
+        * Ensure required class variables are declared
+        * Ensure uniqueness of qualified ID of a dataset by requiring a dataset ID
+        only in cases where the source provides multiple datasets.
+        """
+        super().__init_subclass__(**kwargs)
+        if inspect.isabstract(cls):
+            return
+
+        # ensure required fields are provided
+        required_attributes = (
+            "source",
+            "id",
+            "name",
+            "version_scheme",
+            "_payload_type",
+        )
+
+        missing = [
+            attribute
+            for attribute in required_attributes
+            if attribute not in cls.__dict__
+        ]
+        if missing:
+            msg = (
+                f"{cls.__name__} must declare required class attributes: "
+                f"{', '.join(missing)}"
+            )
+            raise TypeError(msg)
+
+        # ensure source/id uniqueness
+        datasets = cls._registry[cls.source.id]
+        datasets.append(cls)
+        if len(datasets) <= 1:
+            return
+
+        ids = [dataset.id for dataset in datasets]
+        if any(dataset_id is None for dataset_id in ids):
+            msg = (
+                f"Source {cls.source.id!r} provides multiple datasets; "
+                "each dataset must define an id"
+            )
+            raise TypeError(msg)
+        if len(ids) != len(set(ids)):
+            msg = f"Dataset ids for source {cls.source.id!r} must be unique"
+            raise TypeError(msg)
+
+    @classmethod
+    def qualified_id(cls) -> str:
+        """Return dataset ID qualified by source"""
+        parts = [cls.source.id]
+        if cls.id:
+            parts.append(cls.id)
+        return "_".join(parts)
+
+    @classmethod
+    @abstractmethod
+    def _get_latest_version(cls, session: OperationConfig) -> Version: ...
+
+    @classmethod
+    def get_latest_version(cls, session: OperationConfig) -> Version:
+        """Look up latest-published release version
+
+        :param session: session-wide configuration
+        :return: full version description
+        """
+        return cls._get_latest_version(session)
+
+    @classmethod
+    @abstractmethod
+    def _stage_release(
+        cls, staging_dir: Path, version: Version, session: OperationConfig
+    ) -> None: ...
+
+    @classmethod
+    def stage_release(
+        cls, staging_dir: Path, version: Version, session: OperationConfig
+    ) -> None:
+        """Download and prepare a release in a staging directory.
+
+        Implementations should download, verify, decompress, extract, and otherwise
+        prepare the assets comprising ``release`` within ``destination``. The
+        directory is guaranteed to be empty on entry and is not the release's final
+        storage location.
+
+        Note that we stage in a temporary directory to protect against interrupted
+        or unsuccessful downloads.
+
+        :param staging_dir: temporary release location within which to stage assets
+        :param version: release version value
+        :param session: session-wide configuration
+        """
+        cls._stage_release(staging_dir, version, session)
+
+    @classmethod
+    def dataset_dir(cls, root: Path) -> Path:
+        """Generate directory for the dataset"""
+        if cls.id:
+            return root / cls.source.id / cls.id
+        return root / cls.source.id
+
+    @classmethod
+    def parse_release_directory(cls, release_directory: Path) -> Version:
+        """Extract version from release directory layout
+
+        Employ dataset version schema + directory name to reconstruct structured version definition
+
+        :param release_directory: path to release
+        :return: reconstructed version definition
+        """
+        if not release_directory.is_dir():
+            msg = f"{cls.source.name} {cls.name} release directory does not exist: {release_directory}"
+            raise ReleaseParsingError(msg)
+
+        try:
+            version = Version.parse(
+                value=release_directory.name,
+                scheme=cls.version_scheme,
+            )
+        except (TypeError, ValueError) as e:
+            msg = "Failed to parse release version from directory name {release_directory.name!r}"
+            raise ReleaseParsingError(msg) from e
+        return version
+
+    @classmethod
+    def get_staged_assets(cls, staging_dir: Path, version: Version) -> list[Path]:
+        """Get staged files that comprise the release payload"""
+        if issubclass(cls._payload_type, Asset):
+            return [get_release_file(staging_dir, cls._payload_type, version)]
+        if issubclass(cls._payload_type, AssetBundle):
+            return list(
+                cls._payload_type.from_release_dir(
+                    staging_dir, version
+                ).__dataclass_fields__.values()
+            )
+        raise TypeError
+
+    @classmethod
+    def _load_payload(
+        cls,
+        release_directory: Path,
+        version: Version,
+    ) -> AssetsT:
+        """Construct the dataset payload from files in a release directory."""
+        if issubclass(cls._payload_type, Asset):
+            file_path = get_release_file(
+                release_directory,
+                cls._payload_type,
+                version,
+            )
+            return cls._payload_type(location=file_path)
+
+        if issubclass(cls._payload_type, AssetBundle):
+            return cls._payload_type.from_release_dir(
+                release_directory,
+                version,
+            )
+
+        raise TypeError
+
+    @classmethod
+    def load_release(cls, release_directory: Path) -> Release[AssetsT]:
+        """Load a locally-cached release.
+
+        Construct and return a :class:`Release` by interpreting the contents of an
+        existing release directory. Implementations are responsible for locating the
+        dataset's assets within the directory and constructing the appropriate asset
+        collection.
+
+        :param release_directory: Root directory containing a cached release.
+        :return: Loaded release.
+        """
+        version = cls.parse_release_directory(release_directory)
+
+        return Release(
+            dataset=cls,
+            version=version,
+            payload=cls._load_payload(release_directory, version),
+        )
+
+
+@dataclass(frozen=True)
+class Release(Generic[AssetsT]):
+    """A published snapshot of a dataset."""
+
+    dataset: type[Dataset]
+    version: Version
+    payload: AssetsT
+
+
+def get_release_file(
+    release_directory: Path, asset_type: type[Asset], version: Version
+) -> Path:
+    """Get an individual release file
+
+    :param release_directory: path to directory for release
+    :param asset_type: the class of the asset to get
+    :param version: release version
+    :return: path to file from release
+    :raise FileNotFoundError: if no matching files can be found
+    :raise DuplicateReleaseFilesError: (probably impossible)
+    """
+    filename = asset_type.get_filename(version)
+    matching_files = [
+        path for path in release_directory.glob(filename) if path.is_file()
+    ]
+    if len(matching_files) > 1:
+        # this should be impossible btw
+        msg = (
+            f"Expected exactly one file matching {filename!r} in "
+            f"{release_directory}, found {len(matching_files)}"
+        )
+        raise DuplicateReleaseFilesError(msg)
+    if len(matching_files) == 0:
+        msg = f"Could not locate asset for pattern {filename!r} in {release_directory}"
+        raise FileNotFoundError(msg)
+    return matching_files[0]

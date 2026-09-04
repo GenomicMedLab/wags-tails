@@ -1,95 +1,39 @@
 """Provide a CLI application for accessing basic wags-tails functions."""
 
-import inspect
-import logging
-from logging.handlers import RotatingFileHandler
-
 import click
 
-import wags_tails
-from wags_tails.utils.storage import get_data_dir
+from wags_tails import __version__
+from wags_tails.core.discovery import discover_datasets
+from wags_tails.core.paths import resolve_data_dir
+from wags_tails.core.store import LocalStore
 
-
-def initialize_logs(log_level: int = logging.INFO) -> None:
-    """Configure logging.
-    :param log_level: app log level to set
-    """
-    root = logging.getLogger()
-    if root.handlers:
-        return
-
-    root.setLevel(log_level)
-    formatter = logging.Formatter(
-        "[%(asctime)s] - %(name)s - %(levelname)s : %(message)s"
-    )
-    fh = RotatingFileHandler(f"{__package__}.log", maxBytes=5_000_000, backupCount=3)
-    fh.setFormatter(formatter)
-    root.addHandler(fh)
+_datasets = discover_datasets()
 
 
 @click.group()
-@click.version_option(wags_tails.__version__)
+@click.version_option(__version__)
 def cli() -> None:
     """Manage data files from genomics databases and knowledge sources."""
-    initialize_logs()
 
 
 @cli.command()
 def path() -> None:
     """Get path to wags-tails storage directory given current environment configuration."""
-    click.echo(get_data_dir())
-
-
-_DATA_SOURCES = {
-    obj._src_name: obj  # noqa: SLF001
-    for _, obj in inspect.getmembers(wags_tails, inspect.isclass)
-    if obj.__name__ not in {"CustomData", "DataSource", "RemoteDataError"}
-}
+    click.echo(resolve_data_dir())
 
 
 @cli.command
-@click.argument("data", nargs=1, type=click.Choice(list(_DATA_SOURCES.keys())))
-@click.option(
-    "--silent",
-    "-s",
-    is_flag=True,
-    default=False,
-    help="Suppress intermediary printing to stdout.",
-)
-@click.option(
-    "--from_local",
-    is_flag=True,
-    default=False,
-    help="Use latest available local file.",
-)
-@click.option(
-    "--force_refresh",
-    is_flag=True,
-    default=False,
-    help="Retrieve data from source regardless of local availability.",
-)
-def get_latest(data: str, silent: bool, from_local: bool, force_refresh: bool) -> None:
-    """Get latest version of specified data.
-
-    For example, to retrieve the latest Disease Ontology release:
-
-        % wags-tails get-version do
-
-    Unless --from_local is declared, wags-tails will first make an API call
-    against the resource to determine the most recent release version, and then either
-    provide a local copy if already available, or first download from the data origin
-    and then return a link.
-
-    The --help option for this command will display all legal inputs for DATA; alternatively,
-    use the list-sources command to show them in a computable (line-delimited) format.
-    """
-    data_class = _DATA_SOURCES[data]
-    result, _ = data_class(silent=silent).get_latest(from_local, force_refresh)
-    click.echo(result)
+@click.argument("dataset", nargs=1, type=click.Choice(list(_datasets.keys())))
+def get_latest(dataset: str) -> None:
+    """Get latest release of specified dataset."""
+    store = LocalStore()
+    dataset_class = _datasets[dataset]()
+    release = store.get_latest(dataset_class)
+    click.echo(release)
 
 
 @cli.command
-def list_sources() -> None:
-    """List supported sources."""
-    for source in _DATA_SOURCES:
+def list_datasets() -> None:
+    """List supported datasets."""
+    for source in _datasets:
         click.echo(source)
