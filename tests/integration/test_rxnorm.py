@@ -45,6 +45,6 @@ def test_rxnorm(
 
 
 def test_rxnorm_requires_api_key(monkeypatch: pytest.MonkeyPatch, store: LocalStore):
-    monkeypatch.delenv("UMLS_API_KEY")
+    monkeypatch.delenv("UMLS_API_KEY", raising=False)
     with pytest.raises(MissingUserConfigurationError):
         store.get_latest(RxNormDataset)
