@@ -9,11 +9,106 @@ Bugs and new feature requests can be submitted to the `issue tracker on GitHub <
 Adding new data sources
 -----------------------
 
+Before adding a new data source, familiarize yourself with the :ref:`wags-tails data model <data-model>`. In particular, a data integration is described in terms of a :ref:`Source <source>`, one or more :ref:`Datasets <dataset>`, and the :ref:`Assets <asset>` comprising each dataset release.
+
 .. note::
 
-   ``wags-tails`` is intended to remain dependency-light to enable broad usage across our projects. If fetching new data requires adding additional dependencies, strong consideration should be given to whether it should be stood up as a :py:class:`CustomData <wags_tails.custom.CustomData>` subclass in the downstream library, instead of being added directly to ``wags-tails``.
+   `wags-tails` is intended to remain dependency-light to enable broad usage across our projects. If fetching or preparing a new dataset requires substantial additional dependencies, consider whether that functionality belongs in the downstream library instead of directly in `wags-tails`.
 
-Generally, data classes for versioned data should inherit from :py:class:`~wags_tails.base_source.DataSource` and must, at minimum, implement two instance methods, :py:meth:`~wags_tails.base_source.DataSource._get_latest_version` and :py:meth:`~wags_tails.base_source.DataSource._download_data`, and two instance attributes, :py:attr:`~wags_tails.base_source.DataSource._src_name` and :py:attr:`~wags_tails.base_source.DataSource._filetype`. Data supplied via GitHub release should be implemented as a :py:class:`~wags_tails.base_source.GitHubDataSource` and also supply a :py:attr:`~wags_tails.base_source.GitHubDataSource._repo` attribute, but may not need to reimplement ``_get_latest_version()``. Unversioned data (i.e. a data object that is static or doesn't ever need to be updated) can be implemented as an :py:class:`~wags_tails.base_source.UnversionedDataSource`, which also obviates the need to define a ``_get_latest_version()`` method.
+Defining the source
++++++++++++++++++++
+
+First, define a :py:class:`~wags_tails.core.models.Source` representing the upstream data resource or project. Related datasets published by the same resource should generally share a source.
+
+For example
+
+.. code-block:: python
+
+    example_source = Source(id="example", name="Example Database")
+
+See :ref:`Source <source>` for guidance on choosing the appropriate scope for a source.
+
+Defining release assets
++++++++++++++++++++++++
+
+Define an :py:class:`~wags_tails.core.models.Asset` subclass for each file that will be retained as part of a downloaded release. Asset types declare their source, file type, and, when necessary, an identifier distinguishing the asset from other files in the same release.
+
+For example
+
+.. code-block:: python
+
+   class ExampleAsset(Asset):
+       _source = example_source
+       _filetype = "json"
+
+If a release consists of multiple related files, define each as an individual asset and group them in an :ref:`AssetBundle <asset-bundle>`.
+
+Defining the dataset
+++++++++++++++++++++
+
+Implement a concrete :py:class:`~wags_tails.core.models.Dataset` subclass for each independently versioned collection of data published by the source.
+
+A dataset must declare its source, ID, name, version scheme, and payload type
+
+.. code-block:: python
+
+    class ExampleDataset(Dataset[ExampleAsset]):
+
+        source = example_source
+        id = None
+        name = "Example Database"
+        description = "Example dataset description."
+        version_scheme = DotSeparatedVersionScheme
+        _payload_type = ExampleAsset
+
+The dataset ID may be ``None`` when the source publishes only one dataset. If multiple datasets are defined for the same source, each must have a unique ID. See :ref:`Dataset <dataset>` for more information about dataset identity and organization.
+
+Dataset implementations must provide two methods: :py:meth:`~wags_tails.core.models.Dataset._get_latest_version` and :py:meth:`~wags_tails.core.models.Dataset._stage_release`.
+
+Discovering the latest version
+++++++++++++++++++++++++++++++
+
+Implement ``_get_latest_version()`` to determine the latest release currently published by the upstream source
+
+.. code-block:: python
+
+   def _get_latest_version(self, session: OperationConfig) -> Version:
+       ...
+
+The method should return a :py:class:`~wags_tails.core.version.Version` using the dataset's declared version scheme.
+
+Use the HTTP utilities provided by :mod:`wags_tails.core.http` for network requests where possible. Common release-discovery operations, such as retrieving the latest GitHub release version, should use the corresponding shared helper rather than reimplementing the request logic.
+
+Staging a release
++++++++++++++++++
+
+Implement ``_stage_release()`` to download and prepare the files belonging to a specific release
+
+.. code-block:: python
+
+    def _stage_release(
+        self,
+        staging_dir: Path,
+        version: Version,
+        session: OperationConfig,
+    ) -> None:
+        ...
+
+All files belonging to the release should be written to ``staging_dir`` using the filenames defined by their corresponding asset types. The dataset implementation may download, decompress, extract, or otherwise prepare upstream files as necessary.
+
+Use the shared HTTP and archive utilities provided by ``wags_tails.core`` where possible.
+
+The staging directory is temporary. ``wags-tails`` installs it into the local data store only after ``_stage_release()`` completes successfully, preventing partial or interrupted downloads from being treated as valid cached releases.
+
+Loading releases
+++++++++++++++++
+
+Dataset implementations generally do not need to implement release loading. The base :py:class:`~wags_tails.core.models.Dataset` implementation reconstructs a release from its declared ``_payload_type`` and the expected asset filenames.
+
+For a dataset containing a single asset, set ``_payload_type`` to the corresponding :py:class:`~wags_tails.core.models.Asset` subclass. For a multi-file release, set it to the corresponding :py:class:`~wags_tails.core.models.AssetBundle` subclass.
+
+See :ref:`Release <release>` and :ref:`Asset <asset>` for details about how cached releases and their files are represented.
+
 
 Development setup
 -----------------
