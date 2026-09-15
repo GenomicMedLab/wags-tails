@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import inspect
+import logging
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass, fields
@@ -10,6 +11,8 @@ from typing import TYPE_CHECKING, ClassVar, Generic, Self, TypeVar, get_type_hin
 
 from wags_tails.core.exceptions import DuplicateReleaseFilesError, ReleaseParsingError
 from wags_tails.core.version import Version
+
+logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -77,6 +80,7 @@ class AssetBundle:
     @classmethod
     def from_release_dir(cls, release_directory: Path, version: Version) -> Self:
         """Construct an asset bundle from a release directory."""
+        logger.debug("Loading %s asset bundle from %s", cls.__name__, release_directory)
         type_hints = get_type_hints(cls)
         assets = {}
 
@@ -167,6 +171,7 @@ class Dataset(Generic[AssetsT], ABC):
         # ensure source/id uniqueness
         datasets = cls._registry[cls.source.id]
         datasets.append(cls)
+        logger.debug("Registered dataset implementation %s", cls.qualified_id())
         if len(datasets) <= 1:
             return
 
@@ -200,7 +205,10 @@ class Dataset(Generic[AssetsT], ABC):
         :param session: session-wide configuration
         :return: full version description
         """
-        return cls._get_latest_version(session)
+        logger.debug("Looking up latest version for dataset %s", cls.qualified_id())
+        version = cls._get_latest_version(session)
+        logger.info("Latest version for dataset %s is %s", cls.qualified_id(), version)
+        return version
 
     @classmethod
     @abstractmethod
@@ -226,7 +234,14 @@ class Dataset(Generic[AssetsT], ABC):
         :param version: release version value
         :param session: session-wide configuration
         """
+        logger.info(
+            "Staging dataset %s release %s in %s",
+            cls.qualified_id(),
+            version,
+            staging_dir,
+        )
         cls._stage_release(staging_dir, version, session)
+        logger.debug("Staged dataset %s release %s", cls.qualified_id(), version)
 
     @classmethod
     def dataset_dir(cls, root: Path) -> Path:
@@ -245,6 +260,11 @@ class Dataset(Generic[AssetsT], ABC):
         :return: reconstructed version definition
         """
         if not release_directory.is_dir():
+            logger.warning(
+                "Release directory for dataset %s does not exist: %s",
+                cls.qualified_id(),
+                release_directory,
+            )
             msg = f"{cls.source.name} {cls.name} release directory does not exist: {release_directory}"
             raise ReleaseParsingError(msg)
 
@@ -254,6 +274,12 @@ class Dataset(Generic[AssetsT], ABC):
                 scheme=cls.version_scheme,
             )
         except (TypeError, ValueError) as e:
+            logger.warning(
+                "Could not parse release directory %s for dataset %s",
+                release_directory,
+                cls.qualified_id(),
+                exc_info=True,
+            )
             msg = "Failed to parse release version from directory name {release_directory.name!r}"
             raise ReleaseParsingError(msg) from e
         return version
@@ -306,13 +332,18 @@ class Dataset(Generic[AssetsT], ABC):
         :param release_directory: Root directory containing a cached release.
         :return: Loaded release.
         """
+        logger.debug(
+            "Loading dataset %s release from %s", cls.qualified_id(), release_directory
+        )
         version = cls.parse_release_directory(release_directory)
 
-        return Release(
+        release = Release(
             dataset=cls,
             version=version,
             payload=cls._load_payload(release_directory, version),
         )
+        logger.debug("Loaded dataset %s release %s", cls.qualified_id(), version)
+        return release
 
 
 @dataclass(frozen=True)
@@ -346,8 +377,11 @@ def get_release_file(
             f"Expected exactly one file matching {filename!r} in "
             f"{release_directory}, found {len(matching_files)}"
         )
+        logger.error(msg)
         raise DuplicateReleaseFilesError(msg)
     if len(matching_files) == 0:
         msg = f"Could not locate asset for pattern {filename!r} in {release_directory}"
+        logger.warning(msg)
         raise FileNotFoundError(msg)
+    logger.debug("Located release asset %s", matching_files[0])
     return matching_files[0]

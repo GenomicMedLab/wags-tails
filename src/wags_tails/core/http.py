@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, TypeAlias
 
 import requests
@@ -22,6 +23,8 @@ _CHUNK_SIZE = 1024 * 1024  # 1 MiB
 _RETRYABLE_STATUS_CODES = (429, 500, 502, 503, 504)
 _RETRY_BACKOFF_FACTOR = 0.5
 
+logger = logging.getLogger(__name__)
+
 
 def _create_http_session(config: OperationConfig) -> requests.Session:
     """Create an HTTP session configured with retry behavior.
@@ -29,6 +32,7 @@ def _create_http_session(config: OperationConfig) -> requests.Session:
     :param config: Operation-wide configuration.
     :return: Configured HTTP session.
     """
+    logger.debug("Creating HTTP session with %d retry attempt(s)", config.retries)
     retries = Retry(
         total=config.retries,
         connect=config.retries,
@@ -74,6 +78,7 @@ def get_json(
         unsuccessful HTTP status after retries are exhausted.
     :raise ReleaseParsingError: If the response body is not valid JSON.
     """
+    logger.debug("Requesting JSON from %s", url)
     try:
         with _create_http_session(config) as http_session:
             response = http_session.get(
@@ -84,14 +89,18 @@ def get_json(
             )
             response.raise_for_status()
     except requests.RequestException as e:
+        logger.warning("JSON request failed for %s", url, exc_info=True)
         msg = f"Request to {url} failed"
         raise DataSourceConnectionError(msg) from e
 
     try:
-        return response.json()
+        data = response.json()
     except requests.JSONDecodeError as e:
+        logger.warning("JSON response could not be decoded from %s", url, exc_info=True)
         msg = f"Response from {url} did not contain valid JSON"
         raise ReleaseParsingError(msg) from e
+    logger.debug("Received JSON response from %s", url)
+    return data
 
 
 def get_latest_github_release_version(
@@ -108,13 +117,19 @@ def get_latest_github_release_version(
     :param session: session configs
     """
     url = f"https://api.github.com/repos/{org}/{repo}/releases/latest"
+    logger.debug("Looking up latest GitHub release for %s/%s", org, repo)
     data = get_json(url, session)
     try:
         version_raw: str = data["tag_name"]
     except (KeyError, TypeError) as e:
+        logger.warning(
+            "Latest GitHub release response lacked a tag name for %s/%s", org, repo
+        )
         msg = f"Failed to parse {scheme} version value from raw github API response"
         raise ReleaseParsingError(msg) from e
-    return Version.parse(value=version_raw, scheme=scheme)
+    version = Version.parse(value=version_raw, scheme=scheme)
+    logger.info("Latest GitHub release for %s/%s is %s", org, repo, version)
+    return version
 
 
 def get_text(
@@ -137,6 +152,7 @@ def get_text(
     :raise DataSourceConnectionError: If the request fails or returns an
         unsuccessful HTTP status after retries are exhausted.
     """
+    logger.debug("Requesting text from %s", url)
     try:
         with _create_http_session(config) as http_session:
             response = http_session.get(
@@ -147,8 +163,10 @@ def get_text(
             )
             response.raise_for_status()
     except requests.RequestException as e:
+        logger.warning("Text request failed for %s", url, exc_info=True)
         msg = f"Request to {url} failed"
         raise DataSourceConnectionError(msg) from e
+    logger.debug("Received text response from %s", url)
     return response.text
 
 
@@ -172,6 +190,7 @@ def download_http(
     :raise DataSourceConnectionError: If the download fails after all retry
         attempts have been exhausted.
     """
+    logger.info("Downloading %s to %s", url, outfile_path)
     outfile_path.parent.mkdir(parents=True, exist_ok=True)
 
     http_session = _create_http_session(session)
@@ -216,5 +235,7 @@ def download_http(
                     progress.update(len(chunk))
 
     except requests.RequestException as e:
+        logger.warning("Download failed for %s", url, exc_info=True)
         msg = f"Failed to download {url} after {session.retries} retry attempt(s)"
         raise DataSourceConnectionError(msg) from e
+    logger.info("Downloaded %s to %s", url, outfile_path)

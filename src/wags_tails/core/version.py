@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import date
@@ -11,6 +12,8 @@ from typing import Any, ClassVar, Generic, Self, TypeVar
 from wags_tails.core.exceptions import VersionParseError
 
 T = TypeVar("T")
+
+logger = logging.getLogger(__name__)
 
 
 def _strip_prefix(version_value: str) -> str:
@@ -32,7 +35,9 @@ class VersionScheme(Generic[T], ABC):
             value = _strip_prefix(value)
             version = cls._parse(value)
         except (TypeError, ValueError, AttributeError) as e:
+            logger.debug("Unable to parse version %r with %s", value, cls.__name__)
             raise VersionParseError from e
+        logger.debug("Parsed version %r with %s", value, cls.__name__)
         return version
 
     @classmethod
@@ -95,6 +100,7 @@ class UnversionedVersionScheme(VersionScheme[str]):
     def parse(cls, value: str) -> str:
         """Parse the single unversioned release value."""
         if value != UNVERSIONED_VALUE:
+            logger.debug("Unable to parse unversioned value %r", value)
             msg = f"Invalid unversioned release value: {value!r}"
             raise ValueError(msg)
         return value
@@ -135,11 +141,13 @@ class Version:
         :param scheme: Version scheme used to parse the version string.
         :return: Parsed version.
         """
-        return cls(
+        version = cls(
             raw=value,
             parsed=scheme.parse(value),
             scheme=scheme,
         )
+        logger.debug("Created version %s using %s", version, scheme.__name__)
+        return version
 
     def __lt__(self, other: Version) -> bool:
         """Return whether this version precedes another version."""
