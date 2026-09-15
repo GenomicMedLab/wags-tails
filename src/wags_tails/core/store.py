@@ -5,7 +5,7 @@ import shutil
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from wags_tails.core.models import Dataset, Release
+from wags_tails.core.models import AssetsT, Dataset, Release
 from wags_tails.core.operation import OperationConfig
 from wags_tails.core.paths import resolve_data_dir
 
@@ -39,11 +39,11 @@ class LocalStore:
 
     def get_latest(
         self,
-        dataset: type[Dataset],
+        dataset: type[Dataset[AssetsT]],
         *,
         offline: bool | None = None,
         force_refresh: bool = False,
-    ) -> Release | None:
+    ) -> Release[AssetsT] | None:
         """Return the newest available release of a dataset.
 
         By default, returns the latest published release, downloading it if the
@@ -109,7 +109,9 @@ class LocalStore:
         )
         return latest_local_release
 
-    def _find_latest_local_release(self, dataset: type[Dataset]) -> Release | None:
+    def _find_latest_local_release(
+        self, dataset: type[Dataset[AssetsT]]
+    ) -> Release[AssetsT] | None:
         """Return the newest cached release of a dataset.
 
         :param dataset: Dataset to inspect.
@@ -121,7 +123,7 @@ class LocalStore:
             logger.debug("No cache directory for dataset %s", dataset.qualified_id())
             return None
 
-        releases: list[Release] = []
+        releases: list[Release[AssetsT]] = []
 
         for child in dataset_dir.iterdir():
             if not child.is_dir():
@@ -149,8 +151,8 @@ class LocalStore:
         return latest_release
 
     def _stash_latest_release(
-        self, dataset: type[Dataset], overwrite_existing: bool
-    ) -> Release:
+        self, dataset: type[Dataset[AssetsT]], overwrite_existing: bool
+    ) -> Release[AssetsT]:
         """Download and cache the latest published release of a dataset.
 
         The dataset implementation is responsible for downloading and preparing the

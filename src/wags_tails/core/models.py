@@ -350,7 +350,7 @@ class Dataset(Generic[AssetsT], ABC):
 class Release(Generic[AssetsT]):
     """A published snapshot of a dataset."""
 
-    dataset: type[Dataset]
+    dataset: type[Dataset[AssetsT]]
     version: Version
     payload: AssetsT
 

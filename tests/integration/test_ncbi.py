@@ -7,7 +7,6 @@ from tests.helpers import make_gzip, mock_download, mock_text_response
 from wags_tails.core.store import LocalStore
 from wags_tails.sources.ncbi import (
     LrgRefSeqGeneReportDataset,
-    ManeAssets,
     ManeTxAnnotationsDataset,
     RefSeqGeneHistoryDataset,
     RefseqGeneSummaryDataset,
@@ -41,7 +40,7 @@ def test_mane_tx_annotations(
     assert release is not None
     assert release.version.raw == "1.5"
     assert release.version.parsed == (1, 5)
-    payload: ManeAssets = release.payload
+    payload = release.payload
     assert payload.summary.location.name == "ncbi_mane_summary_1.5.txt"
     assert payload.summary.location.read_bytes() == summary_file_content
     assert payload.transcripts.location.name == "ncbi_mane_transcripts_1.5.gff"

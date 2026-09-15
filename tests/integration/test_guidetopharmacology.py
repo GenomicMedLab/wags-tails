@@ -4,10 +4,7 @@ from requests_mock import Mocker
 
 from tests.helpers import mock_download, mock_text_response
 from wags_tails.core.store import LocalStore
-from wags_tails.sources.guide_to_pharmacology import (
-    GuideToPharmacologyAssets,
-    GuideToPharmacologyDataset,
-)
+from wags_tails.sources.guide_to_pharmacology import GuideToPharmacologyDataset
 
 
 def test_guidetopharmacology(
@@ -48,7 +45,7 @@ def test_guidetopharmacology(
     assert release.version.raw == "2026.2"
     assert release.version.parsed == (2026, 2)
 
-    payload: GuideToPharmacologyAssets = release.payload
+    payload = release.payload
     assert payload.ligands.location.name == "guide_to_pharmacology_ligands_2026.2.tsv"
     assert payload.ligands.location.read_bytes() == ligands_content
     assert (
