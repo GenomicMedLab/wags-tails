@@ -38,7 +38,7 @@ Data Sources
    wags_tails.sources.drugsatfda
    wags_tails.sources.ensembl
    wags_tails.sources.guide_to_pharmacology
-   wags_tails.sources.hemonc
+   wags_tails.sources.hemonckb
    wags_tails.sources.hgnc
    wags_tails.sources.hpo
    wags_tails.sources.moalmanac
