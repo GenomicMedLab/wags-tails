@@ -147,7 +147,9 @@ def test_get_latest(
         monkeypatch.setenv("HARVARD_DATAVERSE_API_KEY", "zzzz")
         monkeypatch.setenv("HEMONC_GUESTBOOK_PROJECT_NAME", "Test Project")
         monkeypatch.setenv("HEMONC_GUESTBOOK_EMAIL", "test@example.org")
-        monkeypatch.setenv("HEMONC_GUESTBOOK_USAGE_DESCRIPTION", "Normalize therapy names.")
+        monkeypatch.setenv(
+            "HEMONC_GUESTBOOK_USAGE_DESCRIPTION", "Normalize therapy names."
+        )
         paths, version = hemonc.get_latest(force_refresh=True)
         assert paths.concepts == hemonc_file_paths.concepts and paths.concepts.exists()
         assert paths.rels == hemonc_file_paths.rels and paths.rels.exists()
