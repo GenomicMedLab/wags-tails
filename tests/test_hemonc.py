@@ -1,13 +1,23 @@
 """Test HemOnc data source."""
 
 import json
-import os
 from pathlib import Path
 
 import pytest
+import requests
 import requests_mock
 
+from wags_tails.base_source import RemoteDataError
 from wags_tails.hemonc import HemOncData, HemOncPaths
+
+
+@pytest.fixture
+def guestbook_env(monkeypatch):
+    """Configure Dataverse authentication and HemOnc guestbook responses."""
+    monkeypatch.setenv("HARVARD_DATAVERSE_API_KEY", "zzzz")
+    monkeypatch.setenv("HEMONC_GUESTBOOK_PROJECT_NAME", "Test Project")
+    monkeypatch.setenv("HEMONC_GUESTBOOK_EMAIL", "test@example.org")
+    monkeypatch.setenv("HEMONC_GUESTBOOK_USAGE_DESCRIPTION", "Very important work.")
 
 
 @pytest.fixture
@@ -48,15 +58,16 @@ def hemonc_file_paths(hemonc_data_dir: Path):
     )
 
 
+@pytest.mark.usefixtures("guestbook_env")
 def test_get_latest(
     hemonc: HemOncData,
     hemonc_data_dir,
     latest_release_response: dict,
     hemonc_file: str,
     hemonc_file_paths: HemOncPaths,
+    monkeypatch,
 ):
     """Test HemOncData.get_latest()"""
-    os.environ["HARVARD_DATAVERSE_API_KEY"] = "zzzz"
     with pytest.raises(
         ValueError, match="Cannot set both `force_refresh` and `from_local`"
     ):
@@ -71,34 +82,59 @@ def test_get_latest(
             json=latest_release_response,
             request_headers={"User-Agent": "wags-tails"},
         )
-        m.get(
-            "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
-            content=hemonc_file,
+        guestbook_request = m.post(
+            "https://dataverse.harvard.edu/api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
+            json={
+                "status": "OK",
+                "data": {
+                    "signedUrl": "https://dataverse.harvard.edu/api/access/dataset/4375132?signature=test"
+                },
+            },
             request_headers={
                 "User-Agent": "wags-tails",
                 "X-Dataverse-key": "zzzz",
             },
         )
+        m.get(
+            "https://dataverse.harvard.edu/api/access/dataset/4375132?signature=test",
+            content=hemonc_file,
+            request_headers={"User-Agent": "wags-tails"},
+        )
         paths, version = hemonc.get_latest()
+        assert guestbook_request.last_request.json() == {
+            "guestbookResponse": {
+                "name": "Test Project",
+                "email": "test@example.org",
+                "answers": [{"id": 508, "value": "Very important work."}],
+            }
+        }
         assert paths.concepts == hemonc_file_paths.concepts and paths.concepts.exists()
         assert paths.rels == hemonc_file_paths.rels and paths.rels.exists()
         assert paths.synonyms == hemonc_file_paths.synonyms and paths.synonyms.exists()
         assert version == "2023-09-05"
-        assert m.call_count == 2
+        assert m.call_count == 3
+
+        for var in (
+            "HARVARD_DATAVERSE_API_KEY",
+            "HEMONC_GUESTBOOK_PROJECT_NAME",
+            "HEMONC_GUESTBOOK_EMAIL",
+            "HEMONC_GUESTBOOK_USAGE_DESCRIPTION",
+        ):
+            monkeypatch.delenv(var)
 
         paths, version = hemonc.get_latest()
         assert paths.concepts == hemonc_file_paths.concepts and paths.concepts.exists()
         assert paths.rels == hemonc_file_paths.rels and paths.rels.exists()
         assert paths.synonyms == hemonc_file_paths.synonyms and paths.synonyms.exists()
         assert version == "2023-09-05"
-        assert m.call_count == 3
+        assert m.call_count == 4
 
         paths, version = hemonc.get_latest(from_local=True)
         assert paths.concepts == hemonc_file_paths.concepts and paths.concepts.exists()
         assert paths.rels == hemonc_file_paths.rels and paths.rels.exists()
         assert paths.synonyms == hemonc_file_paths.synonyms and paths.synonyms.exists()
         assert version == "2023-09-05"
-        assert m.call_count == 3
+        assert m.call_count == 4
 
         (hemonc_data_dir / "hemonc_rels_2023-08-03.csv").touch()
         paths, version = hemonc.get_latest(from_local=True)
@@ -106,11 +142,70 @@ def test_get_latest(
         assert paths.rels == hemonc_file_paths.rels and paths.rels.exists()
         assert paths.synonyms == hemonc_file_paths.synonyms and paths.synonyms.exists()
         assert version == "2023-09-05"
-        assert m.call_count == 3
+        assert m.call_count == 4
 
+        monkeypatch.setenv("HARVARD_DATAVERSE_API_KEY", "zzzz")
+        monkeypatch.setenv("HEMONC_GUESTBOOK_PROJECT_NAME", "Test Project")
+        monkeypatch.setenv("HEMONC_GUESTBOOK_EMAIL", "test@example.org")
+        monkeypatch.setenv("HEMONC_GUESTBOOK_USAGE_DESCRIPTION", "Normalize therapy names.")
         paths, version = hemonc.get_latest(force_refresh=True)
         assert paths.concepts == hemonc_file_paths.concepts and paths.concepts.exists()
         assert paths.rels == hemonc_file_paths.rels and paths.rels.exists()
         assert paths.synonyms == hemonc_file_paths.synonyms and paths.synonyms.exists()
         assert version == "2023-09-05"
-        assert m.call_count == 5
+        assert m.call_count == 7
+
+
+@pytest.mark.usefixtures("guestbook_env")
+@pytest.mark.parametrize(
+    "variable",
+    [
+        "HEMONC_GUESTBOOK_PROJECT_NAME",
+        "HEMONC_GUESTBOOK_EMAIL",
+        "HEMONC_GUESTBOOK_USAGE_DESCRIPTION",
+    ],
+)
+@pytest.mark.parametrize("value", [None, "   "], ids=["missing", "blank"])
+def test_missing_guestbook_settings(
+    hemonc, latest_release_response, monkeypatch, variable, value
+):
+    """Reject incomplete guestbook settings before submitting a response."""
+    if value is None:
+        monkeypatch.delenv(variable)
+    else:
+        monkeypatch.setenv(variable, value)
+    with requests_mock.Mocker() as m:
+        m.get(
+            "https://dataverse.harvard.edu/api/datasets/export?persistentId=doi:10.7910/DVN/9CY9C6&exporter=dataverse_json",
+            json=latest_release_response,
+        )
+        with pytest.raises(RemoteDataError, match=variable):
+            hemonc.get_latest()
+        assert m.call_count == 1
+
+
+@pytest.mark.usefixtures("guestbook_env")
+@pytest.mark.parametrize(
+    ("status_code", "body", "error"),
+    [
+        (400, {"status": "ERROR"}, requests.HTTPError),
+        (200, {"data": {}}, RemoteDataError),
+        (200, {"data": {"signedUrl": ""}}, RemoteDataError),
+    ],
+    ids=["submission-rejected", "missing-url", "empty-url"],
+)
+def test_guestbook_failure(hemonc, latest_release_response, status_code, body, error):
+    """Stop without downloading files when the guestbook request fails."""
+    with requests_mock.Mocker() as m:
+        m.get(
+            "https://dataverse.harvard.edu/api/datasets/export?persistentId=doi:10.7910/DVN/9CY9C6&exporter=dataverse_json",
+            json=latest_release_response,
+        )
+        m.post(
+            "https://dataverse.harvard.edu/api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
+            json=body,
+            status_code=status_code,
+        )
+        with pytest.raises(error):
+            hemonc.get_latest()
+        assert m.call_count == 2

@@ -30,6 +30,18 @@ Configuration
 
 All data is stored within source-specific subdirectories of a designated ``wags-tails`` data directory. By default, this location is ``~/.local/share/wags_tails/``, but it can be configured by passing a Path directly to a data class on initialization, via the ``$WAGS_TAILS_DIR`` environment variable, or via `XDG data environment variables <https://specifications.freedesktop.org/basedir-spec/basedir-spec-0.6.html>`_. This is explicated in full in the :py:meth:`~wags_tails.utils.storage.get_data_dir()` method description.
 
+HemOnc downloads
+~~~~~~~~~~~~~~~~
+
+Before downloading remote HemOnc data, set these required environment variables:
+
+* ``HARVARD_DATAVERSE_API_KEY``: your Harvard Dataverse API key.
+* ``HEMONC_GUESTBOOK_PROJECT_NAME``: the name of the project using HemOnc.
+* ``HEMONC_GUESTBOOK_EMAIL``: a contact email address for the project.
+* ``HEMONC_GUESTBOOK_USAGE_DESCRIPTION``: a description of how the project uses the ontology.
+
+These values are submitted to Harvard Dataverse when downloading remote HemOnc data.
+
 .. _custom_data_source:
 
 Custom Data Source
