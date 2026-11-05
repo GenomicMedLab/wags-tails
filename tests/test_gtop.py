@@ -121,3 +121,51 @@ def test_get_latest(
         )
         assert version == "2023.2"
         assert m.call_count == 7
+
+
+@pytest.mark.parametrize("version", ["2026.3.1", "2026.10"])
+def test_get_latest_version_components(
+    gtop_ligand: GToPLigandData,
+    gtop_data_dir: Path,
+    latest_release_response: str,
+    version: str,
+):
+    homepage = latest_release_response.replace("2023.2", version)
+    with requests_mock.Mocker() as m:
+        m.get("https://www.guidetopharmacology.org/", text=homepage)
+        m.get("https://www.guidetopharmacology.org/DATA/ligands.tsv", text="")
+        m.get("https://www.guidetopharmacology.org/DATA/ligand_id_mapping.tsv", text="")
+
+        paths, remote_version = gtop_ligand.get_latest()
+
+    assert remote_version == version
+    assert paths.ligands == gtop_data_dir / f"gtop_ligands_{version}.tsv"
+    assert paths.ligand_id_mapping == (
+        gtop_data_dir / f"gtop_ligand_id_mapping_{version}.tsv"
+    )
+    assert paths.ligands.exists()
+    assert paths.ligand_id_mapping.exists()
+    assert gtop_ligand.get_latest(from_local=True) == (paths, version)
+
+
+@pytest.mark.parametrize(
+    ("older", "newer"),
+    [("2026.9", "2026.10"), ("2026.3.9", "2026.3.10")],
+)
+def test_get_latest_local_numeric_order(
+    gtop_ligand: GToPLigandData,
+    gtop_data_dir: Path,
+    older: str,
+    newer: str,
+) -> None:
+    for version in (older, newer):
+        (gtop_data_dir / f"gtop_ligands_{version}.tsv").touch()
+        (gtop_data_dir / f"gtop_ligand_id_mapping_{version}.tsv").touch()
+
+    paths, version = gtop_ligand.get_latest(from_local=True)
+
+    assert version == newer
+    assert paths == GtoPLigandPaths(
+        ligands=gtop_data_dir / f"gtop_ligands_{newer}.tsv",
+        ligand_id_mapping=gtop_data_dir / f"gtop_ligand_id_mapping_{newer}.tsv",
+    )
