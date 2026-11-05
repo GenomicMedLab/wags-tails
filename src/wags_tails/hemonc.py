@@ -10,7 +10,7 @@ from typing import NamedTuple
 import requests
 
 from .base_source import DataSource, RemoteDataError
-from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
+from .utils.downloads import HTTPS_REQUEST_TIMEOUT, USER_AGENT, download_http
 from .utils.storage import get_latest_local_file
 from .utils.versioning import parse_file_version
 
@@ -41,9 +41,14 @@ class HemOncData(DataSource):
 
         :return: latest release value
         :raise RemoteDataError: if unable to parse version number from data file
+        :raise requests.HTTPError: if the metadata request fails
         """
         data_url = "https://dataverse.harvard.edu/api/datasets/export?persistentId=doi:10.7910/DVN/9CY9C6&exporter=dataverse_json"
-        r = requests.get(data_url, timeout=HTTPS_REQUEST_TIMEOUT)
+        r = requests.get(
+            data_url,
+            headers={"User-Agent": USER_AGENT},
+            timeout=HTTPS_REQUEST_TIMEOUT,
+        )
         r.raise_for_status()
         try:
             first_file_name = r.json()["datasetVersion"]["files"][0]["label"]
@@ -87,7 +92,7 @@ class HemOncData(DataSource):
         download_http(
             "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
             self.data_dir,
-            headers={"X-Dataverse-key": api_key},
+            headers={"X-Dataverse-key": api_key, "User-Agent": USER_AGENT},
             # provide save_path arg for API consistency, but don't use it
             handler=lambda dl_path, save_path: self._download_handler(  # noqa: ARG005
                 dl_path, outfile_paths
