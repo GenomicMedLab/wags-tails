@@ -69,10 +69,15 @@ def test_get_latest(
         m.get(
             "https://dataverse.harvard.edu/api/datasets/export?persistentId=doi:10.7910/DVN/9CY9C6&exporter=dataverse_json",
             json=latest_release_response,
+            request_headers={"User-Agent": "wags-tails"},
         )
         m.get(
             "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
             content=hemonc_file,
+            request_headers={
+                "User-Agent": "wags-tails",
+                "X-Dataverse-key": "zzzz",
+            },
         )
         paths, version = hemonc.get_latest()
         assert paths.concepts == hemonc_file_paths.concepts and paths.concepts.exists()
