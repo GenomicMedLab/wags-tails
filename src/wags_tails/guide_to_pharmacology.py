@@ -9,7 +9,6 @@ import requests
 
 from .base_source import DataSource, RemoteDataError
 from .utils.downloads import HTTPS_REQUEST_TIMEOUT, download_http
-from .utils.storage import get_latest_local_file
 from .utils.versioning import parse_file_version
 
 _logger = logging.getLogger(__name__)
@@ -40,7 +39,7 @@ class GToPLigandData(DataSource):
         )
         r.raise_for_status()
         r_text = r.text.split("\n")
-        pattern = re.compile(r"Current Release Version (\d{4}\.\d) \(.*\)")
+        pattern = re.compile(r"Current Release Version (\d{4}(?:\.\d+)+) \(.*\)")
         for line in r_text:
             if "Current Release Version" in line:
                 matches = re.findall(pattern, line.strip())
@@ -76,21 +75,22 @@ class GToPLigandData(DataSource):
             whether a local copy is present
         :return: Paths to data, and version value of it
         :raise ValueError: if both ``force_refresh`` and ``from_local`` are True
+        :raise FileNotFoundError: if requested local files are unavailable
         """
         if force_refresh and from_local:
             msg = "Cannot set both `force_refresh` and `from_local`"
             raise ValueError(msg)
 
         if from_local:
-            ligands_path = get_latest_local_file(self.data_dir, "gtop_ligands_*.tsv")
-            ligand_id_mapping_path = get_latest_local_file(
-                self.data_dir, "gtop_ligand_id_mapping_*.tsv"
+            ligands_path = self._get_latest_local_file("gtop_ligands")
+            ligand_id_mapping_path = self._get_latest_local_file(
+                "gtop_ligand_id_mapping"
             )
             file_paths = GtoPLigandPaths(
                 ligands=ligands_path, ligand_id_mapping=ligand_id_mapping_path
             )
             return file_paths, parse_file_version(
-                ligands_path, r"gtop_ligands_(\d{4}\.\d+).tsv"
+                ligands_path, r"gtop_ligands_(\d{4}(?:\.\d+)+)\.tsv"
             )
 
         latest_version = self._get_latest_version()
@@ -116,3 +116,25 @@ class GToPLigandData(DataSource):
                 )
         self._download_data(file_paths)
         return file_paths, latest_version
+
+    def _get_latest_local_file(self, prefix: str) -> Path:
+        """Get the cached file with the highest numeric version.
+
+        :param prefix: filename prefix, such as ``gtop_ligands``
+        :return: path to the latest cached file
+        :raise FileNotFoundError: if no matching files exist
+        :raise ValueError: if a matching filename has an invalid version
+        """
+        latest = max(
+            self.data_dir.glob(f"{prefix}_*.tsv"),
+            key=lambda path: tuple(
+                int(component)
+                for component in path.stem.removeprefix(f"{prefix}_").split(".")
+            ),
+            default=None,
+        )
+        if latest is None:
+            msg = f"Unable to find file in {self.data_dir.absolute()} matching {prefix}_*.tsv"
+            raise FileNotFoundError(msg)
+
+        return latest
