@@ -30,7 +30,14 @@ class HemOncPaths(NamedTuple):
 
 
 class HemOncData(DataSource):
-    """Provide access to HemOnc data source."""
+    """Provide access to HemOnc data source.
+
+    Requires environment variables ``HARVARD_DATAVERSE_API_KEY``,
+    ``HEMONC_GUESTBOOK_PROJECT_NAME``, ``HEMONC_GUESTBOOK_EMAIL``, and
+    ``HEMONC_GUESTBOOK_USAGE_DESCRIPTION`` for remote downloads. Missing settings
+    raise RemoteDataError when downloading. Existing local files can be used
+    without these settings.
+    """
 
     _src_name = "hemonc"
     _filetype = "csv"
@@ -79,20 +86,72 @@ class HemOncData(DataSource):
                         zip_ref.extract(file, path.parent)
         dl_path.unlink()
 
+    @staticmethod
+    def _get_guestbook_response() -> dict:
+        """Build the HemOnc guestbook response from environment settings.
+
+        :return: guestbook name, email, and usage answer for the download request
+        :raises RemoteDataError: if required guestbook details are missing or blank
+        """
+        guestbook_env_vars = {
+            "name": "HEMONC_GUESTBOOK_PROJECT_NAME",
+            "email": "HEMONC_GUESTBOOK_EMAIL",
+            "usage_description": "HEMONC_GUESTBOOK_USAGE_DESCRIPTION",
+        }
+        guestbook_values = {}
+        missing_guestbook_env_vars = []
+        for field, env_var in guestbook_env_vars.items():
+            value = os.environ.get(env_var, "").strip()
+            if not value:
+                missing_guestbook_env_vars.append(env_var)
+
+            guestbook_values[field] = value
+
+        if missing_guestbook_env_vars:
+            msg = f"Must provide HemOnc guestbook environment variables: {', '.join(missing_guestbook_env_vars)}"
+            raise RemoteDataError(msg)
+
+        return {
+            "name": guestbook_values["name"],
+            "email": guestbook_values["email"],
+            "answers": [{"id": 508, "value": guestbook_values["usage_description"]}],
+        }
+
     def _download_data(self, version: str, outfile_paths: HemOncPaths) -> None:  # noqa: ARG002
         """Download data file to specified location.
 
         :param version: version to acquire
         :param outfile_paths: locations and filenames for final data files
+        :raise RemoteDataError: if required environment settings are missing or the
+            guestbook response does not contain a download URL
+        :raise requests.HTTPError: if the guestbook submission or download fails
         """
         api_key = os.environ.get("HARVARD_DATAVERSE_API_KEY")
         if not api_key:
             msg = "Must provide Harvard Dataverse API key in environment variable HARVARD_DATAVERSE_API_KEY. See: https://guides.dataverse.org/en/latest/user/account.html"
             raise RemoteDataError(msg)
-        download_http(
-            "https://dataverse.harvard.edu//api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
-            self.data_dir,
+
+        response = requests.post(
+            "https://dataverse.harvard.edu/api/access/dataset/:persistentId/?persistentId=doi:10.7910/DVN/9CY9C6",
             headers={"X-Dataverse-key": api_key, "User-Agent": USER_AGENT},
+            json={"guestbookResponse": self._get_guestbook_response()},
+            timeout=HTTPS_REQUEST_TIMEOUT,
+        )
+        response.raise_for_status()
+
+        try:
+            download_url = response.json()["data"]["signedUrl"]
+        except (ValueError, KeyError, TypeError) as e:
+            msg = "Unable to retrieve HemOnc download URL from guestbook response"
+            raise RemoteDataError(msg) from e
+        if not isinstance(download_url, str) or not download_url.strip():
+            msg = "Unable to retrieve HemOnc download URL from guestbook response"
+            raise RemoteDataError(msg)
+
+        download_http(
+            download_url,
+            self.data_dir,
+            headers={"User-Agent": USER_AGENT},
             # provide save_path arg for API consistency, but don't use it
             handler=lambda dl_path, save_path: self._download_handler(  # noqa: ARG005
                 dl_path, outfile_paths
